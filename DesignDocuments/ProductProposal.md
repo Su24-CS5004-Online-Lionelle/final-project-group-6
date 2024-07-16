@@ -21,3 +21,13 @@ Place UML here
 * How do you plan to break up the work?
 
 * What is your teams timeline and major check-in points?
+
+
+### Professor's notes:
+* Pick which feature you want to implement
+* Create a branch for that feature/aspect of the project
+* Work on that aspect.
+* Do a pull request when done (while you were working in your branch)
+* Have someone else go over your code to review and merge back into main
+* Delete the branch
+* Repeat for another feature/aspect as you grow the assignment
