@@ -22,20 +22,58 @@ classDiagram
   Controller --> Model : uses
   View --> Controller : uses
   note for View "Displays data, communicates with the Controller"
+  class IModel {
+    <<Interface>>
+
+  }
 ```
 
+```mermaid
+---
+title: Initial Diagram
+---
+classDiagram
+  class IModel {
+    <<Interface>>
+    getPokemonID(String pokemonName) : int
+    getPokemon(String pokemonName) : List<Pokemon>
+    getAllPokemon() : List<Pokemon>
+    filterByType(String type) : List<Pokemon>
+  }
+  class Pokemon {
+    - id : int
+    - name : String
+    - type : String
+    - weight : int
+    - height : int
+    - imgUrl : String
+    - evolutions : List<Pokemon>
+    - moves : List<String>
+    + getID() : int
+    + getName() : String
+    + getType() : String
+    + getWeight() : int
+    + getHeight() : int
+    + getImgUrl() : String
+    + getEvolutions() : List<Pokemon>
+    + getMoves() : List<String>
+  }
+```
 ## About
 * What are you building?
-  - crud app
+PokeDex app.
 
 * What are the initial features for the application?
+Search for individual pokemon and list all pokemon.
 
 * What are the *minimum* additional features you plan to implement?
+Click on each pokemon in the list displayed, have an option to go to a view page for each individual pokemon.
 
 * What are your stretch goals (features beyond the minimum)?
 * Go over your initial design.
 
   * Special emphasis should be placed on how you plan to break it up
+
   * MVC, presenter, file management, different input validation, testing, documentation, etc.
 
 * How do you plan to break up the work?
