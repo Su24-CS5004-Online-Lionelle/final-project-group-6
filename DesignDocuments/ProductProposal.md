@@ -2,7 +2,27 @@
 
 ## Initial Design
 
-Place UML here
+Update UML here
+
+### Generic UML
+
+```mermaid
+---
+title: Initial Diagram
+---
+classDiagram
+  note "Generic UML to get started"
+  IView <|-- View
+  IModel <|-- Model
+  note for Model "Data logic, communicates with a local database"
+  NetUtils
+  note for NetUtils "Concerns with API calls if used"
+  IController <|-- Controller
+  Controller --> NetUtils : uses
+  Controller --> Model : uses
+  View --> Controller : uses
+  note for View "Displays data, communicates with the Controller"
+```
 
 ## About
 * What are you building?
