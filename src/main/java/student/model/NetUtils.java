@@ -15,7 +15,7 @@ public final class NetUtils {
     /**
      * Format required for the API request. There are many options, but keeping it simple for now.
      */
-    private static final String API_URL_FORMAT = "https://pokeapi.co/api/v2/pokemon/";
+    private static final String API_URL_FORMAT = "https://pokeapi.co/api/v2/pokemon/%s";
 
     /**
      * Prevent instantiation.
