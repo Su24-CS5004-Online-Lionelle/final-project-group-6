@@ -1,4 +1,4 @@
-package model;
+package student.model;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
