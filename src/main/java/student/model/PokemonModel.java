@@ -54,7 +54,6 @@ public class PokemonModel {
             InputStream ipDetailStream = NetUtil.getIpDetails(name);
             String ipDetailStr = new String(ipDetailStream.readAllBytes()).replace("\n", "");
             // Change the IP details from input stream to a PokeRecord object using ObjectMapper。
-            // System.out.println(ipDetailStr.split("moves")[1]);
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             TypeReference<PokeRecord> typeRef = new TypeReference<PokeRecord>() { };
