@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import java.net.UnknownHostException;
+import java.io.IOException;
 
 public class PokemonModel {
 
@@ -100,5 +101,84 @@ public class PokemonModel {
         try (FileOutputStream fos = new FileOutputStream(DATABASE_FILE)) {
             mapper.writeValue(fos, records);
         }
+    }
+
+    /**
+     * Gets the PokeRecord by pokemon id.
+     *
+     * @param id id of the pokemon, also corresponds to its order in pokedex
+     * @return PokeRecord
+     * @throws IOException
+     */
+    public PokeRecord getPokemonByID(int id) throws IOException {
+        File databaseFile = new File(DATABASE_FILE);
+        ObjectMapper mapper = new ObjectMapper();
+        List<PokeRecord> records;
+
+        // Read the existing records from the file
+        if (databaseFile.exists() && databaseFile.length() > 0) {
+            try {
+                records = mapper.readValue(databaseFile, new TypeReference<List<PokeRecord>>() {});
+                  // Search for the record with the given ID
+                for (PokeRecord record : records) {
+                    if (record.id() == id) { // Assuming PokeRecord has a getId() method
+                        return record;
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("Pokemon not found in database.");
+            }
+        }
+        // Return null or throw an exception if the record is not found
+        throw new IOException();
+    }
+
+    /**
+     * Gets the pokemon as a PokeRecord by name, case-insensitive search.
+     *
+     * @param pokemonName name of the pokemon
+     * @return PokeRecord
+     * @throws IOException
+     */
+    public PokeRecord getPokemonByName(String pokemonName) throws IOException {
+        File databaseFile = new File(DATABASE_FILE);
+        ObjectMapper mapper = new ObjectMapper();
+        List<PokeRecord> records;
+
+        // Read the existing records from the file
+        if (databaseFile.exists() && databaseFile.length() > 0) {
+            try {
+                records = mapper.readValue(databaseFile, new TypeReference<List<PokeRecord>>() {});
+                  // Search for the record with the given ID
+                for (PokeRecord record : records) {
+                    if (record.name().toLowerCase() == pokemonName.toLowerCase().strip()) { // Assuming PokeRecord has a getId() method
+                        return record;
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("Pokemon not found in database.");
+            }
+        }
+        // Return null or throw an exception if the record is not found
+        throw new IOException();
+    }
+
+    public List<PokeRecord> getAllPokemon() throws IOException{
+        File databaseFile = new File(DATABASE_FILE);
+        ObjectMapper mapper = new ObjectMapper();
+        List<PokeRecord> records;
+
+        // Read the existing records from the file
+        if (databaseFile.exists() && databaseFile.length() > 0) {
+            try {
+                records = mapper.readValue(databaseFile, new TypeReference<List<PokeRecord>>() {});
+                return records;
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Error returning the pokemon list.");
+            }
+        }
+        // Return null or throw an exception if the record is not found
+        throw new IOException();
     }
 }
