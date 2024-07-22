@@ -3,7 +3,10 @@ package student.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import student.model.Moves.PokemonMove;
+import student.model.PokemonMoves.PokemonMove;
+import student.model.PokemonSprites.PokemonSprites;
+import student.model.PokemonSprites.Sprites;
+import student.model.PokemonTypes.PokemonType;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
@@ -23,12 +26,14 @@ import java.util.List;
 * @return the record
 */
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonPropertyOrder({"name", "id", "species", "height", "weight", "moves"})
+@JsonPropertyOrder({"name", "id", "species", "height", "weight", "moves", "types", "sprites"})
 public record PokeRecord(
     @JsonProperty("name") String name,
     @JsonProperty("id") int id,
     @JsonProperty("order") int order,
     @JsonProperty("height") int height,
     @JsonProperty("weight") int weight,
-    @JsonProperty("moves") List<PokemonMove> moves) {
+    @JsonProperty("moves") List<PokemonMove> moves,
+    @JsonProperty("types") List<PokemonType> types,
+    @JsonProperty("sprites") Sprites sprites) {
 }
