@@ -8,7 +8,7 @@ import java.net.UnknownHostException;
 
 /**
  * A series of classes to help with pulling data from https://pokeapi.co/.
- * 
+ *
  * You can read more about the API at https://pokeapi.co/docs/v2
  */
 public final class NetUtil {
@@ -27,9 +27,9 @@ public final class NetUtil {
 
     /**
      * Returns the URL for the API request.
-     * 
+     *
      * Defaults to XML format.
-     * 
+     *
      * @param name The pokemon name to look up.
      * @return The URL for the API request.
      */
@@ -39,7 +39,7 @@ public final class NetUtil {
 
     // /**
     //  * Returns the URL for the API request.
-    //  * 
+    //  *
     //  * @param ip The IP address to look up.
     //  * @param format The format of the response.
     //  * @return The URL for the API request.
@@ -51,8 +51,8 @@ public final class NetUtil {
 
     // /**
     //  * Looks up the IP address of a given hostname.
-    //  * 
-    //  * 
+    //  *
+    //  *
     //  * @param name the name to look up
     //  * @return the IP address of the name
     //  * @throws UnknownHostException if the hostname cannot be resolved
@@ -66,11 +66,11 @@ public final class NetUtil {
 
     /**
      * Gets the contents of a URL as an InputStream.
-     * 
+     *
      * @param urlStr the URL to get the contents of
      * @return the contents of the URL as an InputStream, or the null InputStream if the connection
      *         fails
-     * 
+     *
      */
     public static InputStream getUrlContents(String urlStr) {
         try {
@@ -99,7 +99,7 @@ public final class NetUtil {
 
     /**
      * Gets IP details using the ipapi.co API. Defaults to XML format.
-     * 
+     *
      * @param name The pokemon name to look up.
      * @return the contents of the URL as an InputStream, or the null InputStream if the connection
      */
@@ -111,7 +111,7 @@ public final class NetUtil {
 
     // /**
     //  * Gets IP details using the ipapi.co API.
-    //  * 
+    //  *
     //  * @param ip the IP address to get the information about
     //  * @param format the format of the response
     //  * @return the contents of the URL as an InputStream, or the null InputStream if the connection

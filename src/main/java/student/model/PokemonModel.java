@@ -58,6 +58,7 @@ public class PokemonModel {
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             TypeReference<PokeRecord> typeRef = new TypeReference<PokeRecord>() { };
             fetchedRecord = mapper.readValue(ipDetailStr, typeRef);
+            System.out.println(fetchedRecord);
             return fetchedRecord;
     }
 
