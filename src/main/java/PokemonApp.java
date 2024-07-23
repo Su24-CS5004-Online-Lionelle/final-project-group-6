@@ -5,7 +5,6 @@ import org.json.simple.JSONObject; // Add this import statement
 import java.io.IOException; // Add this import statement
 import org.json.simple.parser.ParseException; // Add this import statement
 
-import student.model.NetUtils;
 import student.view.PokedexView;
 
 public class PokemonApp {

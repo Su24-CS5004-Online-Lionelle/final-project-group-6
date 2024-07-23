@@ -7,15 +7,15 @@ import java.net.URL;
 import java.net.UnknownHostException;
 
 /**
- * A series of classes to help with pulling data from pokeapi.
+ * A series of classes to help with pulling data from https://pokeapi.co/.
  *
- * You can read more about the API at https://pokeapi.co/.
+ * You can read more about the API at https://pokeapi.co/docs/v2
  */
 public final class NetUtils {
     /**
      * Format required for the API request. There are many options, but keeping it simple for now.
      */
-    private static final String API_URL_FORMAT = "https://pokeapi.co/api/v2/pokemon/%s";
+    private static final String API_URL_FORMAT = "https://pokeapi.co/api/v2/pokemon/";
 
     /**
      * Prevent instantiation.
@@ -24,45 +24,17 @@ public final class NetUtils {
         // Prevent instantiation
     }
 
-
-    // /**
-    //  * Returns the URL for the API request.
-    //  *
-    //  * Defaults to XML format.
-    //  *
-    //  * @param ip The IP address to look up.
-    //  * @return The URL for the API request.
-    //  */
-    // public static String getApiUrl(String ip) {
-    //     return getApiUrl(ip);
-    // }
-
     /**
      * Returns the URL for the API request.
      *
-     * @param ip The IP address to look up.
-     * @param format The format of the response.
+     * Defaults to XML format.
+     *
+     * @param name The pokemon name to look up.
      * @return The URL for the API request.
      */
-    public static String getApiUrl(String ip) {
-        return String.format(API_URL_FORMAT, ip);
+    public static String getApiUrl(String name) {
+        return String.format(API_URL_FORMAT + name);
     }
-
-
-    /**
-     * Looks up the IP address of a given hostname.
-     *
-     *
-     * @param hostname the URL/hostname to look up
-     * @return the IP address of the hostname
-     * @throws UnknownHostException if the hostname cannot be resolved
-     */
-    public static String lookUpIp(String hostname) throws UnknownHostException {
-        InetAddress address = InetAddress.getByName(hostname);
-        String ip = address.getHostAddress();
-        return ip;
-    }
-
 
     /**
      * Gets the contents of a URL as an InputStream.
@@ -77,7 +49,7 @@ public final class NetUtils {
             URL url = new URL(urlStr);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
-            con.setRequestProperty("Content-Type", "application/xml");
+            // con.setRequestProperty("Content-Type", "application/xml");
             con.setConnectTimeout(5000);
             con.setReadTimeout(5000);
             con.setRequestProperty("User-Agent",
@@ -97,29 +69,14 @@ public final class NetUtils {
     }
 
 
-    // /**
-    //  * Gets IP details using the ipapi.co API. Defaults to XML format.
-    //  *
-    //  * @param ip the IP address to get the information about
-    //  * @return the contents of the URL as an InputStream, or the null InputStream if the connection
-    //  */
-    // public static InputStream getIpDetails(String ip) {
-    //     return getIpDetails(ip);
-    // }
-
-
     /**
-     * Gets IP details using the ipapi.co API.
+     * Gets IP details using the ipapi.co API. Defaults to XML format.
      *
-     * @param ip the IP address to get the information about
-     * @param format the format of the response
+     * @param name The pokemon name to look up.
      * @return the contents of the URL as an InputStream, or the null InputStream if the connection
      */
-    public static InputStream getIpDetails(String ip) {
-        String urlStr = getApiUrl(ip);
+    public static InputStream getIpDetails(String name) {
+        String urlStr = getApiUrl(name);
         return getUrlContents(urlStr);
     }
-
-
-
 }
