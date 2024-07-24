@@ -13,7 +13,7 @@ public class PokemonApp {
     public static void main (String[] args) {
         PokemonModel model = PokemonModel.getInstance();
     try {
-        System.out.println(model.getAllPokemonInTeam());
+        System.out.println(model.getPokemonByID(1));
     } catch (IOException e) {
         e.printStackTrace();
     }
