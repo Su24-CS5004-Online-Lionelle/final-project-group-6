@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Collection;
+import student.GUIUtil;
 
 import org.apache.commons.lang3.ObjectUtils.Null;
 
@@ -372,4 +374,26 @@ public class PokemonModel {
         throw new IOException("Pokemon not in team.");
     }
 
+    /**
+     * Write the data as JSON.
+     * 
+     * @param list the list to write
+     * @param outputFile the output file to write to
+     */
+    public void writeJsonData(List<PokeRecord> list, String outputFile) {
+        try {
+            Collection<PokeRecord> records = list;
+            File output = new File(outputFile);
+            FileOutputStream out = new FileOutputStream(output);
+            // Serialize a list of domain records to json.
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+            objectMapper.writeValue(out, records);
+            GUIUtil.showMessage("Your team is sucessfully saved out.", "Info");
+        } catch (IOException e) {
+            GUIUtil.showMessage("IOException: " + e.getMessage(), "Error");
+        } catch (Exception e) {
+            GUIUtil.showMessage("Exception: " + e.getMessage(), "Error");
+        }
+    }
 }
