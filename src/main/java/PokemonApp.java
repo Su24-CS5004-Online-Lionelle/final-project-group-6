@@ -5,11 +5,13 @@ import org.json.simple.JSONObject; // Add this import statement
 import java.io.IOException; // Add this import statement
 import org.json.simple.parser.ParseException; // Add this import statement
 
+import student.controller.TempController;
 import student.view.PokedexView;
 
 public class PokemonApp {
     public static void main (String[] args) {
         PokedexView view = new PokedexView();
+        TempController controller = new TempController(view);
         // InputStream inputStream = NetUtils.getIpDetails("pikachu");
         // JSONParser jsonParser = new JSONParser();
         // try {
