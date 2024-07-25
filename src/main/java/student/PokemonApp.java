@@ -12,10 +12,11 @@ import student.model.PokeRecord;
 public class PokemonApp {
     public static void main (String[] args) {
         PokemonModel model = PokemonModel.getInstance();
-    try {
-        System.out.println(model.getPokemonByID(1));
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
+        try {
+            // for quick testing
+            System.out.println(model.getPokemonByName("mewtwo"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

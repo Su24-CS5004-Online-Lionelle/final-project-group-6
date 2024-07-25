@@ -27,13 +27,21 @@ public final class NetUtils {
     /**
      * Returns the URL for the API request.
      *
-     * Defaults to XML format.
-     *
-     * @param name The pokemon name to look up.
+     * @param name pokemon name
      * @return The URL for the API request.
      */
     public static String getApiUrl(String name) {
         return String.format(API_URL_FORMAT + name);
+    }
+
+    /**
+     * Returns the URL for the API request by pokemon id passed in.
+     *
+     * @param id pokemon id
+     * @return The URL for the API request.
+     */
+    public static String getApiUrl(int id) {
+        return String.format(API_URL_FORMAT + id);
     }
 
     /**
@@ -70,13 +78,24 @@ public final class NetUtils {
 
 
     /**
-     * Gets IP details using the ipapi.co API. Defaults to XML format.
+     * Gets pokemon details.
      *
      * @param name The pokemon name to look up.
      * @return the contents of the URL as an InputStream, or the null InputStream if the connection
      */
     public static InputStream getIpDetails(String name) {
         String urlStr = getApiUrl(name);
+        return getUrlContents(urlStr);
+    }
+
+    /**
+     * Gets pokemon details.
+     *
+     * @param name The pokemon name to look up.
+     * @return the contents of the URL as an InputStream, or the null InputStream if the connection
+     */
+    public static InputStream getIpDetails(int id) {
+        String urlStr = getApiUrl(id);
         return getUrlContents(urlStr);
     }
 }

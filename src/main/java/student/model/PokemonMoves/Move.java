@@ -52,7 +52,7 @@ public class Move {
     public Move(@JsonProperty("name") String name, @JsonProperty("url") String url, @JsonProperty("details") MoveDetails details) {
         this.name = name;
         this.url = url;
-        if (details.toString().length() > 0) {
+        if (details != null) {
             this.details = details;
         } else {
             setMoveDetails();

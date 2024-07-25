@@ -60,28 +60,74 @@ public class PokemonModel {
      * If the record does not exist, gets the information based off the IP address, builds the
      * record, adds (and saves) it to hostrecords.xml, then returns the new record.
      *
-     * @param name the hostname to look up
-     * @param database the database
+     * @param name the pokemon name to look up
      * @return the record
      * @see NetUtil#lookUpIp(String)
      * @see NetUtil#getIpDetails(String)
      */
     public PokeRecord getRecordFromAPI(String name) throws Exception, UnknownHostException {
-        PokeRecord fetchedRecord;
+        InputStream ipDetailStream = NetUtils.getIpDetails(name);
+        return getRecordHelper(ipDetailStream);
+    }
 
-            InputStream ipDetailStream = NetUtils.getIpDetails(name);
+    /**
+     * Gets a single record by id.
+     *
+     * If the record does not exist, gets the information based off the IP address, builds the
+     * record, adds (and saves) it to pokerecords.json, then returns the new record.
+     *
+     * @param id the pokemon id to look up
+     * @return the record
+     * @see NetUtil#lookUpIp(String)
+     * @see NetUtil#getIpDetails(String)
+     */
+    public PokeRecord getRecordFromAPI(int id) throws Exception, UnknownHostException {
+            InputStream ipDetailStream = NetUtils.getIpDetails(id);
+            return getRecordHelper(ipDetailStream);
+    }
+
+    /**
+     * Helper function for calling the API.
+     *
+     * @param id id of the pokemon to search
+     * @param record record to populate
+     * @throws Exception
+     * @throws UnknownHostException
+     */
+    private PokeRecord getRecordHelper(InputStream ipDetailStream) throws Exception, UnknownHostException {
+            PokeRecord fetchedRecord;
             String ipDetailStr = new String(ipDetailStream.readAllBytes()).replace("\n", "");
             // Change the IP details from input stream to a PokeRecord object using ObjectMapper。
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             TypeReference<PokeRecord> typeRef = new TypeReference<PokeRecord>() { };
             fetchedRecord = mapper.readValue(ipDetailStr, typeRef);
-            System.out.println(fetchedRecord);
             return fetchedRecord;
     }
 
+
     /**
-     * Saves the new pokemon as a record, to database of all pokemon.
+     * Used to call the api through a loop to populate the database.
+     * Accepts a range of ids for looping.
+     *
+     * @param num1 integer from where to start the loop
+     * @param num2 integer to which to loop to, non-inclusive
+     */
+    public void populateDatabase(int num1, int num2) {
+        for (int i = num1; i < num2; i++) {
+            System.out.println(i);
+            try {
+                PokeRecord record = getRecordFromAPI(i);
+                System.out.println(record.name());
+                saveRecord(record);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Saves the new pokemon as a record, to an existing database.
      *
      * @param newRecord new record to save
      * @throws Exception
@@ -90,14 +136,25 @@ public class PokemonModel {
         // Load existing records
         File databaseFile = new File(DATABASE_FILE);
         List<PokeRecord> records;
-        if (databaseFile.exists() && databaseFile.length() > 0) {
+        boolean isPokemonInDatabase = false;
+
+        if (databaseFile.exists()) {
             records = mapper.readValue(databaseFile, new TypeReference<List<PokeRecord>>() {});
         } else {
             records = new ArrayList<>();
         }
 
-        // Add the new record
-        records.add(newRecord);
+        for (PokeRecord record : records) {
+            if (record.name().equals(newRecord.name())) {
+                isPokemonInDatabase = true;
+            }
+        }
+
+        if (!isPokemonInDatabase) {
+            records.add(newRecord);
+        } else {
+            throw new Exception("Pokemon is already in the database.");
+        }
 
         // Save the updated records back to the file
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -376,7 +433,7 @@ public class PokemonModel {
 
     /**
      * Write the data as JSON.
-     * 
+     *
      * @param list the list to write
      * @param outputFile the output file to write to
      */
