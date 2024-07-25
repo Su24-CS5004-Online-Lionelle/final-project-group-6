@@ -6,67 +6,81 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
 public class PokedexPanel extends JPanel {
-    private JTextArea leftOutputTextArea;
-    private JTextArea rightOutputTextArea;
-    private JScrollPane leftScrollPane;
-    private JScrollPane rightScrollPane;
+
+    private JTextField searchbar;
+    private CheckableComboBox typeSelect;
+    private JButton saveButton;
+    private JToggleButton addToggleButton;
+    private JToggleButton viewToggleButton;
 
     public PokedexPanel() {
         this.setPreferredSize(new Dimension(1000, 700));
         this.setBackground(new Color(20, 20, 60));
         this.setLayout(null); // Use null layout for absolute positioning
 
-        // Initialize left text area
-        leftOutputTextArea = new JTextArea();
-        leftOutputTextArea.setEditable(false); // Make it read-only
-        leftOutputTextArea.setLineWrap(true);
-        leftOutputTextArea.setWrapStyleWord(true);
-        leftOutputTextArea.setBackground(new Color(240, 240, 248)); // Light gray background
-        leftOutputTextArea.setForeground(new Color(0, 0, 0));
-        leftOutputTextArea.setFont(new Font("Courier New", Font.BOLD, 15));
+        // Create the search field
+        searchbar = new JTextField();
+        searchbar.setBounds(565, 53, 200, 30); // x, y, width, height
+        searchbar.setForeground(Color.BLACK);
+        searchbar.setBackground(Color.WHITE);
+        this.add(searchbar);
 
-        // Initialize left scroll pane
-        leftScrollPane = new JScrollPane(leftOutputTextArea);
-        leftScrollPane.setBounds(53, 100, 427, 405); // Set position and size
-        leftScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        leftScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        // create drop down menu for selecting types to filter by
+        String[] pokemonTypes = {"Bug", "Dragon", "Electric", "Fighting", "Fire", "Flying",
+                                "Ghost", "Grass", "Ground", "Ice", "Normal", "Posion",
+                                "Psychic", "Rock", "Water"};
+        typeSelect = new CheckableComboBox(pokemonTypes, "Type");
+        typeSelect.setBounds(600, 570, 150, 30); // x, y, width, height
+        typeSelect.setForeground(Color.BLACK);
+        typeSelect.setBackground(Color.WHITE);
+        this.add(typeSelect);
 
-        // Add left scroll pane to panel
-        this.add(leftScrollPane);
+        saveButton = new JButton("Save Team");
+        saveButton.setBounds(780, 570, 150, 30); // x, y, width, height
+        saveButton.setForeground(Color.BLACK);
+        saveButton.setBackground(new Color (135, 206, 250));
+        this.add(saveButton);
+        
+        addToggleButton = new JToggleButton("Add to Team");
+        addToggleButton.setBounds(68, 560, 220, 30); // x, y, width, height
+        addToggleButton.setForeground(Color.BLACK);
+        addToggleButton.setBackground(new Color(144, 238, 144));
+        this.add(addToggleButton);
 
-        // You can set initial text here if needed
-        setLeftOutputText("List of Pokemon go here...");
+        viewToggleButton = new JToggleButton("Team View");
+        viewToggleButton.setBounds(780, 618, 150, 30); // x, y, width, height
+        viewToggleButton.setForeground(Color.BLACK);
+        viewToggleButton.setBackground(new Color(235, 235, 92));
+        this.add(viewToggleButton);
 
-        // Initialize left text area
-        rightOutputTextArea = new JTextArea();
-        rightOutputTextArea.setEditable(false); // Make it read-only
-        rightOutputTextArea.setLineWrap(true);
-        rightOutputTextArea.setWrapStyleWord(true);
-        rightOutputTextArea.setBackground(new Color(20, 20, 20)); // Light gray background
-        rightOutputTextArea.setForeground(new Color(240, 240, 240));
-        rightOutputTextArea.setFont(new Font("Courier New", Font.BOLD, 15));
+        // Add an action listener to the addToggleButton to change its text and state
+        addToggleButton.addActionListener(e -> {
+            if (addToggleButton.isSelected()) {
+                addToggleButton.setText("Remove from Team");
+            } else {
+                addToggleButton.setText("Add to Team");
+                addToggleButton.setBackground(new Color(144, 238, 144));
+            }
+        });
 
-        // Initialize left scroll pane
-        rightScrollPane = new JScrollPane(rightOutputTextArea);
-        rightScrollPane.setBounds(570, 100, 390, 440); // Set position and size
-        rightScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        rightScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        // Add left scroll pane to panel
-        this.add(rightScrollPane);
-
-        // You can set initial text here if needed
-        setRightOutputText("Team is created here...");
+        // Add an action listener to the viewToggleButton to change its text and state
+        viewToggleButton.addActionListener(e -> {
+            if (viewToggleButton.isSelected()) {
+                viewToggleButton.setText("List View");
+            } else {
+                viewToggleButton.setText("Team View");
+                viewToggleButton.setBackground(new Color(235, 235, 92));
+            }
+        });
     }
 
-    // Method to set text
-    public void setLeftOutputText(String text) {
-        leftOutputTextArea.setText(text);
-    }
-
-    // Method to set text
-    public void setRightOutputText(String text) {
-        rightOutputTextArea.setText(text);
+    // Method to set the font for all text components
+    public void setFonts(Font font) {
+        searchbar.setFont(font);
+        typeSelect.setFont(font);
+        saveButton.setFont(font);
+        addToggleButton.setFont(font);
+        viewToggleButton.setFont(font);
     }
 
     @Override
