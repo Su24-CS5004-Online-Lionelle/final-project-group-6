@@ -8,6 +8,7 @@ import java.util.Collection;
 import student.GUIUtil;
 
 import org.apache.commons.lang3.ObjectUtils.Null;
+import org.json.simple.JSONObject;
 
 // import student.model.IModel;
 // import student.model.formatters.DataFormatter;
@@ -22,6 +23,9 @@ import java.io.FileNotFoundException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.io.IOException;
 
 public class PokemonModel {
@@ -451,6 +455,19 @@ public class PokemonModel {
             GUIUtil.showMessage("IOException: " + e.getMessage(), "Error");
         } catch (Exception e) {
             GUIUtil.showMessage("Exception: " + e.getMessage(), "Error");
+        }
+    }
+
+    /**
+     * Save team file to other directory.
+     * 
+     * @param newPath the place that the file will be saved to
+     */
+    public void saveFile(Path newPath) {
+        try {
+            Files.copy(Paths.get(DATABASE_TEAM_FILE), newPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            GUIUtil.showMessage("IOException: " + e.getMessage(), "Error");
         }
     }
 }
