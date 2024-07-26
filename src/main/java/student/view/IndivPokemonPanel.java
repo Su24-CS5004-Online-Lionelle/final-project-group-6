@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import student.GUIUtil;
 import student.model.PokeRecord;
-import student.model.PokemonModel; // need to change to controller
+import student.controller.PokedexController;
 import student.model.PokemonMoves.PokemonMove;
 import student.model.PokemonTypes.PokemonType;
 import java.awt.*;
@@ -17,7 +17,7 @@ import java.awt.event.MouseEvent;
 
 public class IndivPokemonPanel extends JPanel {
 
-    private PokemonModel model = PokemonModel.getInstance(); // need to change to controller
+    private PokedexController controller = new PokedexController();
     private PokeRecord record;
 
     /** Consturctor of the class.
@@ -26,7 +26,7 @@ public class IndivPokemonPanel extends JPanel {
      */
     public IndivPokemonPanel(String name) {
         try {
-            this.record = model.getPokemonByName(name);
+            this.record = controller.getPokemonByName(name);
         } catch (IOException e) {
             GUIUtil.showMessage("Error: " + e.getMessage(), "IOException");
         }
@@ -39,19 +39,18 @@ public class IndivPokemonPanel extends JPanel {
         JPanel imagePanel = createImagePanel();
         /** Create the info panel. */
         JPanel infoPanel = createInfoPanel();
-
         /** Create scrollable panel. */
         JPanel scrollablePanel = new JPanel();
         scrollablePanel.setLayout(new BorderLayout());
         scrollablePanel.add(namePanel, BorderLayout.NORTH);
         scrollablePanel.add(imagePanel, BorderLayout.CENTER);
         scrollablePanel.add(infoPanel, BorderLayout.SOUTH);
-
-        // Wrap the scrollable panel in a JScrollPane
+        /** Wrap the scrollable panel in a JScrollPane. */
         JScrollPane scrollPane = new JScrollPane(scrollablePanel);
         scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Remove default border
-
         this.add(scrollPane, BorderLayout.CENTER);
+        /** Set the panel to be initially invisible. */
+        // this.setVisible(false);
     }
 
     /**
@@ -164,6 +163,13 @@ public class IndivPokemonPanel extends JPanel {
         }
         String newMoveString = moveName.toString().substring(0, moveName.toString().length() - 1);
         return newMoveString;
+    }
+
+    /**
+     * Method to start displaying the panel.
+     */
+    public void start() {
+        this.setVisible(true);
     }
 
     /** A private static class to make custom label. */
