@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.util.List;
 
 public class PokedexPanel extends JPanel {
 
@@ -35,43 +36,26 @@ public class PokedexPanel extends JPanel {
         typeSelect.setBackground(Color.WHITE);
         this.add(typeSelect);
 
+        // create save button
         saveButton = new JButton("Save Team");
         saveButton.setBounds(780, 570, 150, 30); // x, y, width, height
         saveButton.setForeground(Color.BLACK);
         saveButton.setBackground(new Color (135, 206, 250));
         this.add(saveButton);
         
+        // create add team toggle button
         addToggleButton = new JToggleButton("Add to Team");
         addToggleButton.setBounds(68, 560, 220, 30); // x, y, width, height
         addToggleButton.setForeground(Color.BLACK);
         addToggleButton.setBackground(new Color(144, 238, 144));
         this.add(addToggleButton);
 
+        // create view team toggle button
         viewToggleButton = new JToggleButton("Team View");
         viewToggleButton.setBounds(780, 618, 150, 30); // x, y, width, height
         viewToggleButton.setForeground(Color.BLACK);
         viewToggleButton.setBackground(new Color(235, 235, 92));
         this.add(viewToggleButton);
-
-        // Add an action listener to the addToggleButton to change its text and state
-        addToggleButton.addActionListener(e -> {
-            if (addToggleButton.isSelected()) {
-                addToggleButton.setText("Remove from Team");
-            } else {
-                addToggleButton.setText("Add to Team");
-                addToggleButton.setBackground(new Color(144, 238, 144));
-            }
-        });
-
-        // Add an action listener to the viewToggleButton to change its text and state
-        viewToggleButton.addActionListener(e -> {
-            if (viewToggleButton.isSelected()) {
-                viewToggleButton.setText("List View");
-            } else {
-                viewToggleButton.setText("Team View");
-                viewToggleButton.setBackground(new Color(235, 235, 92));
-            }
-        });
     }
 
     // Method to set the font for all text components
@@ -81,6 +65,51 @@ public class PokedexPanel extends JPanel {
         saveButton.setFont(font);
         addToggleButton.setFont(font);
         viewToggleButton.setFont(font);
+    }
+
+    // get saveButton
+    public JButton getSaveButton() {
+        return saveButton;
+    }
+
+    // get addToggleButton
+    public JToggleButton getAddToggleButton() {
+        return addToggleButton;
+    }
+
+    // get viewToggleButton
+    public JToggleButton getViewToggleButton() {
+        return viewToggleButton;
+    }
+
+    // get checkablecombobox
+    public CheckableComboBox getCheckableComboBox() {
+        return typeSelect;
+    }
+    
+    // get searchbar
+    public JTextField getSearchbar() {
+        return searchbar;
+    }
+
+    // Set the text of addToggleButton
+    public void setAddToggleButtonText(String text) {
+        addToggleButton.setText(text);;
+    }
+
+    // Set the text of viewToggleButton
+    public void setViewToggleButtonText(String text) {
+        viewToggleButton.setText(text);;
+    }
+
+    // Method to get the selected types
+    public List<String> getTypes() {
+        return typeSelect.getCheckedItems();
+    }
+
+    // Method to get the searchbar text
+    public String getSearchbarText() {
+        return searchbar.getText();
     }
 
     @Override

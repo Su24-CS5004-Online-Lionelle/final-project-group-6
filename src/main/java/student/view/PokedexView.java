@@ -1,6 +1,10 @@
 package student.view;
 import javax.swing.*;
 import java.io.File;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyListener;
+import java.util.List;
 
 import java.awt.*;
 import java.io.IOException;
@@ -51,5 +55,43 @@ public class PokedexView extends JFrame {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    //@Override
+    public void setListeners(ActionListener clicks) {
+        this.pokedexPanel.getSaveButton().addActionListener(clicks);
+        this.pokedexPanel.getAddToggleButton().addActionListener(clicks);
+        this.pokedexPanel.getViewToggleButton().addActionListener(clicks);
+    }
+
+    public void setItemListeners(ItemListener clicks) {
+        this.pokedexPanel.getCheckableComboBox().addItemListener(clicks);
+    }
+
+    public void setKeyListeners(KeyListener press) {
+        this.pokedexPanel.getSearchbar().addKeyListener(press);
+    }
+
+    // Set the text of addToggleButton
+    public void setAddToggleButtonText(String text) {
+        pokedexPanel.setAddToggleButtonText(text);
+    }
+
+    // Set the text of viewToggleButton
+    public void setViewToggleButtonText(String text) {
+        pokedexPanel.setViewToggleButtonText(text);
+    }
+
+    public CheckableComboBox getCheckableComboBox() {
+        return pokedexPanel.getCheckableComboBox();
+    }
+
+    // Method to get the selected types
+    public List<String> getTypes() {
+        return pokedexPanel.getTypes();
+    }
+
+    public String getSearchbarText() {
+        return pokedexPanel.getSearchbarText();
     }
 }
