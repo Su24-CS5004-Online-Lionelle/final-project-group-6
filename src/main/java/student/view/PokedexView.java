@@ -15,7 +15,7 @@ public class PokedexView extends JFrame {
     public PokedexView() {
         // initialize panels
         pokedexPanel = new PokedexPanel();
-        indivPokemonPanel = new IndivPokemonPanel();
+        indivPokemonPanel = new IndivPokemonPanel("bulbasaur");
         pokemonListPanel = new PokemonListPanel();
         pokemonTeamPanel = new PokemonTeamPanel();
         // create layered pane to put all panels together
