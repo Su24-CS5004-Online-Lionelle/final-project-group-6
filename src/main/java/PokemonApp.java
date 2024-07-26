@@ -11,7 +11,7 @@ import student.view.PokedexView;
 public class PokemonApp {
     public static void main (String[] args) {
         PokedexView view = new PokedexView();
-        TempController controller = new TempController(view);
+        // TempController controller = new TempController(view);
         // InputStream inputStream = NetUtils.getIpDetails("pikachu");
         // JSONParser jsonParser = new JSONParser();
         // try {

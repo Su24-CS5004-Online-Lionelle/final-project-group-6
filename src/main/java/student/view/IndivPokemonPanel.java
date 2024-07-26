@@ -2,10 +2,6 @@ package student.view;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import student.GUIUtil;
 import student.model.PokeRecord;
 import student.model.PokemonModel; // need to change to controller
@@ -16,14 +12,19 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class IndivPokemonPanel extends JPanel {
 
     private PokemonModel model = PokemonModel.getInstance(); // need to change to controller
     private PokeRecord record;
 
+    /** Consturctor of the class.
+     * 
+     * @param name name of the pokemon
+     */
     public IndivPokemonPanel(String name) {
-
         try {
             this.record = model.getPokemonByName(name);
         } catch (IOException e) {
@@ -33,12 +34,13 @@ public class IndivPokemonPanel extends JPanel {
         /** Set layout manager for the main panel. */
         this.setLayout(new BorderLayout());
         /** Create the name panel. */
-        JPanel namePanel = createNamePanel();
+        JPanel namePanel = createPanel(this.record.name(), 50, null);
         /** Create the image panel. */
         JPanel imagePanel = createImagePanel();
         /** Create the info panel. */
         JPanel infoPanel = createInfoPanel();
 
+        /** Create scrollable panel. */
         JPanel scrollablePanel = new JPanel();
         scrollablePanel.setLayout(new BorderLayout());
         scrollablePanel.add(namePanel, BorderLayout.NORTH);
@@ -52,32 +54,36 @@ public class IndivPokemonPanel extends JPanel {
         this.add(scrollPane, BorderLayout.CENTER);
     }
 
-    private Border createCustomBorder() {
-        // Create a border with red sides and white center
-        Border outerBorder = new LineBorder(Color.RED, 10);
-        Border innerBorder = new EmptyBorder(5, 5, 5, 5); // Padding inside the border
-        Border compoundBorder = new CompoundBorder(outerBorder, innerBorder);
-        return compoundBorder;
+    /**
+     * Create new panel.
+     * @param text text that displayed in the panel
+     * @param fontSize font size
+     * @param mouseListener mouse listener
+     * @return a new panel
+     */
+    private JPanel createPanel(String text, int fontSize, MouseAdapter mouseListener) {
+        JPanel newPanel = new JPanel();
+        newPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        CustomLabel label = new CustomLabel(text, fontSize);
+        if (mouseListener != null) {
+            label.addMouseListener(mouseListener);
+        }
+        newPanel.add(label);
+        return newPanel;
     }
 
-    private JPanel createNamePanel() {
-        JPanel namePanel = new JPanel();
-        namePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        JLabel label = new JLabel(this.record.name(), SwingConstants.CENTER);
-        label.setForeground(Color.BLACK);
-        Font labelFont = label.getFont();
-        Font newFont = new Font(labelFont.getFontName(), Font.ITALIC, 35);
-        label.setFont(newFont);
-        label.setBorder(createCustomBorder());
-        namePanel.add(label);
-        return namePanel;
-    }
-
+    /**
+     * Create a panel that contains the pokemon image.
+     * 
+     * @return a panel that contains the pokemon image
+     */
     private JPanel createImagePanel() {
         JPanel imagePanel = new JPanel();
         try {
+            /** Convert the link string to URL format. */
             URL imageURL = new URL(this.record.sprites().getFrontDefault());
             Image image = ImageIO.read(imageURL);
+            /** Set width and height. */
             int width = 200;
             int height = 200;
             Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
@@ -93,52 +99,124 @@ public class IndivPokemonPanel extends JPanel {
         return null;
     }
     
+    /**
+     * Create a panel that contains pokemon information.
+     * Information includes id, weight, height, types and moves.
+     * 
+     * @return a panel that contains pokemon information.
+     */
     private JPanel createInfoPanel() {
         JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS)); // Stack info vertically
-        JTextArea info = new JTextArea
-        (
-            "ID: " + String.valueOf(this.record.id()) + "\n" + "\n" +
-            "Weight: " + String.valueOf(this.record.weight()) + "\n" + "\n" +
-            "Height: " + String.valueOf(this.record.height()) + "\n" + "\n" +
-            "Types: " + getTypeFromList() + "\n" + "\n" +
-            "Moves: " + getMoveFromList()
+        /** Stack info vertically. */
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        JPanel idPanel = createPanel("ID: " + String.valueOf(this.record.id()) + "\n", 35, null);
+        JPanel weightPanel = createPanel("Weight: " + String.valueOf(this.record.weight()) + "\n", 35, null);
+        JPanel heightPanel = createPanel("Height: " + String.valueOf(this.record.height()) + "\n", 35, null);
+        JPanel typesPanel = createPanel("Types: " + getTypeFromList(), 30, null);
+        /** Create moves panel with listener. */
+        JPanel movesPanel = createPanel(
+            "Moves: Click to see.", 
+            30, 
+            new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                GUIUtil.showMessage("Moves:\n" + getMoveFromList(), "Moves");
+            }
+            }
         );
-        Font font = new Font("Dialog", Font.ITALIC, 25);
-        info.setFont(font);
-        info.setForeground(Color.BLACK); // Set text color
-        info.setEditable(false); // Make text area non-editable
-        info.setLineWrap(true); // Wrap text lines
-        info.setWrapStyleWord(true);
-        infoPanel.add(info);
+        infoPanel.add(idPanel);
+        infoPanel.add(weightPanel);
+        infoPanel.add(heightPanel);
+        infoPanel.add(typesPanel);
+        infoPanel.add(movesPanel);
         return infoPanel;
-    }
+    }    
 
+    /**
+     * Get type info from the list that contains type info.
+     * 
+     * @return string of type info.
+     */
     private String getTypeFromList() {
         List<PokemonType> typeList = this.record.types();
-        String typeString = typeList.toString();
-        String newTypeString = typeString.substring(1, typeString.length() - 1);
-        return newTypeString;
+        /** Get name of each type. */
+        String[] typeString = typeList.toString().substring(1, typeList.toString().length() - 1).split(",");
+        String newTypeString = "";
+        /** If there are more than 2 types, display the first two. */
+        for (int i = 0; i < Math.min(2, typeString.length); i++) {
+            newTypeString = newTypeString + typeString[i] + ", ";
+        }
+        return newTypeString.substring(0, newTypeString.length() - 2);
     }
 
+    /**
+     * Get move info from the list that contains move info.
+     * 
+     * @return string of move info.
+     */
     private String getMoveFromList() {
         List<PokemonMove> movesList = this.record.moves();
         StringBuilder moveName = new StringBuilder();
+        /** If there are more than 10 mvoes, display the first ten. */
         for (int i = 0; i < Math.min(10, movesList.size()); i++) {
-            String moveDetails = movesList.get(i).toString();
-            String[] moveParts = moveDetails.split(":");
-            String moveString = moveParts[0].substring(1, moveParts[0].length() - 1);
-            moveName.append(moveString + ", ");
+            String moveDetails = movesList.get(i).toString().replace("{", "").replace("}", "");
+            moveName.append(i + 1 + ". " + moveDetails + "\n");
         }
-        String newMoveString = moveName.toString().substring(0, moveName.toString().length() - 2);
+        String newMoveString = moveName.toString().substring(0, moveName.toString().length() - 1);
         return newMoveString;
     }
 
-    // placeholder to make visualizing panel easier
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(Color.white);
-        g.fillRect(0, 0, 427, 405);
-    }
+    /** A private static class to make custom label. */
+    private static class CustomLabel extends JPanel {
+    
+        /** Constructor of the class.
+         * 
+         * @param text text that displayed in the panel
+         * @param fontSize font size
+         */
+        public CustomLabel(String text, int fontSize) {
+            setLayout(new BorderLayout());
+            /** Make sure the background is not drawn by the JPanel itself. */
+            setOpaque(false);
+            JLabel label = new JLabel(text, SwingConstants.CENTER);
+            /** Label itself should not be opaque. */
+            label.setOpaque(false); 
+            label.setForeground(Color.BLACK);
+            Font newFont = new Font("Calibri", Font.BOLD, fontSize);
+            label.setFont(newFont);
+            add(label, BorderLayout.CENTER);
+            /** Set preferred size for the custom label. */
+            setPreferredSize(new Dimension(400, 100)); // Adjust the size as needed
+        }
+    
+        /**
+         * Custom painting code for the component. This method overrides the default
+         * painting behavior to draw a rounded rectangle with a black border, an inner
+         * white rounded rectangle, and two red stripes on the left and right sides.
+         * 
+         * @param g the object used to paint the component
+         */
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g.create();
+            /** Enable anti-aliasing for smooth edges. */
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            int width = getWidth();
+            int height = getHeight();
+            int arcSize = 30;
+            /** Draw the rounded rectangle with black border. */
+            g2d.setColor(Color.BLACK);
+            g2d.fillRoundRect(0, 0, width, height, arcSize, arcSize);
+            /** Draw the inner white rounded rectangle. */
+            g2d.setColor(Color.WHITE);
+            g2d.fillRoundRect(5, 5, width - 10, height - 10, arcSize, arcSize);
+            /** Draw the left red stripe. */
+            g2d.setColor(Color.RED);
+            g2d.fillRoundRect(5, 5, 20, height - 10, arcSize, arcSize);
+            /** Draw the right red stripe. */
+            g2d.fillRoundRect(width - 25, 5, 20, height - 10, arcSize, arcSize);
+            g2d.dispose();
+        }
+    }            
 }
