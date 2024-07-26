@@ -159,4 +159,37 @@ public class PokedexController {
                 })
                 .collect(Collectors.toList());
     }
+    
+    /**
+     * Retrieves a Pokemon by name.
+     * 
+     * @param name The name of the Pokemon to retrieve.
+     * @return The Pokemon object with the given name.
+     * @throws IOException
+     */
+    public PokeRecord getPokemonByName(String name) throws IOException {
+        return model.getPokemonByName(name);
+    }
+
+    /**
+     * Retrieves a Pokemon by ID.
+     * 
+     * @param id The ID of the Pokemon to retrieve.
+     * @return The Pokemon object with the given ID.
+     * @throws IOException
+     */
+    public PokeRecord getPokemonByID(int id) throws IOException {
+        return model.getPokemonByID(id);
+    }
+
+    /**
+     * Retrieves all Pokémon records from the team.
+     * 
+     * @return A list of PokeRecord objects representing all Pokémon in the team.
+     * @throws IOException
+     */
+    public List<PokeRecord> getAllPokemonInTeam() throws IOException {
+        return model.getAllPokemonInTeam();
+    }
+
 }
