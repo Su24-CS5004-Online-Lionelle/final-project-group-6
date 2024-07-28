@@ -6,8 +6,14 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import student.model.PokeRecord;
 import student.view.PokedexView;
-import java.io.OutputStream;
+import student.view.Components.ListItem;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class TempController implements ActionListener, ItemListener, KeyListener {
 
@@ -18,12 +24,29 @@ public class TempController implements ActionListener, ItemListener, KeyListener
         view.setListeners(this);
         view.setItemListeners(this);
         view.setKeyListeners(this);
+        addMouseListeners();
     }
 
-    // Here it is listening for the buttons. As you can see, there are two cases per
-    // toggle button, because as it changes its text, the case changes with it.
-    // I was trying to handle the text switching in view, but was having issues.
-    // Maybe this is actually easier for you too.
+    // Listening for list/team item clicks
+    public void addMouseListeners() {
+        this.pokedexView.addMouseListenerToListItems(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ListItem listItem = (ListItem) e.getSource();
+                try {
+                    handlePokemonClick(listItem.getCurrPokemon()); // Here you see how you can get the clicked pokemon name
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+    }
+    // Method that runs when pokemon in list is clicked. Says which pokemon was clicked.
+    public void handlePokemonClick(PokeRecord pokemonName) throws IOException {
+        System.out.println("Clicked on: " + pokemonName.name());
+    }
+
+    // Listening for button clicks.
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
@@ -31,16 +54,10 @@ public class TempController implements ActionListener, ItemListener, KeyListener
                 System.out.println("Save Team Button Pressed!");
                 break;
             case "Add to Team":
-                pokedexView.setAddToggleButtonText("Remove from Team");
+                System.out.println("Add to team clicked!");
                 break;
             case "Remove from Team":
-                pokedexView.setAddToggleButtonText("Add to Team");
-                break;
-            case "Team View":
-                pokedexView.setViewToggleButtonText("List View");
-                break;
-            case "List View":
-                pokedexView.setViewToggleButtonText("Team View");
+                System.out.println("Removed from team clicked!");
                 break;
         }
     }
@@ -50,7 +67,7 @@ public class TempController implements ActionListener, ItemListener, KeyListener
     // so we'll have to figure that out.
     @Override
     public void itemStateChanged(ItemEvent e) {
-        if (e.getSource() == pokedexView.getCheckableComboBox() && e.getStateChange() == ItemEvent.SELECTED) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
             System.out.println(pokedexView.getTypes());
         }
     }

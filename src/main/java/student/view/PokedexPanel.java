@@ -51,7 +51,7 @@ public class PokedexPanel extends JPanel {
         this.add(addToggleButton);
 
         // create view team toggle button
-        viewToggleButton = new JToggleButton("Team View");
+        viewToggleButton = new JToggleButton("List View");
         viewToggleButton.setBounds(780, 618, 150, 30); // x, y, width, height
         viewToggleButton.setForeground(Color.BLACK);
         viewToggleButton.setBackground(new Color(235, 235, 92));
@@ -90,16 +90,6 @@ public class PokedexPanel extends JPanel {
     // get searchbar
     public JTextField getSearchbar() {
         return searchbar;
-    }
-
-    // Set the text of addToggleButton
-    public void setAddToggleButtonText(String text) {
-        addToggleButton.setText(text);;
-    }
-
-    // Set the text of viewToggleButton
-    public void setViewToggleButtonText(String text) {
-        viewToggleButton.setText(text);;
     }
 
     // Method to get the selected types

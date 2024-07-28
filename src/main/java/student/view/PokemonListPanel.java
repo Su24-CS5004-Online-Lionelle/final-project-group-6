@@ -1,10 +1,9 @@
 package student.view;
 import javax.swing.*;
 
-import org.checkerframework.checker.units.qual.s;
-
 import java.util.ArrayList;
 import java.util.List; // Add this import statement
+import java.awt.event.MouseAdapter;
 
 import student.controller.PokedexController;
 import student.model.PokeRecord;
@@ -37,6 +36,18 @@ public class PokemonListPanel extends JPanel {
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
             this.add(scrollPane, BorderLayout.CENTER);
+        }
+
+        // Method to update the list.
+        public void updatePanel(List<PokeRecord> pokeRecords) {
+            // code
+        }
+
+        // Method to add mouse listener to list items
+        public void addMouseListenerToListItems(MouseAdapter mouseAdapter) {
+            for (ListItem listItem : customRectList) {
+                listItem.addMouseListener(mouseAdapter);
+            }
         }
 
         // placeholder to make visualizing panel easier
