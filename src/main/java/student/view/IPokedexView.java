@@ -49,12 +49,6 @@ public interface IPokedexView {
     void setAddToggleButtonStatus(boolean status);
 
     /**
-     * Method takes a pokeRecord and updates the indivPokemonPanel.
-     * @param pokemonName
-     */
-    void updateIndividualPokemonPanel(PokeRecord pokeRecord);
-
-    /**
      * Method takes a list of pokeRecords and updates the pokemon list.
      * @param pokeRecords
      */

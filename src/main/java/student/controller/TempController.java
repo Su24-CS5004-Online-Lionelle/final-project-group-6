@@ -7,8 +7,10 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import student.model.PokeRecord;
 import student.view.PokedexView;
-import student.view.Components.CustomPanel;
+import student.view.Components.ListItem;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -30,9 +32,9 @@ public class TempController implements ActionListener, ItemListener, KeyListener
         this.pokedexView.addMouseListenerToListItems(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                CustomPanel panel = (CustomPanel) e.getSource();
+                ListItem listItem = (ListItem) e.getSource();
                 try {
-                    handlePokemonClick(panel.getPokemonName()); // Here you see how you can get the clicked pokemon name
+                    handlePokemonClick(listItem.getCurrPokemon()); // Here you see how you can get the clicked pokemon name
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -40,8 +42,8 @@ public class TempController implements ActionListener, ItemListener, KeyListener
         });
     }
     // Method that runs when pokemon in list is clicked. Says which pokemon was clicked.
-    public void handlePokemonClick(String pokemonName) throws IOException {
-        System.out.println("Clicked on: " + pokemonName);
+    public void handlePokemonClick(PokeRecord pokemonName) throws IOException {
+        System.out.println("Clicked on: " + pokemonName.name());
     }
 
     // Listening for button clicks.

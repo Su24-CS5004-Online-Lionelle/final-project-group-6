@@ -1,10 +1,10 @@
 package student.view;
 import javax.swing.*;
+import java.util.List;
 
 import student.controller.PokedexController;
 import student.model.PokeRecord;
-import student.view.Components.CustomPanel;
-import java.util.List;
+import student.view.Components.ListItem;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -14,17 +14,18 @@ import java.util.ArrayList;
 public class PokemonTeamPanel extends JPanel {
         PokedexController controller = new PokedexController();
         List<PokeRecord> pokemonTeam;
-        List<CustomPanel> customRectTeam = new ArrayList<>();
+        List<ListItem> customRectTeam = new ArrayList<>();
         JPanel teamPanel = new JPanel();
 
         public PokemonTeamPanel() throws IOException {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             pokemonTeam = controller.getAllPokemonInTeam();
             for (PokeRecord pokemon : pokemonTeam) {
-                customRectTeam.add(new CustomPanel(pokemon.name()));
+                ListItem listItem = new ListItem(pokemon);
+                customRectTeam.add(listItem);
             }
 
-            for (CustomPanel item : customRectTeam) {
+            for (ListItem item : customRectTeam) {
                 teamPanel.add(item);
             }
 
@@ -35,22 +36,27 @@ public class PokemonTeamPanel extends JPanel {
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
             this.add(scrollPane, BorderLayout.CENTER);
-
-            this.setVisible(false);
         }
 
-        // Expose method to add mouse listener to CustomPanel items
-        public void addMouseListenerToCustomPanel(MouseAdapter mouseAdapter) {
-            for (CustomPanel customPanel : customRectTeam) {
-                customPanel.addMouseListener(mouseAdapter);
+        // Method to update the team.
+        public void updatePanel(List<PokeRecord> pokeRecords) {
+            // code
+        }
+
+        // Method to add mouse listener to list items
+        public void addMouseListenerToListItems(MouseAdapter mouseAdapter) {
+            for (ListItem listItem : customRectTeam) {
+                listItem.addMouseListener(mouseAdapter);
             }
         }
 
-        /**
-         * Method updates the panel with a new list of pokeRecords.
-         * @param pokeRecords
-         */
-        public void updatePanel(List<PokeRecord> pokeRecords) {
-            // add code
+        // placeholder to make visualizing panel easier
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.setColor(Color.blue);
+            g.fillRect(0, 0, 390, 440);
+            // visibility true when team view if off
+            this.setVisible(true);
         }
 }

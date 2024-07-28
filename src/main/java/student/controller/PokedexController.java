@@ -42,7 +42,7 @@ public class PokedexController {
      *
      * @param id The ID to filter by.
      * @return A list of Pokémon with the given ID.
-     * @throws IOException 
+     * @throws IOException
      */
     public List<PokeRecord> filterByID(int id) throws IOException {
         return model.getAllPokemon().stream()
@@ -55,7 +55,7 @@ public class PokedexController {
      *
      * @param name The name to filter by.
      * @return A list of Pokémon with the given name.
-     * @throws IOException 
+     * @throws IOException
      */
     public List<PokeRecord> filterByName(String name) throws IOException {
         return model.getAllPokemon().stream()
@@ -69,7 +69,7 @@ public class PokedexController {
      * @param minWeight The minimum weight to filter by.
      * @param maxWeight The maximum weight to filter by.
      * @return A list of Pokémon with weights between minWeight and maxWeight.
-     * @throws IOException 
+     * @throws IOException
      */
     public List<PokeRecord> filterByWeight(double minWeight, double maxWeight) throws IOException {
         return model.getAllPokemon().stream()
@@ -83,7 +83,7 @@ public class PokedexController {
      * @param minHeight The minimum height to filter by.
      * @param maxHeight The maximum height to filter by.
      * @return A list of Pokémon with heights between minHeight and maxHeight.
-     * @throws IOException 
+     * @throws IOException
      */
     public List<PokeRecord> filterByHeight(double minHeight, double maxHeight) throws IOException {
         return model.getAllPokemon().stream()
@@ -96,7 +96,7 @@ public class PokedexController {
      *
      * @param type The type to filter by.
      * @return A list of Pokémon with the given type.
-     * @throws IOException 
+     * @throws IOException
      */
     public List<PokeRecord> filterByType(String type) throws IOException {
         return model.getAllPokemon().stream()
@@ -109,7 +109,7 @@ public class PokedexController {
      *
      * @param ascending Whether to sort in ascending order.
      * @return A list of Pokémon sorted by name.
-     * @throws IOException 
+     * @throws IOException
      */
     public List<PokeRecord> sortByName(boolean ascending) throws IOException {
         return model.getAllPokemon().stream()
@@ -122,7 +122,7 @@ public class PokedexController {
      *
      * @param ascending Whether to sort in ascending order.
      * @return A list of Pokémon sorted by ID.
-     * @throws IOException 
+     * @throws IOException
      */
     public List<PokeRecord> sortByID(boolean ascending) throws IOException {
         return model.getAllPokemon().stream()
@@ -135,7 +135,7 @@ public class PokedexController {
      *
      * @param ascending Whether to sort in ascending order.
      * @return A list of Pokémon sorted by height.
-     * @throws IOException 
+     * @throws IOException
      */
     public List<PokeRecord> sortByWeight(boolean ascending) throws IOException {
         return model.getAllPokemon().stream()
@@ -148,7 +148,7 @@ public class PokedexController {
      *
      * @param ascending Whether to sort in ascending order.
      * @return A list of Pokémon sorted by height.
-     * @throws IOException 
+     * @throws IOException
      */
     public List<PokeRecord> sortByType(boolean ascending) throws IOException {
         return model.getAllPokemon().stream()
@@ -159,10 +159,10 @@ public class PokedexController {
                 })
                 .collect(Collectors.toList());
     }
-    
+
     /**
      * Retrieves a Pokemon by name.
-     * 
+     *
      * @param name The name of the Pokemon to retrieve.
      * @return The Pokemon object with the given name.
      * @throws IOException
@@ -173,7 +173,7 @@ public class PokedexController {
 
     /**
      * Retrieves a Pokemon by ID.
-     * 
+     *
      * @param id The ID of the Pokemon to retrieve.
      * @return The Pokemon object with the given ID.
      * @throws IOException
@@ -184,12 +184,23 @@ public class PokedexController {
 
     /**
      * Retrieves all Pokémon records from the team.
-     * 
+     *
      * @return A list of PokeRecord objects representing all Pokémon in the team.
      * @throws IOException
      */
     public List<PokeRecord> getAllPokemonInTeam() throws IOException {
         return model.getAllPokemonInTeam();
     }
+
+    /**
+     * Checks if in team.
+     *
+     * @return true or false
+     * @throws IOException
+     */
+    public boolean isPokemonInTeam(PokeRecord pokemon) throws IOException {
+        return model.isPokemonInTeam(pokemon);
+    }
+
 
 }

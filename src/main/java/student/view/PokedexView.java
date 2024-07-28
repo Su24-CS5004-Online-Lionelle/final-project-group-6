@@ -2,7 +2,6 @@ package student.view;
 import javax.swing.*;
 
 import student.model.PokeRecord;
-import student.view.Components.CustomPanel;
 
 import java.io.File;
 import java.awt.event.ActionListener;
@@ -14,7 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.*;
 import java.io.IOException;
 
-public class PokedexView extends JFrame {
+public class PokedexView extends JFrame implements IPokedexView {
     private PokedexPanel pokedexPanel;
     private IndivPokemonPanel indivPokemonPanel;
     private PokemonListPanel pokemonListPanel;
@@ -24,7 +23,8 @@ public class PokedexView extends JFrame {
     public PokedexView() throws IOException {
         // initialize panels
         pokedexPanel = new PokedexPanel();
-        indivPokemonPanel = new IndivPokemonPanel("bulbasaur");
+        indivPokemonPanel = IndivPokemonPanel.getInstance();
+        // indivPokemonPanel.setRecord(null);
         pokemonListPanel = new PokemonListPanel();
         pokemonTeamPanel = new PokemonTeamPanel();
         // create layered pane to put all panels together
@@ -107,8 +107,8 @@ public class PokedexView extends JFrame {
      * @param mouseAdapter
      */
     public void addMouseListenerToListItems(MouseAdapter mouseAdapter) {
-        pokemonListPanel.addMouseListenerToCustomPanel(mouseAdapter);
-        pokemonTeamPanel.addMouseListenerToCustomPanel(mouseAdapter);
+        pokemonListPanel.addMouseListenerToListItems(mouseAdapter);
+        pokemonTeamPanel.addMouseListenerToListItems(mouseAdapter);
     }
 
     /**
@@ -159,14 +159,6 @@ public class PokedexView extends JFrame {
         } else {
             pokedexPanel.getAddToggleButton().setText("Add to Team");
         }
-    }
-
-    /**
-     * Method updates the indivPokemonPanel by passing in new pokeRecord.
-     * @param pokemonName
-     */
-    public void updateIndividualPokemonPanel(PokeRecord pokeRecord) {
-        indivPokemonPanel.updatePanel(pokeRecord);
     }
 
     /**

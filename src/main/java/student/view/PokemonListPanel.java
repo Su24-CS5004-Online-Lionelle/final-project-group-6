@@ -1,32 +1,31 @@
 package student.view;
 import javax.swing.*;
 
-import org.checkerframework.checker.units.qual.s;
-
 import java.util.ArrayList;
 import java.util.List; // Add this import statement
+import java.awt.event.MouseAdapter;
 
 import student.controller.PokedexController;
 import student.model.PokeRecord;
-import student.view.Components.CustomPanel;
+import student.view.Components.ListItem;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 
 public class PokemonListPanel extends JPanel {
         PokedexController controller = new PokedexController();
         List<PokeRecord> pokemonList;
-        List<CustomPanel> customRectList = new ArrayList<>();
+        List<ListItem> customRectList = new ArrayList<>();
         JPanel listPanel = new JPanel();
 
         public PokemonListPanel() {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             pokemonList = controller.getAllPokemon();
             for (PokeRecord pokemon : pokemonList) {
-                customRectList.add(new CustomPanel(pokemon.name()));
+                ListItem listItem = new ListItem(pokemon);
+                customRectList.add(listItem);
             }
 
-            for (CustomPanel item : customRectList) {
+            for (ListItem item : customRectList) {
                 listPanel.add(item);
             }
 
@@ -37,22 +36,17 @@ public class PokemonListPanel extends JPanel {
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
             this.add(scrollPane, BorderLayout.CENTER);
-
-            this.setVisible(true);
         }
 
-        /**
-         * Method updates the panel with a new list of pokeRecords.
-         * @param pokeRecords
-         */
+        // Method to update the list.
         public void updatePanel(List<PokeRecord> pokeRecords) {
-            // add code
+            // code
         }
 
-        // Expose method to add mouse listener to CustomPanel items
-        public void addMouseListenerToCustomPanel(MouseAdapter mouseAdapter) {
-            for (CustomPanel customPanel : customRectList) {
-                customPanel.addMouseListener(mouseAdapter);
+        // Method to add mouse listener to list items
+        public void addMouseListenerToListItems(MouseAdapter mouseAdapter) {
+            for (ListItem listItem : customRectList) {
+                listItem.addMouseListener(mouseAdapter);
             }
         }
 

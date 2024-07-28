@@ -7,6 +7,8 @@ import student.model.PokeRecord;
 import student.controller.PokedexController;
 import student.model.PokemonMoves.PokemonMove;
 import student.model.PokemonTypes.PokemonType;
+import student.view.Components.GridBackground;
+
 import java.awt.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -19,47 +21,21 @@ public class IndivPokemonPanel extends JPanel {
 
     private PokedexController controller = new PokedexController();
     private PokeRecord record;
+    private static IndivPokemonPanel instance;
 
-    /** Consturctor of the class.
-     * 
-     * @param name name of the pokemon
-     */
-    public IndivPokemonPanel(String name) {
-        try {
-            this.record = controller.getPokemonByName(name);
-        } catch (IOException e) {
-            GUIUtil.showMessage("Error: " + e.getMessage(), "IOException");
-        }
-
-        /** Set layout manager for the main panel. */
-        this.setLayout(new BorderLayout());
-        /** Create the name panel. */
-        JPanel namePanel = createPanel(this.record.name(), 50, null);
-        /** Create the image panel. */
-        JPanel imagePanel = createImagePanel();
-        /** Create the info panel. */
-        JPanel infoPanel = createInfoPanel();
-        /** Create scrollable panel. */
-        JPanel scrollablePanel = new JPanel();
-        scrollablePanel.setLayout(new BorderLayout());
-        scrollablePanel.add(namePanel, BorderLayout.NORTH);
-        scrollablePanel.add(imagePanel, BorderLayout.CENTER);
-        scrollablePanel.add(infoPanel, BorderLayout.SOUTH);
-        /** Wrap the scrollable panel in a JScrollPane. */
-        JScrollPane scrollPane = new JScrollPane(scrollablePanel);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Remove default border
-        this.add(scrollPane, BorderLayout.CENTER);
-        /** Set the panel to be initially invisible. */
-        // this.setVisible(false);
+    // Private constructor to prevent instantiation
+    private IndivPokemonPanel() {
+        initializeComponents();
     }
 
-    /**
-     * Method updates the panel to display a new pokemon.
-     * @param record
-     */
-    public void updatePanel(PokeRecord record) {
-        // add code
+    // Public method to provide access to the instance
+    public static synchronized IndivPokemonPanel getInstance() {
+    if (instance == null) {
+        instance = new IndivPokemonPanel();
     }
+    return instance;
+}
+
 
     /**
      * Create new panel.
@@ -81,7 +57,7 @@ public class IndivPokemonPanel extends JPanel {
 
     /**
      * Create a panel that contains the pokemon image.
-     * 
+     *
      * @return a panel that contains the pokemon image
      */
     private JPanel createImagePanel() {
@@ -105,11 +81,11 @@ public class IndivPokemonPanel extends JPanel {
         }
         return null;
     }
-    
+
     /**
      * Create a panel that contains pokemon information.
      * Information includes id, weight, height, types and moves.
-     * 
+     *
      * @return a panel that contains pokemon information.
      */
     private JPanel createInfoPanel() {
@@ -122,8 +98,8 @@ public class IndivPokemonPanel extends JPanel {
         JPanel typesPanel = createPanel("Types: " + getTypeFromList(), 30, null);
         /** Create moves panel with listener. */
         JPanel movesPanel = createPanel(
-            "Moves: Click to see.", 
-            30, 
+            "Moves: Click to see.",
+            30,
             new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -137,11 +113,11 @@ public class IndivPokemonPanel extends JPanel {
         infoPanel.add(typesPanel);
         infoPanel.add(movesPanel);
         return infoPanel;
-    }    
+    }
 
     /**
      * Get type info from the list that contains type info.
-     * 
+     *
      * @return string of type info.
      */
     private String getTypeFromList() {
@@ -158,7 +134,7 @@ public class IndivPokemonPanel extends JPanel {
 
     /**
      * Get move info from the list that contains move info.
-     * 
+     *
      * @return string of move info.
      */
     private String getMoveFromList() {
@@ -182,9 +158,9 @@ public class IndivPokemonPanel extends JPanel {
 
     /** A private static class to make custom label. */
     private static class CustomLabel extends JPanel {
-    
+
         /** Constructor of the class.
-         * 
+         *
          * @param text text that displayed in the panel
          * @param fontSize font size
          */
@@ -194,7 +170,7 @@ public class IndivPokemonPanel extends JPanel {
             setOpaque(false);
             JLabel label = new JLabel(text, SwingConstants.CENTER);
             /** Label itself should not be opaque. */
-            label.setOpaque(false); 
+            label.setOpaque(false);
             label.setForeground(Color.BLACK);
             Font newFont = new Font("Calibri", Font.BOLD, fontSize);
             label.setFont(newFont);
@@ -202,12 +178,12 @@ public class IndivPokemonPanel extends JPanel {
             /** Set preferred size for the custom label. */
             setPreferredSize(new Dimension(400, 100)); // Adjust the size as needed
         }
-    
+
         /**
          * Custom painting code for the component. This method overrides the default
          * painting behavior to draw a rounded rectangle with a black border, an inner
          * white rounded rectangle, and two red stripes on the left and right sides.
-         * 
+         *
          * @param g the object used to paint the component
          */
         @Override
@@ -232,5 +208,74 @@ public class IndivPokemonPanel extends JPanel {
             g2d.fillRoundRect(width - 25, 5, 20, height - 10, arcSize, arcSize);
             g2d.dispose();
         }
-    }            
+    }
+
+    /**
+     * Refreshed the panel, removes current content and calls initialize again.
+     */
+    public void refreshPanel() {
+        // Remove all existing components
+        this.removeAll();
+
+        // Reinitialize components (assuming the constructor logic is in a method called initializeComponents)
+        initializeComponents();
+
+        // Revalidate and repaint to update the UI
+        this.revalidate();
+        this.repaint();
+    }
+
+
+    /**
+     * Sets up the screen.
+     */
+    public void initializeComponents() {
+        if (record != null) {
+            /** Set layout manager for the main panel. */
+            this.setLayout(new BorderLayout());
+            /** Create the name panel. */
+            JPanel namePanel = createPanel(getRecord().name(), 50, null);
+            /** Create the image panel. */
+            JPanel imagePanel = createImagePanel();
+            /** Create the info panel. */
+            JPanel infoPanel = createInfoPanel();
+            /** Create scrollable panel. */
+            JPanel scrollablePanel = new JPanel();
+            scrollablePanel.setLayout(new BorderLayout());
+            scrollablePanel.add(namePanel, BorderLayout.NORTH);
+            scrollablePanel.add(imagePanel, BorderLayout.CENTER);
+            scrollablePanel.add(infoPanel, BorderLayout.SOUTH);
+            /** Wrap the scrollable panel in a JScrollPane. */
+            JScrollPane scrollPane = new JScrollPane(scrollablePanel);
+            scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Remove default border
+            this.add(scrollPane, BorderLayout.CENTER);
+            /** Set the panel to be initially invisible. */
+            // this.setVisible(false);
+        } else {
+            // GUIUtil.showMessage("Error: " + e.getMessage(), "IOException");
+            // Show grid panel if no pokemon is selected
+            JPanel gridPanel = new GridBackground();
+            this.add(gridPanel);
+            this.setVisible(true);
+        }
+    }
+
+    /**
+     * Gets the current record.
+     *
+     * @return PokeRecord
+     */
+    public PokeRecord getRecord() {
+        return this.record;
+    }
+
+
+    /**
+     * Sets the record field.
+     *
+     * @param record pokemon record to set
+     */
+    public void setRecord(PokeRecord record) {
+        this.record = record;
+    }
 }
