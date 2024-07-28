@@ -29,6 +29,14 @@ public class CustomPanel extends JPanel {
         });
     }
 
+    /**
+     * Method to get the name of pokemon.
+     * @return
+     */
+    public String getPokemonName() {
+        return text;
+    }
+
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(200, 100); // Set the preferred width and height

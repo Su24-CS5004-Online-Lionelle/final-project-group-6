@@ -54,6 +54,14 @@ public class IndivPokemonPanel extends JPanel {
     }
 
     /**
+     * Method updates the panel to display a new pokemon.
+     * @param record
+     */
+    public void updatePanel(PokeRecord record) {
+        // add code
+    }
+
+    /**
      * Create new panel.
      * @param text text that displayed in the panel
      * @param fontSize font size

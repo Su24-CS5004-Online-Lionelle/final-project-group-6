@@ -11,6 +11,7 @@ import student.model.PokeRecord;
 import student.view.Components.CustomPanel;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 
 public class PokemonListPanel extends JPanel {
         PokedexController controller = new PokedexController();
@@ -36,6 +37,23 @@ public class PokemonListPanel extends JPanel {
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
             this.add(scrollPane, BorderLayout.CENTER);
+
+            this.setVisible(true);
+        }
+
+        /**
+         * Method updates the panel with a new list of pokeRecords.
+         * @param pokeRecords
+         */
+        public void updatePanel(List<PokeRecord> pokeRecords) {
+            // add code
+        }
+
+        // Expose method to add mouse listener to CustomPanel items
+        public void addMouseListenerToCustomPanel(MouseAdapter mouseAdapter) {
+            for (CustomPanel customPanel : customRectList) {
+                customPanel.addMouseListener(mouseAdapter);
+            }
         }
 
         // placeholder to make visualizing panel easier
