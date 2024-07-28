@@ -1,5 +1,6 @@
 package student.view.Components;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import student.controller.PokedexController;
@@ -10,8 +11,10 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL; // Add this import statement
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +23,17 @@ public class ListItem extends JPanel {
     private boolean isHighlighted = false;
     private PokeRecord currPokemon;
     private PokedexController controller = new PokedexController();
+    private Image backgroundImage;
 
     public ListItem(PokeRecord pokemon) {
         this.currPokemon = pokemon;
+        try {
+            this.backgroundImage = ImageIO.read(new URL(pokemon.sprites().getFrontDefault()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setPreferredSize(new Dimension(400, 100)); // Adjust the size as needed
         setOpaque(false); // Ensure transparency
-
         // Add this panel to the list of panels
         panels.add(this);
 
@@ -109,6 +117,13 @@ public class ListItem extends JPanel {
         g2d.drawString(id, textX, textY);
 
         drawPokeball(g2d);
+
+        super.paintComponent(g);
+        if (backgroundImage != null) {
+            // Set the composite to 50% transparency
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+            g2d.drawImage(backgroundImage, 130, -50, getWidth() - 20, getHeight() + 120, this);
+        }
 
         // Highlight the panel if it is selected
         if (isHighlighted) {
