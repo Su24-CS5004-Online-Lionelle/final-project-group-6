@@ -3,7 +3,7 @@ package student.view.Components;
 import javax.swing.*;
 import java.awt.*;
 
-// Step 1: Custom JPanel class
+// Custom Grid Panel
 public class GridBackground extends JPanel {
     public GridBackground() {
         super();

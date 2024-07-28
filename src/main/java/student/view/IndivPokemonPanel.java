@@ -210,6 +210,9 @@ public class IndivPokemonPanel extends JPanel {
         }
     }
 
+    /**
+     * Refreshed the panel, removes current content and calls initialize again.
+     */
     public void refreshPanel() {
         // Remove all existing components
         this.removeAll();
@@ -222,6 +225,10 @@ public class IndivPokemonPanel extends JPanel {
         this.repaint();
     }
 
+
+    /**
+     * Sets up the screen.
+     */
     public void initializeComponents() {
         if (record != null) {
             /** Set layout manager for the main panel. */
@@ -248,14 +255,26 @@ public class IndivPokemonPanel extends JPanel {
             // GUIUtil.showMessage("Error: " + e.getMessage(), "IOException");
             // Show grid panel if no pokemon is selected
             JPanel gridPanel = new GridBackground();
-            this.add(gridPanel, BorderLayout.CENTER);
+            this.add(gridPanel);
+            this.setVisible(true);
         }
     }
 
+    /**
+     * Gets the current record.
+     *
+     * @return PokeRecord
+     */
     public PokeRecord getRecord() {
         return this.record;
     }
 
+
+    /**
+     * Sets the record field.
+     *
+     * @param record pokemon record to set
+     */
     public void setRecord(PokeRecord record) {
         this.record = record;
     }

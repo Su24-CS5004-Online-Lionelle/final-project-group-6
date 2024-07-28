@@ -9,7 +9,7 @@ import student.view.IndivPokemonPanel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
+import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -18,12 +18,11 @@ import java.util.List;
 public class ListItem extends JPanel {
     private static List<ListItem> panels = new ArrayList<>();
     private boolean isHighlighted = false;
-    private String text;
     private PokeRecord currPokemon;
     private PokedexController controller = new PokedexController();
 
-    public ListItem(String text) {
-        this.text = text;
+    public ListItem(PokeRecord pokemon) {
+        this.currPokemon = pokemon;
         setPreferredSize(new Dimension(400, 100)); // Adjust the size as needed
         setOpaque(false); // Ensure transparency
 
@@ -34,16 +33,10 @@ public class ListItem extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                try {
-                    PokeRecord currPokemon = controller.getPokemonByName(text);
-                    highlightPanel();
-                    IndivPokemonPanel indivPokemonPanel = IndivPokemonPanel.getInstance();
-                    indivPokemonPanel.setRecord(currPokemon);
-                    indivPokemonPanel.refreshPanel();
-
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                highlightPanel();
+                IndivPokemonPanel indivPokemonPanel = IndivPokemonPanel.getInstance();
+                indivPokemonPanel.setRecord(currPokemon);
+                indivPokemonPanel.refreshPanel();
             }
         });
     }
@@ -100,11 +93,22 @@ public class ListItem extends JPanel {
         // Draw the text in the center
         g2d.setColor(Color.BLACK);
         FontMetrics fm = g2d.getFontMetrics();
+        String text = currPokemon.name().substring(0, 1).toUpperCase() + currPokemon.name().substring(1).toLowerCase();
         int textWidth = fm.stringWidth(text);
         int textHeight = fm.getAscent();
         int textX = (width - textWidth) / 2;
         int textY = (height + textHeight) / 2 - fm.getDescent();
         g2d.drawString(text, textX, textY);
+
+        g2d.setColor(Color.LIGHT_GRAY);
+        String id = String.format("#%d", currPokemon.id());
+        textWidth = fm.stringWidth(id);
+        textHeight = fm.getAscent();
+        textX = 30;
+        textY = (height + textHeight) / 2 - fm.getDescent();
+        g2d.drawString(id, textX, textY);
+
+        drawPokeball(g2d);
 
         // Highlight the panel if it is selected
         if (isHighlighted) {
@@ -125,11 +129,68 @@ public class ListItem extends JPanel {
         repaint();
     }
 
+    /**
+     * Sets the currPokemon field.
+     *
+     * @param pokemon PokeRecord to set
+     */
     public void setCurrPokemon(PokeRecord pokemon) {
         this.currPokemon = pokemon;
     }
 
+    /**
+     * Gets the current pokemon.
+     *
+     * @return returns PokeRecord currPokemon
+     */
     public PokeRecord getCurrPokemon() {
         return this.currPokemon;
     }
+
+    /**
+     * Draws pokeball in color or gray depending if the pokemon
+     * is already in the team.
+     *
+     * @param g Graphics object to draw with
+     */
+    private void drawPokeball(Graphics g) {
+        boolean isInTeam;
+        try {
+            isInTeam = controller.isPokemonInTeam(currPokemon);
+        } catch (IOException e) {
+            isInTeam = false;
+        }
+
+        Graphics2D g2d = (Graphics2D) g;
+
+        int panelWidth = getWidth();
+        int pokeballDiameter = 30;
+        int x = panelWidth - pokeballDiameter - 40;
+
+        // Save the original transformation
+        AffineTransform originalTransform = g2d.getTransform();
+
+        // Rotate the 2dgraphics context by -45 degrees (left tilt)
+        g2d.rotate(Math.toRadians(-45), x + pokeballDiameter / 2, pokeballDiameter / 2); // Rotate around the center of the Pokéball
+
+        // Draw the outer circle
+        g2d.setColor(isInTeam ? Color.RED : Color.GRAY);
+        g2d.fillOval(x, 15, pokeballDiameter, pokeballDiameter);
+
+        // Draw the bottom half
+        g2d.setColor(isInTeam ? Color.BLACK : Color.DARK_GRAY);
+        g2d.fillArc(x, 15, pokeballDiameter, pokeballDiameter, 0, -180);
+
+        // Draw the center circle
+        g2d.setColor(Color.WHITE);
+        g2d.fillOval(x + 10, 25, 10, 10);
+
+        // Draw the center black circle
+        g2d.setColor(Color.BLACK);
+        g2d.fillOval(x + 13, 28, 4, 4);
+
+        // Restore the original transformation
+        g2d.setTransform(originalTransform);
+    }
+
 }

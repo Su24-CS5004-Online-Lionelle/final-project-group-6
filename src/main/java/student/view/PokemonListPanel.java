@@ -22,8 +22,8 @@ public class PokemonListPanel extends JPanel {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             pokemonList = controller.getAllPokemon();
             for (PokeRecord pokemon : pokemonList) {
-                String nameCapitalized = pokemon.name().substring(0, 1).toUpperCase() + pokemon.name().substring(1).toLowerCase();
-                customRectList.add(new ListItem(nameCapitalized));
+                ListItem listItem = new ListItem(pokemon);
+                customRectList.add(listItem);
             }
 
             for (ListItem item : customRectList) {
