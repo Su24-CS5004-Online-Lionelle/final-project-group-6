@@ -2,7 +2,9 @@ package student.view.Components;
 
 import javax.swing.*;
 
+import student.controller.PokedexController;
 import student.model.PokeRecord;
+import student.view.IndivPokemonPanel;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -13,13 +15,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomPanel extends JPanel {
-    private static List<CustomPanel> panels = new ArrayList<>();
+public class ListItem extends JPanel {
+    private static List<ListItem> panels = new ArrayList<>();
     private boolean isHighlighted = false;
     private String text;
     private PokeRecord currPokemon;
+    private PokedexController controller = new PokedexController();
 
-    public CustomPanel(String text) {
+    public ListItem(String text) {
         this.text = text;
         setPreferredSize(new Dimension(400, 100)); // Adjust the size as needed
         setOpaque(false); // Ensure transparency
@@ -31,7 +34,16 @@ public class CustomPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                highlightPanel();
+                try {
+                    PokeRecord currPokemon = controller.getPokemonByName(text);
+                    highlightPanel();
+                    IndivPokemonPanel indivPokemonPanel = IndivPokemonPanel.getInstance();
+                    indivPokemonPanel.setRecord(currPokemon);
+                    indivPokemonPanel.refreshPanel();
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }
@@ -103,7 +115,7 @@ public class CustomPanel extends JPanel {
 
     private void highlightPanel() {
         // Unhighlight all panels
-        for (CustomPanel panel : panels) {
+        for (ListItem panel : panels) {
             panel.isHighlighted = false;
             panel.repaint();
         }

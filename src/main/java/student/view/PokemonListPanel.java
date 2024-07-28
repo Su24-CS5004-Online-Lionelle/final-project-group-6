@@ -8,14 +8,14 @@ import java.util.List; // Add this import statement
 
 import student.controller.PokedexController;
 import student.model.PokeRecord;
-import student.view.Components.CustomPanel;
+import student.view.Components.ListItem;
 
 import java.awt.*;
 
 public class PokemonListPanel extends JPanel {
         PokedexController controller = new PokedexController();
         List<PokeRecord> pokemonList;
-        List<CustomPanel> customRectList = new ArrayList<>();
+        List<ListItem> customRectList = new ArrayList<>();
         JPanel listPanel = new JPanel();
 
         public PokemonListPanel() {
@@ -23,10 +23,10 @@ public class PokemonListPanel extends JPanel {
             pokemonList = controller.getAllPokemon();
             for (PokeRecord pokemon : pokemonList) {
                 String nameCapitalized = pokemon.name().substring(0, 1).toUpperCase() + pokemon.name().substring(1).toLowerCase();
-                customRectList.add(new CustomPanel(nameCapitalized));
+                customRectList.add(new ListItem(nameCapitalized));
             }
 
-            for (CustomPanel item : customRectList) {
+            for (ListItem item : customRectList) {
                 listPanel.add(item);
             }
 
