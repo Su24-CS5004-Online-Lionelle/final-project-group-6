@@ -1,9 +1,15 @@
 package student.view.Components;
 
 import javax.swing.*;
+
+import student.model.PokeRecord;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +17,7 @@ public class CustomPanel extends JPanel {
     private static List<CustomPanel> panels = new ArrayList<>();
     private boolean isHighlighted = false;
     private String text;
+    private PokeRecord currPokemon;
 
     public CustomPanel(String text) {
         this.text = text;
@@ -61,6 +68,23 @@ public class CustomPanel extends JPanel {
         /** Draw the right red stripe. */
         g2d.fillRoundRect(width - 25, 5, 20, height - 10, arcSize, arcSize);
 
+        // Load the custom font from the resources/Font directory
+        try {
+            Font customFont;
+            try (InputStream is = getClass().getClassLoader().getResourceAsStream("Font/PressStart2P-Regular.ttf")) {
+                if (is == null) {
+                    throw new IOException("Font file not found");
+                }
+                customFont = Font.createFont(Font.TRUETYPE_FONT, is);
+            }
+            customFont = customFont.deriveFont(14f); // Set the font size to 20
+            g2d.setFont(customFont);
+        } catch (FontFormatException | IOException e) {
+            e.printStackTrace();
+            // Fallback to default font if loading fails
+            g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+        }
+
         // Draw the text in the center
         g2d.setColor(Color.BLACK);
         FontMetrics fm = g2d.getFontMetrics();
@@ -87,5 +111,13 @@ public class CustomPanel extends JPanel {
         // Highlight this panel
         isHighlighted = true;
         repaint();
+    }
+
+    public void setCurrPokemon(PokeRecord pokemon) {
+        this.currPokemon = pokemon;
+    }
+
+    public PokeRecord getCurrPokemon() {
+        return this.currPokemon;
     }
 }
