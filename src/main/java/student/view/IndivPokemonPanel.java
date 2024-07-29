@@ -241,21 +241,48 @@ public class IndivPokemonPanel extends JPanel {
             JPanel infoPanel = createInfoPanel();
             /** Create scrollable panel. */
             JPanel scrollablePanel = new JPanel();
+            /** Create background panel. */
+            JPanel gridPanel = new GridBackground();
+
             scrollablePanel.setLayout(new BorderLayout());
             scrollablePanel.add(namePanel, BorderLayout.NORTH);
             scrollablePanel.add(imagePanel, BorderLayout.CENTER);
             scrollablePanel.add(infoPanel, BorderLayout.SOUTH);
+            /** Make the scrollable panel transparent. */
+            scrollablePanel.setOpaque(false);
+            // scrollablePanel.setBackground(new Color(0, 0, 0, 0));
             /** Wrap the scrollable panel in a JScrollPane. */
             JScrollPane scrollPane = new JScrollPane(scrollablePanel);
             scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Remove default border
-            this.add(scrollPane, BorderLayout.CENTER);
+            scrollPane.setOpaque(false);
+            scrollPane.getViewport().setOpaque(false);
+
+            /** Create a JLayeredPane to layer the panels. */
+            JLayeredPane layeredPane = new JLayeredPane() {
+                @Override
+                public void doLayout() {
+                    super.doLayout();
+                    gridPanel.setBounds(0, 0, getWidth(), getHeight());
+                    scrollPane.setBounds(0, 0, getWidth(), getHeight());
+                }
+            };
+
+            /** Add the background panel at the default layer (0). */
+            layeredPane.add(gridPanel, JLayeredPane.DEFAULT_LAYER);
+
+            /** Add the scroll pane at a higher layer (1). */
+            layeredPane.add(scrollPane, JLayeredPane.PALETTE_LAYER);
+
+            /** Add the layered pane to the main panel. */
+            this.add(layeredPane, BorderLayout.CENTER);
             /** Set the panel to be initially invisible. */
             // this.setVisible(false);
         } else {
             // GUIUtil.showMessage("Error: " + e.getMessage(), "IOException");
             // Show grid panel if no pokemon is selected
+            this.setLayout(new BorderLayout());
             JPanel gridPanel = new GridBackground();
-            this.add(gridPanel);
+            this.add(gridPanel, BorderLayout.CENTER);
             this.setVisible(true);
         }
     }

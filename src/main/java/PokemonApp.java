@@ -12,18 +12,5 @@ public class PokemonApp {
     public static void main (String[] args) throws IOException {
         PokedexView view = new PokedexView();
         TempController controller = new TempController(view);
-        // InputStream inputStream = NetUtils.getIpDetails("pikachu");
-        // JSONParser jsonParser = new JSONParser();
-        // try {
-        //     try {
-        //         JSONObject jsonObject = (JSONObject)jsonParser.parse(
-        //             new InputStreamReader(inputStream, "UTF-8"));
-        //             System.out.println(jsonObject.get("name"));
-        //     } catch (ParseException e) {
-        //         e.printStackTrace();
-        //     }
-        // } catch (IOException e ) {
-        //     e.printStackTrace();
-        // }
     }
 }

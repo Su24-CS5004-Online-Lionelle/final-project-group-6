@@ -64,6 +64,19 @@ public class PokedexController {
     }
 
     /**
+     * Filters Pokémon by contains.
+     *
+     * @param name The input to filter by.
+     * @return A list of Pokémon where the name contains the input.
+     * @throws IOException
+     */
+    public List<PokeRecord> filterByContains(String input) throws IOException {
+        return model.getAllPokemon().stream()
+            .filter(pokemon -> pokemon.name().toLowerCase().contains(input.toLowerCase()))
+            .collect(Collectors.toList());
+    }
+
+    /**
      * Filters Pokémon by weight.
      *
      * @param minWeight The minimum weight to filter by.

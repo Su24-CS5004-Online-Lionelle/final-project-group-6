@@ -12,30 +12,22 @@ import student.view.Components.ListItem;
 import java.awt.*;
 
 public class PokemonListPanel extends JPanel {
+        private static PokemonListPanel instance;
         PokedexController controller = new PokedexController();
-        List<PokeRecord> pokemonList;
         List<ListItem> customRectList = new ArrayList<>();
         JPanel listPanel = new JPanel();
 
-        public PokemonListPanel() {
-            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-            pokemonList = controller.getAllPokemon();
-            for (PokeRecord pokemon : pokemonList) {
-                ListItem listItem = new ListItem(pokemon);
-                customRectList.add(listItem);
+        // Private constructor to prevent instantiation
+        private PokemonListPanel() {
+            // Initialization code here
+        }
+
+          // Public method to provide access to the instance
+        public static synchronized PokemonListPanel getInstance() {
+            if (instance == null) {
+                instance = new PokemonListPanel();
             }
-
-            for (ListItem item : customRectList) {
-                listPanel.add(item);
-            }
-
-            listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
-
-            JScrollPane scrollPane = new JScrollPane(listPanel);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-            this.add(scrollPane, BorderLayout.CENTER);
+            return instance;
         }
 
         // Method to update the list.
@@ -59,4 +51,60 @@ public class PokemonListPanel extends JPanel {
             // visibility true when team view if off
             this.setVisible(true);
         }
+
+        /**
+     * Refreshed the panel, removes current content and calls initialize again.
+     */
+    public void refreshPanel(List<PokeRecord> records) {
+        // Remove all existing components
+        this.removeAll();
+        this.customRectList.clear();
+        this.listPanel.removeAll();
+
+        // Reinitialize components (assuming the constructor logic is in a method called initializeComponents)
+        initializePanel(records);
+
+        // Revalidate and repaint to update the UI
+        this.revalidate();
+        this.repaint();
+    }
+
+    /**
+     * Initialize pokemon list based on input.
+     */
+    public void initializePanel(List<PokeRecord> records) {
+        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        System.out.println(records.size());
+        for (PokeRecord pokemon : records) {
+            ListItem listItem = new ListItem(pokemon);
+            customRectList.add(listItem);
+        }
+
+        for (ListItem item : customRectList) {
+            listPanel.add(item);
+        }
+
+        // Calculate the total height needed for the listPanel
+        int totalHeight = 0;
+        for (ListItem item : customRectList) {
+            totalHeight += item.getPreferredSize().height;
+        }
+        listPanel.setPreferredSize(new Dimension(listPanel.getWidth(), totalHeight));
+
+        // Validate and repaint to ensure layout is updated
+        listPanel.revalidate();
+        listPanel.repaint();
+
+        JScrollPane scrollPane = new JScrollPane(listPanel);
+        this.add(scrollPane, BorderLayout.CENTER);
+
+        // Revalidate and repaint the main panel to update the UI
+        scrollPane.revalidate();
+        scrollPane.repaint();
+        this.revalidate();
+        this.repaint();
+    }
+
 }

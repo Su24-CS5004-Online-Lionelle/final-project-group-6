@@ -1,6 +1,7 @@
 package student.view;
 import javax.swing.*;
 
+import student.controller.PokedexController;
 import student.model.PokeRecord;
 
 import java.io.File;
@@ -19,13 +20,15 @@ public class PokedexView extends JFrame implements IPokedexView {
     private PokemonListPanel pokemonListPanel;
     private PokemonTeamPanel pokemonTeamPanel;
     private Font pokemonFont;
+    private PokedexController controller = new PokedexController();
 
     public PokedexView() throws IOException {
         // initialize panels
         pokedexPanel = new PokedexPanel();
         indivPokemonPanel = IndivPokemonPanel.getInstance();
         // indivPokemonPanel.setRecord(null);
-        pokemonListPanel = new PokemonListPanel();
+        pokemonListPanel = PokemonListPanel.getInstance();
+        pokemonListPanel.initializePanel(controller.getAllPokemon());
         pokemonTeamPanel = new PokemonTeamPanel();
         // create layered pane to put all panels together
         JLayeredPane layeredPane = new JLayeredPane();

@@ -14,7 +14,6 @@ import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL; // Add this import statement
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +27,11 @@ public class ListItem extends JPanel {
     public ListItem(PokeRecord pokemon) {
         this.currPokemon = pokemon;
         try {
-            this.backgroundImage = ImageIO.read(new URL(pokemon.sprites().getFrontDefault()));
+            this.backgroundImage = ImageIO.read(new File("cache/" + pokemon.name() + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        setPreferredSize(new Dimension(400, 100)); // Adjust the size as needed
+        setPreferredSize(new Dimension(200, 100)); // Adjust the size as needed
         setOpaque(false); // Ensure transparency
         // Add this panel to the list of panels
         panels.add(this);
@@ -127,7 +126,7 @@ public class ListItem extends JPanel {
 
         // Highlight the panel if it is selected
         if (isHighlighted) {
-            g2d.setColor(new Color(0, 0, 0, 50)); // Semi-transparent black
+            g2d.setColor(new Color(0, 0, 0, 80)); // Semi-transparent black
             g2d.fillRoundRect(1, 1, width - 2, height - 2, arcSize, arcSize);
         }
     }

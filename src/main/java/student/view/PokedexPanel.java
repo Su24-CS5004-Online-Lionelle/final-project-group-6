@@ -42,7 +42,7 @@ public class PokedexPanel extends JPanel {
         saveButton.setForeground(Color.BLACK);
         saveButton.setBackground(new Color (135, 206, 250));
         this.add(saveButton);
-        
+
         // create add team toggle button
         addToggleButton = new JToggleButton("Add to Team");
         addToggleButton.setBounds(68, 560, 220, 30); // x, y, width, height
@@ -86,7 +86,7 @@ public class PokedexPanel extends JPanel {
     public CheckableComboBox getCheckableComboBox() {
         return typeSelect;
     }
-    
+
     // get searchbar
     public JTextField getSearchbar() {
         return searchbar;
@@ -154,7 +154,7 @@ public class PokedexPanel extends JPanel {
         mirroredPokedex.transform(flipTransform);
         g2D.setColor(new Color(20, 20, 60));
         g2D.fill(mirroredPokedex);
-        
+
         // create outline shape for left pokedex
         GeneralPath leftPokedexOutline = new GeneralPath();
         leftPokedexOutline.moveTo(35, 80);
@@ -194,7 +194,7 @@ public class PokedexPanel extends JPanel {
         // bottom hinge shadow
         g2D.setColor(new Color(160, 30, 40));
         g2D.fillOval(512, 657, 30, 15);
-        
+
         // hinge shadow
         g2D.setColor(new Color(160, 30, 40));
         g2D.fillRect(531, 11, 8, 650);
