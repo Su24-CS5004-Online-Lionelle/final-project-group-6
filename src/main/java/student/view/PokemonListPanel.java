@@ -98,6 +98,11 @@ public class PokemonListPanel extends JPanel {
         listPanel.repaint();
 
         JScrollPane scrollPane = new JScrollPane(listPanel);
+        // Set custom scrolling increments
+        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+        verticalScrollBar.setUnitIncrement(16); // Adjust this value as needed
+        verticalScrollBar.setBlockIncrement(50); // Adjust this value as needed
+
         this.add(scrollPane, BorderLayout.CENTER);
 
         // Revalidate and repaint the main panel to update the UI
