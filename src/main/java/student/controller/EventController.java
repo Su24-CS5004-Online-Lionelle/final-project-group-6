@@ -98,6 +98,4 @@ public class EventController implements ActionListener, ItemListener, KeyListene
         }
         System.out.println(input);
     }
-
-
 }

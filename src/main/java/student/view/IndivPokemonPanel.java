@@ -257,6 +257,10 @@ public class IndivPokemonPanel extends JPanel {
             scrollPane.setOpaque(false);
             scrollPane.getViewport().setOpaque(false);
 
+            JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+            verticalScrollBar.setUnitIncrement(16); // Adjust this value as needed
+            verticalScrollBar.setBlockIncrement(50); // Adjust this value as needed
+
             /** Create a JLayeredPane to layer the panels. */
             JLayeredPane layeredPane = new JLayeredPane() {
                 @Override
