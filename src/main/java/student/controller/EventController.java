@@ -17,12 +17,12 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
-public class TempController implements ActionListener, ItemListener, KeyListener {
+public class EventController implements ActionListener, ItemListener, KeyListener {
 
     private PokedexView pokedexView;
     private PokedexController controller = new PokedexController();
 
-    public TempController(PokedexView view) {
+    public EventController(PokedexView view) {
         this.pokedexView = view;
         view.setListeners(this);
         view.setItemListeners(this);

@@ -83,6 +83,7 @@ public class PokemonListPanel extends JPanel {
         }
 
         for (ListItem item : customRectList) {
+            item.setPreferredSize(new Dimension(getWidth(), 100));
             listPanel.add(item);
         }
 

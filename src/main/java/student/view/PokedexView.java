@@ -33,6 +33,7 @@ public class PokedexView extends JFrame implements IPokedexView {
         // create layered pane to put all panels together
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(1000, 700));
+        layeredPane.setMinimumSize(new Dimension(1000, 700));
         // Set background color of the layered pane
         layeredPane.setBackground(new Color(20, 20, 60));
         layeredPane.setOpaque(true);
