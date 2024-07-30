@@ -215,5 +215,21 @@ public class PokedexController {
         return model.isPokemonInTeam(pokemon);
     }
 
+    /**
+     * Adds a Pokemon to the team database.
+     *
+     * @param pokemon the PokeRecord of the Pokemon to be added to the team
+     */
+    public void addPokemonToTeam(PokeRecord pokemon) {
+        model.addPokemonToTeam(pokemon);
+    }
 
+    /**
+     * Removes a Pokemon from the team database.
+     *
+     * @param pokemon the PokeRecord of the Pokemon to be removed from the team
+     */
+    public void removePokemonFromTeam(PokeRecord pokemon) {
+        model.removePokemonFromTeam(pokemon);
+    }
 }

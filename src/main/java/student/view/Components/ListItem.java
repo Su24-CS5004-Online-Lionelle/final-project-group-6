@@ -6,6 +6,8 @@ import javax.swing.*;
 import student.controller.PokedexController;
 import student.model.PokeRecord;
 import student.view.IndivPokemonPanel;
+import student.view.PokedexPanel;
+import student.view.PokemonListPanel;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -23,6 +25,7 @@ public class ListItem extends JPanel {
     private PokeRecord currPokemon;
     private PokedexController controller = new PokedexController();
     private Image backgroundImage;
+    private boolean isInTeam;
 
     public ListItem(PokeRecord pokemon) {
         this.currPokemon = pokemon;
@@ -139,6 +142,8 @@ public class ListItem extends JPanel {
         }
 
         // Highlight this panel
+        PokemonListPanel.getInstance().setIsHighlited(currPokemon);
+        PokedexPanel.getInstance().refreshAddToggleButton();
         isHighlighted = true;
         repaint();
     }
@@ -168,7 +173,7 @@ public class ListItem extends JPanel {
      * @param g Graphics object to draw with
      */
     private void drawPokeball(Graphics g) {
-        boolean isInTeam;
+
         try {
             isInTeam = controller.isPokemonInTeam(currPokemon);
         } catch (IOException e) {
@@ -207,4 +212,12 @@ public class ListItem extends JPanel {
         g2d.setTransform(originalTransform);
     }
 
+    /**
+     * Returns true if pokemon in team, false otherwise.
+     *
+     * @return true or false depending if pokemon is in team
+     */
+    public boolean isInTeam() {
+        return isInTeam;
+    }
 }

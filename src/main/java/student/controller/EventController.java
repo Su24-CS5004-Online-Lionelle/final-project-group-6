@@ -8,8 +8,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import student.model.PokeRecord;
+import student.view.PokedexPanel;
 import student.view.PokedexView;
 import student.view.PokemonListPanel;
+import student.view.PokemonTeamPanel;
 import student.view.Components.ListItem;
 
 import java.awt.event.MouseAdapter;
@@ -58,9 +60,29 @@ public class EventController implements ActionListener, ItemListener, KeyListene
                 break;
             case "Add to Team":
                 System.out.println("Add to team clicked!");
+                PokeRecord recordToAdd = PokemonListPanel.getInstance().getIsHighlited();
+                controller.addPokemonToTeam(recordToAdd);
+                PokemonListPanel.getInstance().refreshPanel(null);
+                PokedexPanel.getInstance().refreshAddToggleButton();
+                try {
+                    PokemonTeamPanel.getInstance().refreshPanel();
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 break;
             case "Remove from Team":
                 System.out.println("Removed from team clicked!");
+                PokeRecord recordToRemove = PokemonListPanel.getInstance().getIsHighlited();
+                controller.removePokemonFromTeam(recordToRemove);
+                PokemonListPanel.getInstance().refreshPanel(null);
+                PokedexPanel.getInstance().refreshAddToggleButton();
+                try {
+                    PokemonTeamPanel.getInstance().refreshPanel();
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 break;
         }
     }

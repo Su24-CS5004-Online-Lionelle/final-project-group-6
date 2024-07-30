@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 
 import student.controller.PokedexController;
 import student.model.PokeRecord;
+import student.view.Components.GridBackground;
 import student.view.Components.ListItem;
 
 import java.awt.*;
@@ -16,6 +17,7 @@ public class PokemonListPanel extends JPanel {
         PokedexController controller = new PokedexController();
         List<ListItem> customRectList = new ArrayList<>();
         JPanel listPanel = new JPanel();
+        PokeRecord highlightedPokemon;
 
         // Private constructor to prevent instantiation
         private PokemonListPanel() {
@@ -62,6 +64,10 @@ public class PokemonListPanel extends JPanel {
         this.listPanel.removeAll();
 
         // Reinitialize components (assuming the constructor logic is in a method called initializeComponents)
+        if (records == null) {
+            records = controller.getAllPokemon();
+        }
+
         initializePanel(records);
 
         // Revalidate and repaint to update the UI
@@ -87,14 +93,47 @@ public class PokemonListPanel extends JPanel {
             listPanel.add(item);
         }
 
-        // Calculate the total height needed for the listPanel
-        int totalHeight = 0;
-        for (ListItem item : customRectList) {
-            totalHeight += item.getPreferredSize().height;
-        }
-        listPanel.setPreferredSize(new Dimension(listPanel.getWidth(), totalHeight));
+        // // Calculate the total height needed for the listPanel
+        // int totalHeight = 0;
+        // for (ListItem item : customRectList) {
+        //     totalHeight += item.getPreferredSize().height;
+        // }
+        // listPanel.setPreferredSize(new Dimension(200, totalHeight));
 
-        // Validate and repaint to ensure layout is updated
+        if (records.size() == 0) {
+            // Set GridBackground as the background
+                GridBackground gridBackground = new GridBackground();
+                gridBackground.setLayout(new BorderLayout());
+                gridBackground.add(listPanel, BorderLayout.CENTER);
+
+                listPanel.setOpaque(false);
+
+                // Create a JPanel to show the message
+                JPanel messagePanel = new JPanel();
+                messagePanel.setLayout(new BorderLayout());
+                JLabel messageLabel = new JLabel("No pokemon found", JLabel.CENTER);
+                messagePanel.setOpaque(false);
+                messageLabel.setFont(PokedexView.getPokemonFont().deriveFont(30f));
+                messagePanel.add(messageLabel, BorderLayout.CENTER);
+
+
+                // Add the messagePanel to the center of gridBackground
+                gridBackground.add(messagePanel, BorderLayout.CENTER);
+
+
+                JScrollPane scrollPane = new JScrollPane(gridBackground);
+                scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+                scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+                // Remove all components from the main panel and add the scrollPane
+                this.removeAll();
+                this.add(scrollPane, BorderLayout.CENTER);
+                this.revalidate();
+                this.repaint();
+
+        } else {
+             // Validate and repaint to ensure layout is updated
         listPanel.revalidate();
         listPanel.repaint();
 
@@ -103,6 +142,7 @@ public class PokemonListPanel extends JPanel {
         JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
         verticalScrollBar.setUnitIncrement(16); // Adjust this value as needed
         verticalScrollBar.setBlockIncrement(50); // Adjust this value as needed
+        verticalScrollBar.setPreferredSize(new Dimension(0, 0));
 
         this.add(scrollPane, BorderLayout.CENTER);
 
@@ -111,6 +151,23 @@ public class PokemonListPanel extends JPanel {
         scrollPane.repaint();
         this.revalidate();
         this.repaint();
+        }
+
     }
 
+    /**
+     * Sets the highlighted pokemon field.
+     */
+    public void setIsHighlited(PokeRecord pokemon) {
+        highlightedPokemon = pokemon;
+    }
+
+    /**
+     * Returns the highlighted pokemon.
+     *
+     * @return PokeRecord highlighted Pokemon
+     */
+    public PokeRecord getIsHighlited() {
+        return highlightedPokemon;
+    }
 }

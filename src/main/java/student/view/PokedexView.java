@@ -19,17 +19,28 @@ public class PokedexView extends JFrame implements IPokedexView {
     private IndivPokemonPanel indivPokemonPanel;
     private PokemonListPanel pokemonListPanel;
     private PokemonTeamPanel pokemonTeamPanel;
-    private Font pokemonFont;
+    private static Font pokemonFont;
     private PokedexController controller = new PokedexController();
 
     public PokedexView() throws IOException {
+        // try to get pokemon font from resources, and set fonts in pokedexPanel
+        try {
+            pokemonFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/Font/gbboot.ttf")).deriveFont(20f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(pokemonFont);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            pokemonFont = new Font("Courier New", Font.BOLD, 20);
+        }
+        
         // initialize panels
-        pokedexPanel = new PokedexPanel();
+        pokedexPanel = PokedexPanel.getInstance();
+        pokedexPanel.initializePanel();
         indivPokemonPanel = IndivPokemonPanel.getInstance();
         // indivPokemonPanel.setRecord(null);
         pokemonListPanel = PokemonListPanel.getInstance();
         pokemonListPanel.initializePanel(controller.getAllPokemon());
-        pokemonTeamPanel = new PokemonTeamPanel();
+        pokemonTeamPanel = PokemonTeamPanel.getInstance();
         // create layered pane to put all panels together
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(1000, 700));
@@ -48,15 +59,7 @@ public class PokedexView extends JFrame implements IPokedexView {
         layeredPane.add(pokemonListPanel, Integer.valueOf(2));
         layeredPane.add(pokemonTeamPanel, Integer.valueOf(2));
 
-        // try to get pokemon font from resources, and set fonts in pokedexPanel
-        try {
-            pokemonFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/Font/gbboot.ttf")).deriveFont(20f);
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(pokemonFont);
-        } catch (IOException | FontFormatException e) {
-            e.printStackTrace();
-            pokemonFont = new Font("Courier New", Font.BOLD, 20);
-        }
+        // setting fonts after all panels have been added
         pokedexPanel.setFonts(pokemonFont);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -66,7 +69,7 @@ public class PokedexView extends JFrame implements IPokedexView {
         this.setVisible(true);
 
         viewToggleButtonListener();
-        addToggleButtonListener();
+        // addToggleButtonListener();
     }
 
     /**
@@ -81,6 +84,11 @@ public class PokedexView extends JFrame implements IPokedexView {
                     pokemonListPanel.setVisible(false);
                     pokemonTeamPanel.setVisible(true);
                     pokedexPanel.getViewToggleButton().setText("Team View");
+                    try {
+                        pokemonTeamPanel.refreshPanel();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 } else {
                     pokemonListPanel.setVisible(true);
                     pokemonTeamPanel.setVisible(false);
@@ -90,21 +98,21 @@ public class PokedexView extends JFrame implements IPokedexView {
         });
     }
 
-    /**
-     * Method listens for click and makes sure addToggleButton changes text with its status.
-     */
-    private void addToggleButtonListener() {
-        pokedexPanel.getAddToggleButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (pokedexPanel.getAddToggleButton().isSelected()) {
-                    pokedexPanel.getAddToggleButton().setText("Remove from Team");
-                } else {
-                    pokedexPanel.getAddToggleButton().setText("Add to Team");
-                }
-            }
-        });
-    }
+    // /**
+    //  * Method listens for click and makes sure addToggleButton changes text with its status.
+    //  */
+    // private void addToggleButtonListener() {
+    //     pokedexPanel.getAddToggleButton().addActionListener(new ActionListener() {
+    //         @Override
+    //         public void actionPerformed(ActionEvent e) {
+    //             if (pokedexPanel.getAddToggleButton().isSelected()) {
+    //                 pokedexPanel.getAddToggleButton().setText("Remove from Team");
+    //             } else {
+    //                 pokedexPanel.getAddToggleButton().setText("Add to Team");
+    //             }
+    //         }
+    //     });
+    // }
 
     /**
      * Method adds mouse listener to list items.
@@ -157,12 +165,7 @@ public class PokedexView extends JFrame implements IPokedexView {
      * @param status
      */
     public void setAddToggleButtonStatus(boolean status) {
-        pokedexPanel.getAddToggleButton().setSelected(status);
-        if (status) {
-            pokedexPanel.getAddToggleButton().setText("Remove from Team");
-        } else {
-            pokedexPanel.getAddToggleButton().setText("Add to Team");
-        }
+        // method not necessary, free to remove from interface
     }
 
     /**
@@ -195,5 +198,14 @@ public class PokedexView extends JFrame implements IPokedexView {
      */
     public String getSearchbarText() {
         return pokedexPanel.getSearchbarText();
+    }
+
+    /**
+     * Gets the pokemon font.
+     *
+     * @return returns pokemon font
+     */
+    public static Font getPokemonFont() {
+        return pokemonFont;
     }
 }

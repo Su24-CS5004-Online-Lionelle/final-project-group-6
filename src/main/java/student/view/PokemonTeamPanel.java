@@ -4,6 +4,7 @@ import java.util.List;
 
 import student.controller.PokedexController;
 import student.model.PokeRecord;
+import student.view.Components.GridBackground;
 import student.view.Components.ListItem;
 
 import java.awt.*;
@@ -12,12 +13,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class PokemonTeamPanel extends JPanel {
+        private static PokemonTeamPanel instance;
         PokedexController controller = new PokedexController();
         List<PokeRecord> pokemonTeam;
         List<ListItem> customRectTeam = new ArrayList<>();
         JPanel teamPanel = new JPanel();
 
-        public PokemonTeamPanel() throws IOException {
+        private PokemonTeamPanel() throws IOException {
+            // prevents instantiation
+            refreshPanel();
+        }
+
+        // Public method to provide access to the instance
+        public static PokemonTeamPanel getInstance() throws IOException {
+            if (instance == null) {
+                instance = new PokemonTeamPanel();
+            }
+            return instance;
+        }
+
+        /**
+         * Initializes the team view.
+         *
+         * @throws IOException
+         */
+        public void initializePanel() throws IOException {
             setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             pokemonTeam = controller.getAllPokemonInTeam();
             for (PokeRecord pokemon : pokemonTeam) {
@@ -31,11 +51,67 @@ public class PokemonTeamPanel extends JPanel {
 
             teamPanel.setLayout(new BoxLayout(teamPanel, BoxLayout.Y_AXIS));
 
-            JScrollPane scrollPane = new JScrollPane(teamPanel);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            if (pokemonTeam.size() == 0) {
+                // Set GridBackground as the background
+                GridBackground gridBackground = new GridBackground();
+                gridBackground.setLayout(new BorderLayout());
+                gridBackground.add(teamPanel, BorderLayout.CENTER);
 
-            this.add(scrollPane, BorderLayout.CENTER);
+                teamPanel.setOpaque(false);
+
+                // Create a JPanel to show the message
+                JPanel messagePanel = new JPanel();
+                messagePanel.setLayout(new BorderLayout());
+                JLabel messageLabel = new JLabel("Pokemon team is empty", JLabel.CENTER);
+                messagePanel.setOpaque(false);
+                messageLabel.setFont(PokedexView.getPokemonFont().deriveFont(30f));
+                messagePanel.add(messageLabel, BorderLayout.CENTER);
+
+
+                // Add the messagePanel to the center of gridBackground
+                gridBackground.add(messagePanel, BorderLayout.CENTER);
+
+
+                JScrollPane scrollPane = new JScrollPane(gridBackground);
+                scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+                scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+                // Remove all components from the main panel and add the scrollPane
+                this.removeAll();
+                this.add(scrollPane, BorderLayout.CENTER);
+                this.revalidate();
+                this.repaint();
+            } else {
+                JScrollPane scrollPane = new JScrollPane(teamPanel);
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+                scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+                // Remove all components from the main panel and add the scrollPane
+                scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+                this.removeAll();
+                this.add(scrollPane, BorderLayout.CENTER);
+                this.revalidate();
+                this.repaint();
+            }
+        }
+
+        public void refreshPanel() throws IOException {
+            if (pokemonTeam != null && customRectTeam != null) {
+                pokemonTeam.clear();
+                customRectTeam.clear();
+            }
+            teamPanel.removeAll();
+            this.removeAll();
+
+            initializePanel();
+
+            teamPanel.revalidate();
+            teamPanel.repaint();
+
+            this.revalidate();
+            this.repaint();
+
         }
 
         // Method to update the team.

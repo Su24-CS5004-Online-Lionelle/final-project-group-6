@@ -1,20 +1,50 @@
 package student.view;
 import javax.swing.*;
+
+import student.controller.PokedexController;
+import student.model.PokeRecord;
+
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.io.IOException;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.util.List;
 
 public class PokedexPanel extends JPanel {
+    private static PokedexPanel instance;
 
     private JTextField searchbar;
     private CheckableComboBox typeSelect;
     private JButton saveButton;
     private JToggleButton addToggleButton;
     private JToggleButton viewToggleButton;
+    private PokedexController controller = new PokedexController();
 
-    public PokedexPanel() {
+    // Private constructor to prevent instantiation
+    private PokedexPanel() {
+        // Initialization code here
+        // create add team toggle button
+        addToggleButton = new JToggleButton("Add to Team");
+        addToggleButton.setBounds(68, 560, 220, 30); // x, y, width, height
+        addToggleButton.setForeground(Color.BLACK);
+        addToggleButton.setBackground(new Color(144, 238, 144));
+        this.add(addToggleButton);
+        addToggleButton.setEnabled(false);
+    }
+
+    // Public method to provide access to the instance
+    public static PokedexPanel getInstance() {
+        if (instance == null) {
+            instance = new PokedexPanel();
+        }
+        return instance;
+    }
+
+    /**
+     * Initialize panel.
+     */
+    public void initializePanel() {
         this.setPreferredSize(new Dimension(1000, 700));
         this.setBackground(new Color(20, 20, 60));
         this.setLayout(null); // Use null layout for absolute positioning
@@ -43,12 +73,7 @@ public class PokedexPanel extends JPanel {
         saveButton.setBackground(new Color (135, 206, 250));
         this.add(saveButton);
 
-        // create add team toggle button
-        addToggleButton = new JToggleButton("Add to Team");
-        addToggleButton.setBounds(68, 560, 220, 30); // x, y, width, height
-        addToggleButton.setForeground(Color.BLACK);
-        addToggleButton.setBackground(new Color(144, 238, 144));
-        this.add(addToggleButton);
+
 
         // create view team toggle button
         viewToggleButton = new JToggleButton("List View");
@@ -75,6 +100,34 @@ public class PokedexPanel extends JPanel {
     // get addToggleButton
     public JToggleButton getAddToggleButton() {
         return addToggleButton;
+    }
+
+    public void refreshAddToggleButton() {
+        PokeRecord currSelectedPokemon = PokemonListPanel.getInstance().getIsHighlited();
+        JToggleButton addRemoveButton = getAddToggleButton();
+        try {
+            if (controller.isPokemonInTeam(currSelectedPokemon)) {
+                addRemoveButton.setText("Remove from team");
+                addRemoveButton.setEnabled(true);
+                addRemoveButton.setActionCommand("Remove from Team");
+                addRemoveButton.revalidate();
+                addRemoveButton.repaint();
+            } else if (!controller.isPokemonInTeam(currSelectedPokemon)) {
+                addRemoveButton.setText("Add to team");
+                addRemoveButton.setEnabled(true);
+                addRemoveButton.setActionCommand("Add to Team");
+                addRemoveButton.revalidate();
+                addRemoveButton.repaint();
+            } else {
+                addRemoveButton.setText("Add to team");
+                addRemoveButton.setEnabled(false);
+                addRemoveButton.revalidate();
+                addRemoveButton.repaint();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     // get viewToggleButton
