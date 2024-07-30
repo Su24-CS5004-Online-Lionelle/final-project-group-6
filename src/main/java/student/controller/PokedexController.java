@@ -73,7 +73,8 @@ public class PokedexController {
      */
     public List<PokeRecord> filterByContains(String input) throws IOException {
         return model.getAllPokemon().stream()
-            .filter(pokemon -> pokemon.name().toLowerCase().contains(input.toLowerCase()))
+            .filter(pokemon -> pokemon.name().toLowerCase().contains(input.toLowerCase())
+                                || String.valueOf(pokemon.id()).contains(input))
             .collect(Collectors.toList());
     }
 

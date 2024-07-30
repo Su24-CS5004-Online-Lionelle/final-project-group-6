@@ -144,7 +144,7 @@ public class EventController implements ActionListener, ItemListener, KeyListene
         String input = pokedexView.getSearchbarText();
         PokemonListPanel listPanel = PokemonListPanel.getInstance();
         try {
-            List<PokeRecord> records = controller.filterByContains(input);
+            List<PokeRecord> records = controller.filterByContains(input); // searchs both name & ID
             listPanel.refreshPanel(records);
         } catch (Exception ex) {
             ex.printStackTrace();
