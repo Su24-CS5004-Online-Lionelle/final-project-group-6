@@ -19,6 +19,8 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 public class EventController implements ActionListener, ItemListener, KeyListener {
 
     private PokedexView pokedexView;
@@ -93,9 +95,27 @@ public class EventController implements ActionListener, ItemListener, KeyListene
     @Override
     public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
-            System.out.println(pokedexView.getTypes());
+            // this line solves the issue of the last checked item not being sent to controller.
+            // Anything below this can be changed.
+            SwingUtilities.invokeLater(() -> {
+                // get selected types from view
+                List<String> checkedItems = pokedexView.getTypes();
+                // give records all pokemon as fallback
+                List<PokeRecord> records = controller.getAllPokemon();
+                // try to run filter
+                try {
+                    records = controller.filterByTypes(checkedItems);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                // update list panel with new list of pokemon
+                PokemonListPanel listPanel = PokemonListPanel.getInstance();
+                listPanel.refreshPanel(records);
+                //System.out.println(checkedItems);
+            });
         }
     }
+
 
     @Override
     public void keyTyped(KeyEvent e) {
