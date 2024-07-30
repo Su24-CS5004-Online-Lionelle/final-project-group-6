@@ -111,10 +111,31 @@ public class PokedexController {
      * @return A list of Pokémon with the given type.
      * @throws IOException
      */
-    public List<PokeRecord> filterByType(String type) throws IOException {
-        return model.getAllPokemon().stream()
-            .filter(pokemon -> pokemon.types().contains(type))
-            .collect(Collectors.toList());
+    public List<PokeRecord> filterByTypes(List<String> types) throws IOException {
+        // this method doesn't work yet
+        // convert types to lowercase
+        List<String> lowerCaseTypes = types.stream()
+                                       .map(String::toLowerCase)
+                                       .collect(Collectors.toList());
+        // get all pokemon in list
+        List<PokeRecord> pokemonList = model.getAllPokemon();
+        // make a list to store the pokemon that pass filter
+        List<PokeRecord> filteredPokemonList = new ArrayList<>();
+        // go through each pokemon
+        for (PokeRecord pokemon : pokemonList) {
+            // print pokemon's types (list array)
+            System.out.println(pokemon.types());
+            // print out inputted types (list array)
+            System.out.println(lowerCaseTypes);
+
+            // if pokemon types contain all of the inputted types add it to list
+            if (pokemon.types().containsAll(lowerCaseTypes)) {
+                System.out.println("Pokemon contains all types!!!");
+                filteredPokemonList.add(pokemon);
+            }
+        }
+        // return filtered pokemon list
+        return filteredPokemonList;
     }
 
     /**
