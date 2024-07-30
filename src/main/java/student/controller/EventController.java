@@ -95,23 +95,34 @@ public class EventController implements ActionListener, ItemListener, KeyListene
     @Override
     public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
-            // this line solves the issue of the last checked item not being sent to controller.
-            // Anything below this can be changed.
             SwingUtilities.invokeLater(() -> {
-                // get selected types from view
+                // Get selected types from the view
                 List<String> checkedItems = pokedexView.getTypes();
-                // give records all pokemon as fallback
-                List<PokeRecord> records = controller.getAllPokemon();
-                // try to run filter
+                
+                // Debug: Print checked items to verify the selection
+                System.out.println("Selected Types: " + checkedItems);
+                
                 try {
-                    records = controller.filterByTypes(checkedItems);
+                    // Get all Pokémon as a fallback
+                    List<PokeRecord> records = controller.getAllPokemon();
+                    
+                    if (checkedItems.isEmpty()) {
+                        // If no types are selected, display all Pokémon
+                        System.out.println("No types selected, showing all Pokémon");
+                        PokemonListPanel.getInstance().refreshPanel(records);
+                    } else {
+                        // Filter records by selected types
+                        List<PokeRecord> filteredRecords = controller.filterByTypes(checkedItems);
+                        
+                        // Debug: Print filtered records count
+                        System.out.println("Filtered Records Count: " + filteredRecords.size());
+                        
+                        // Update the list panel with the filtered list of Pokémon
+                        PokemonListPanel.getInstance().refreshPanel(filteredRecords);
+                    }
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
-                // update list panel with new list of pokemon
-                PokemonListPanel listPanel = PokemonListPanel.getInstance();
-                listPanel.refreshPanel(records);
-                //System.out.println(checkedItems);
             });
         }
     }

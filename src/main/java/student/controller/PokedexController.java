@@ -1,6 +1,7 @@
 package student.controller;
 
 import student.model.PokemonModel;
+import student.model.PokemonTypes.PokemonType;
 import student.model.PokeRecord;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -115,28 +116,31 @@ public class PokedexController {
         // this method doesn't work yet
         // convert types to lowercase
         List<String> lowerCaseTypes = types.stream()
-                                       .map(String::toLowerCase)
-                                       .collect(Collectors.toList());
-        // get all pokemon in list
-        List<PokeRecord> pokemonList = model.getAllPokemon();
-        // make a list to store the pokemon that pass filter
-        List<PokeRecord> filteredPokemonList = new ArrayList<>();
-        // go through each pokemon
-        for (PokeRecord pokemon : pokemonList) {
-            // print pokemon's types (list array)
-            System.out.println(pokemon.types());
-            // print out inputted types (list array)
-            System.out.println(lowerCaseTypes);
+        .map(String::toLowerCase)
+        .collect(Collectors.toList());
 
-            // if pokemon types contain all of the inputted types add it to list
-            if (pokemon.types().containsAll(lowerCaseTypes)) {
-                System.out.println("Pokemon contains all types!!!");
-                filteredPokemonList.add(pokemon);
-            }
+        // Get all Pokémon in the list
+        List<PokeRecord> pokemonList = model.getAllPokemon();
+        // Make a list to store the Pokémon that pass the filter
+        List<PokeRecord> filteredPokemonList = new ArrayList<>();
+
+        // Iterate through each Pokémon
+        for (PokeRecord pokemon : pokemonList) {
+        // Convert Pokémon types to lowercase and check if any match the filter
+        boolean matches = pokemon.types().stream()
+        .map(type -> type.toString().toLowerCase()) // Using toString() to get the type name
+        .anyMatch(lowerCaseTypes::contains);
+
+        // If the Pokémon has at least one matching type, add it to the list
+        if (matches) {
+        filteredPokemonList.add(pokemon);
         }
-        // return filtered pokemon list
+        }
+
+        // Return the filtered Pokémon list
         return filteredPokemonList;
     }
+        
 
     /**
      * Sorts Pokémon by name.
