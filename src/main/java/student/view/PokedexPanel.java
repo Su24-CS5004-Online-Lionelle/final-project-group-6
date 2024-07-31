@@ -110,12 +110,14 @@ public class PokedexPanel extends JPanel {
                 if (controller.isPokemonInTeam(currSelectedPokemon)) {
                     addRemoveButton.setText("Remove from team");
                     addRemoveButton.setEnabled(true);
+                    addRemoveButton.setSelected(true);
                     addRemoveButton.setActionCommand("Remove from Team");
                     addRemoveButton.revalidate();
                     addRemoveButton.repaint();
                 } else if (!controller.isPokemonInTeam(currSelectedPokemon)) {
                     addRemoveButton.setText("Add to team");
                     addRemoveButton.setEnabled(true);
+                    addRemoveButton.setSelected(false);
                     addRemoveButton.setActionCommand("Add to Team");
                     addRemoveButton.revalidate();
                     addRemoveButton.repaint();
@@ -123,6 +125,7 @@ public class PokedexPanel extends JPanel {
             } else {
                 addRemoveButton.setText("Add to team");
                 addRemoveButton.setEnabled(false);
+                addRemoveButton.setSelected(false);
                 addRemoveButton.revalidate();
                 addRemoveButton.repaint();
             }
