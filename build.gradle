@@ -42,6 +42,7 @@ dependencies {
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation 'org.openjfx:javafx-controls:17.0.1'
     implementation 'org.openjfx:javafx-fxml:17.0.1'
+    implementation files('jlayer-1.0.1.jar')
 }
 
 run {
