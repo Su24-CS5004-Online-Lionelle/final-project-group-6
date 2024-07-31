@@ -25,7 +25,7 @@ public class IndivPokemonPanel extends JPanel {
 
     // Private constructor to prevent instantiation
     private IndivPokemonPanel() {
-        initializeComponents();
+        refreshPanel();
     }
 
     // Public method to provide access to the instance

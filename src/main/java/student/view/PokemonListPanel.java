@@ -18,6 +18,7 @@ public class PokemonListPanel extends JPanel {
         List<ListItem> customRectList = new ArrayList<>();
         JPanel listPanel = new JPanel();
         PokeRecord highlightedPokemon;
+        List<PokeRecord> currRecords = new ArrayList<>();
 
         // Private constructor to prevent instantiation
         private PokemonListPanel() {
@@ -85,6 +86,9 @@ public class PokemonListPanel extends JPanel {
         System.out.println(records.size());
         for (PokeRecord pokemon : records) {
             ListItem listItem = new ListItem(pokemon);
+            if (highlightedPokemon != null && pokemon.name().equals(highlightedPokemon.name())) {
+                listItem.highlightPanel();
+            }
             customRectList.add(listItem);
         }
 
@@ -92,13 +96,6 @@ public class PokemonListPanel extends JPanel {
             item.setPreferredSize(new Dimension(getWidth(), 100));
             listPanel.add(item);
         }
-
-        // // Calculate the total height needed for the listPanel
-        // int totalHeight = 0;
-        // for (ListItem item : customRectList) {
-        //     totalHeight += item.getPreferredSize().height;
-        // }
-        // listPanel.setPreferredSize(new Dimension(200, totalHeight));
 
         if (records.size() == 0) {
             // Set GridBackground as the background
@@ -169,5 +166,21 @@ public class PokemonListPanel extends JPanel {
      */
     public PokeRecord getIsHighlited() {
         return highlightedPokemon;
+    }
+
+    /** Gets the custom rect list.
+     *
+     * @return returns a List<ListItem>
+     */
+    public List<ListItem> getItemList() {
+        return customRectList;
+    }
+
+    /** Gets current records of pokemon displayed.
+     *
+     * @return a list of PokeRecords
+     */
+    public List<PokeRecord> getCurrRecords() {
+        return currRecords;
     }
 }

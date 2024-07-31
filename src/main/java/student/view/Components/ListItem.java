@@ -134,7 +134,7 @@ public class ListItem extends JPanel {
         }
     }
 
-    private void highlightPanel() {
+    public void highlightPanel() {
         // Unhighlight all panels
         for (ListItem panel : panels) {
             panel.isHighlighted = false;
@@ -145,6 +145,13 @@ public class ListItem extends JPanel {
         PokemonListPanel.getInstance().setIsHighlited(currPokemon);
         PokedexPanel.getInstance().refreshAddToggleButton();
         isHighlighted = true;
+        repaint();
+    }
+
+    public void unhighlight() {
+        PokemonListPanel.getInstance().setIsHighlited(null);
+        PokedexPanel.getInstance().refreshAddToggleButton();
+        isHighlighted = false;
         repaint();
     }
 

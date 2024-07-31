@@ -106,18 +106,20 @@ public class PokedexPanel extends JPanel {
         PokeRecord currSelectedPokemon = PokemonListPanel.getInstance().getIsHighlited();
         JToggleButton addRemoveButton = getAddToggleButton();
         try {
-            if (controller.isPokemonInTeam(currSelectedPokemon)) {
-                addRemoveButton.setText("Remove from team");
-                addRemoveButton.setEnabled(true);
-                addRemoveButton.setActionCommand("Remove from Team");
-                addRemoveButton.revalidate();
-                addRemoveButton.repaint();
-            } else if (!controller.isPokemonInTeam(currSelectedPokemon)) {
-                addRemoveButton.setText("Add to team");
-                addRemoveButton.setEnabled(true);
-                addRemoveButton.setActionCommand("Add to Team");
-                addRemoveButton.revalidate();
-                addRemoveButton.repaint();
+            if (currSelectedPokemon != null) {
+                if (controller.isPokemonInTeam(currSelectedPokemon)) {
+                    addRemoveButton.setText("Remove from team");
+                    addRemoveButton.setEnabled(true);
+                    addRemoveButton.setActionCommand("Remove from Team");
+                    addRemoveButton.revalidate();
+                    addRemoveButton.repaint();
+                } else if (!controller.isPokemonInTeam(currSelectedPokemon)) {
+                    addRemoveButton.setText("Add to team");
+                    addRemoveButton.setEnabled(true);
+                    addRemoveButton.setActionCommand("Add to Team");
+                    addRemoveButton.revalidate();
+                    addRemoveButton.repaint();
+                }
             } else {
                 addRemoveButton.setText("Add to team");
                 addRemoveButton.setEnabled(false);
