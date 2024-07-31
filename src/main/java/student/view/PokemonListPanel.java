@@ -89,6 +89,8 @@ public class PokemonListPanel extends JPanel {
             if (highlightedPokemon != null && pokemon.name().equals(highlightedPokemon.name())) {
                 listItem.highlightPanel();
             }
+            listItem.setPreferredSize(new Dimension(400, 100)); // Set fixed size for each ListItem
+            listItem.setMaximumSize(new Dimension(400, 100)); // Ensure max height is 100
             customRectList.add(listItem);
         }
 
@@ -130,26 +132,30 @@ public class PokemonListPanel extends JPanel {
                 this.repaint();
 
         } else {
-             // Validate and repaint to ensure layout is updated
-        listPanel.revalidate();
-        listPanel.repaint();
+            // Validate and repaint to ensure layout is updated
+            listPanel.revalidate();
+            listPanel.repaint();
 
-        JScrollPane scrollPane = new JScrollPane(listPanel);
-        // Set custom scrolling increments
-        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
-        verticalScrollBar.setUnitIncrement(16); // Adjust this value as needed
-        verticalScrollBar.setBlockIncrement(50); // Adjust this value as needed
-        verticalScrollBar.setPreferredSize(new Dimension(0, 0));
+            JScrollPane scrollPane = new JScrollPane(listPanel);
+            // Set custom scrolling increments
+            JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+            verticalScrollBar.setUnitIncrement(16); // Adjust this value as needed
+            verticalScrollBar.setBlockIncrement(50); // Adjust this value as needed
+            verticalScrollBar.setPreferredSize(new Dimension(0, 0));
+            if (records.size() < 4) {
+                scrollPane.setPreferredSize(new Dimension(400, records.size() * 100));
+            } else {
+                scrollPane.setPreferredSize(new Dimension(400, 400)); // Fixed size for more than 4 items
+            }
 
-        this.add(scrollPane, BorderLayout.CENTER);
+            this.add(scrollPane, BorderLayout.CENTER);
 
-        // Revalidate and repaint the main panel to update the UI
-        scrollPane.revalidate();
-        scrollPane.repaint();
-        this.revalidate();
-        this.repaint();
+            // Revalidate and repaint the main panel to update the UI
+            scrollPane.revalidate();
+            scrollPane.repaint();
+            this.revalidate();
+            this.repaint();
         }
-
     }
 
     /**
