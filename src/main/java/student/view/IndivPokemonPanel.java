@@ -132,7 +132,7 @@ public class IndivPokemonPanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 JFrame tableFrame = new JFrame("Moves Table");
                 tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                tableFrame.setSize(1500, 600); // Set the size of the new window.
+                tableFrame.setSize(1450, 600); // Set the size of the new window.
                 tableFrame.setLocationRelativeTo(null); // Center the new window.
 
                 /** Get the table and add it to the new window. */
@@ -189,7 +189,15 @@ public class IndivPokemonPanel extends JPanel {
             data[i][6] = "";
         }
         /** Using data and column name to create the table. */
-        JTable moveTable = new JTable(data, columnNames);
+        /** And make the JTable non-editable. */
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+               //all cells false
+               return false;
+            }
+        };
+        JTable moveTable = new JTable(tableModel);
         moveTable.setRowHeight(70); // Set the row height of the table.
         moveTable.setShowGrid(false); // Set to not show the grid.
 
