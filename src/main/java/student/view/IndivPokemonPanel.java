@@ -11,15 +11,13 @@ import student.model.PokemonTypes.PokemonType;
 import student.view.Components.GridBackground;
 import java.awt.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.UnknownHostException;
-import java.net.MalformedURLException;
-import java.io.BufferedInputStream;
-import java.net.URLConnection;
-import javazoom.jl.player.Player;
+import org.newdawn.easyogg.OggClip;
 
 /** IndivPokemonPanel class that displays basic info of each Pokemon. */
 public class IndivPokemonPanel extends JPanel {
@@ -101,19 +99,14 @@ public class IndivPokemonPanel extends JPanel {
             /** Get the sound string. */
             String soundLink = controller.getCryByName(this.record.name());
             URL soundURL = new URL(soundLink);
-            URLConnection urlConnection = soundURL.openConnection();
-            BufferedInputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
-            Player player = new Player(inputStream);
-            System.out.println("player is done.");
-            player.play();
+            InputStream in = soundURL.openStream();
+            OggClip clip = new OggClip(in);
+            clip.play();
         } catch (UnknownHostException e) {
             GUIUtil.showMessage("Error: " + e.getMessage(), "UnknownHostException");
-        } catch (MalformedURLException  e) {
-            GUIUtil.showMessage("Error: Sound file not found.", "MalformedURLException");
         } catch (IOException ex) {
             GUIUtil.showMessage("Error: " + ex.getMessage(), "IOException");
         } catch (Exception e) {
-            e.printStackTrace();
             GUIUtil.showMessage("Error: " + e.getMessage(), "Exception");
         }
     }
@@ -178,7 +171,7 @@ public class IndivPokemonPanel extends JPanel {
     /**
      * Get move info from the list that contains move info.
      *
-     * @return table of move info.
+     * @return scorll panel that contains table of move info.
      */
     private JScrollPane getMoveFromList() {
         List<PokemonMove> movesList = this.record.moves();
