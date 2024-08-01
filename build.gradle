@@ -16,7 +16,7 @@ repositories {
 }
 
 application {
-    mainClass.set("") /** Update with your main driver app location */
+    mainClass.set("PokemonApp") /** Update with your main driver app location */
 }
 
 dependencies {
@@ -40,19 +40,17 @@ dependencies {
     // jackson dataformat csv
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.0'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-    implementation 'org.openjfx:javafx-controls:17.0.1'
-    implementation 'org.openjfx:javafx-fxml:17.0.1'
 }
 
-run {
-    doFirst {
-        jvmArgs = [
-            '--module-path', classpath.asPath,
-            '--add-modules', 'javafx.controls,javafx.fxml',
-            // Add other modules as needed
-        ]
-    }
-}
+// run {
+//     doFirst {
+//         jvmArgs = [
+//             '--module-path', classpath.asPath,
+//             '--add-modules', 'javafx.controls,javafx.fxml',
+//             // Add other modules as needed
+//         ]
+//     }
+// }
 
 test {
     useJUnitPlatform()

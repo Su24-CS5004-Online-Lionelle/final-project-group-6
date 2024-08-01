@@ -101,7 +101,7 @@ public class PokemonModel {
     private PokeRecord getRecordHelper(InputStream ipDetailStream) throws Exception, UnknownHostException {
             PokeRecord fetchedRecord;
             String ipDetailStr = new String(ipDetailStream.readAllBytes()).replace("\n", "");
-            // Change the IP details from input stream to a PokeRecord object using ObjectMapper。
+            // Change the IP details from input stream to a PokeRecord object using ObjectMapper.
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             TypeReference<PokeRecord> typeRef = new TypeReference<PokeRecord>() { };
