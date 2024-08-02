@@ -76,8 +76,8 @@ public class IndivPokemonPanel extends JPanel {
             Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             ImageIcon imageIcon = new ImageIcon(scaledImage);
             JLabel imageLabel = new JLabel(imageIcon);
-            /** Add the cry sound. */
             imagePanel.add(imageLabel);
+            /** Add the cry sound. */
             imagePanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -211,9 +211,9 @@ public class IndivPokemonPanel extends JPanel {
                 /** Set custom font and size. */
                 c.setFont(PokedexView.getPokemonFont().deriveFont(30f));
                 if (row % 2 == 0) {
-                    c.setBackground(new Color(255, 255, 255)); // White background for even rows.
+                    c.setBackground(new Color(240, 240, 240)); // Light gray background for even rows.
                 } else {
-                    c.setBackground(new Color(240, 240, 240)); // Light gray background for odd rows.
+                    c.setBackground(new Color(255, 255, 255)); // White background for odd rows.   
                 }
                 /** Set foreground color for text. */
                 c.setForeground(Color.BLACK);
@@ -233,13 +233,6 @@ public class IndivPokemonPanel extends JPanel {
         /** Add the table into scroll panel. */
         JScrollPane moveScrollPane = new JScrollPane(moveTable);
         return moveScrollPane;
-    }
-
-    /**
-     * Method to start displaying the panel.
-     */
-    public void start() {
-        this.setVisible(true);
     }
 
     /**
