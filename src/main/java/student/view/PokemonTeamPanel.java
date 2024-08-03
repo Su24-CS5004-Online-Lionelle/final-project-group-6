@@ -116,11 +116,6 @@ public class PokemonTeamPanel extends JPanel {
 
         }
 
-        // Method to update the team.
-        public void updatePanel(List<PokeRecord> pokeRecords) {
-            // code
-        }
-
         // Method to add mouse listener to list items
         public void addMouseListenerToListItems(MouseAdapter mouseAdapter) {
             for (ListItem listItem : customRectTeam) {
