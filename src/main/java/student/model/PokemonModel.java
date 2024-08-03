@@ -461,7 +461,6 @@ public class PokemonModel {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
             objectMapper.writeValue(out, records);
-            GUIUtil.showMessage("Your team is sucessfully saved out.", "Info");
         } catch (IOException e) {
             GUIUtil.showMessage("IOException: " + e.getMessage(), "Error");
         } catch (Exception e) {

@@ -97,7 +97,7 @@ public class PokedexPanel extends JPanel {
         this.add(typeSelect);
 
         // create save button
-        saveButton = new JButton("Save Team");
+        saveButton = new JButton("Export Team");
         saveButton.setBounds(780, 570, 150, 30); // x, y, width, height
         saveButton.setForeground(Color.BLACK);
         saveButton.setBackground(new Color (135, 206, 250));
