@@ -272,4 +272,15 @@ public class PokedexController {
     public String getCryByName(String name) throws Exception, UnknownHostException {
         return model.getCryFromAPI(name);
     }
+
+    /**
+     * Exports the Pokémon team data to a specified JSON file.
+     * 
+     * @param filePath The path of the file where the Pokémon team data will be saved.
+     * @throws IOException If an I/O error occurs during the file writing process.
+     */
+    public void ExportTeamToFile(String filePath) throws IOException {
+        List<PokeRecord> team = model.getAllPokemonInTeam();
+        model.writeJsonData(team, filePath);
+    }
 }
