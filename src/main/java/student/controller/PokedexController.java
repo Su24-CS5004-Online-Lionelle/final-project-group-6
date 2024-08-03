@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.net.UnknownHostException;
 
 /**
  * The PokedexController class provides methods to filter and sort Pokémon data.
@@ -257,5 +258,18 @@ public class PokedexController {
      */
     public void removePokemonFromTeam(PokeRecord pokemon) {
         model.removePokemonFromTeam(pokemon);
+    }
+
+    /**
+     * Get the cry of the Pokemon.
+     *
+     * @param name The name of the Pokemon.
+     * 
+     * @return The string that contains the link of cry.
+     * 
+     * @throws Exception,UnknownHostException
+     */
+    public String getCryByName(String name) throws Exception, UnknownHostException {
+        return model.getCryFromAPI(name);
     }
 }

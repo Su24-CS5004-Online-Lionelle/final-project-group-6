@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import student.model.PokeRecord;
+import student.view.IndivPokemonPanel;
 import student.view.PokedexPanel;
 import student.view.PokedexView;
 import student.view.PokemonListPanel;
@@ -25,6 +26,8 @@ public class EventController implements ActionListener, ItemListener, KeyListene
 
     private PokedexView pokedexView;
     private PokedexController controller = new PokedexController();
+    private PokemonListPanel listPanel = PokemonListPanel.getInstance();
+    private List<PokeRecord> currRecords;
 
     public EventController(PokedexView view) {
         this.pokedexView = view;
@@ -61,10 +64,10 @@ public class EventController implements ActionListener, ItemListener, KeyListene
                 System.out.println("Save Team Button Pressed!");
                 break;
             case "Add to Team":
-                System.out.println("Add to team clicked!");
-                PokeRecord recordToAdd = PokemonListPanel.getInstance().getIsHighlited();
+                PokeRecord recordToAdd = listPanel.getIsHighlited();
                 controller.addPokemonToTeam(recordToAdd);
-                PokemonListPanel.getInstance().refreshPanel(null);
+
+                listPanel.refreshPanel(currRecords);
                 PokedexPanel.getInstance().refreshAddToggleButton();
                 try {
                     PokemonTeamPanel.getInstance().refreshPanel();
@@ -74,10 +77,14 @@ public class EventController implements ActionListener, ItemListener, KeyListene
                 }
                 break;
             case "Remove from Team":
-                System.out.println("Removed from team clicked!");
                 PokeRecord recordToRemove = PokemonListPanel.getInstance().getIsHighlited();
+
+                // unhighlight all pokemon
+                listPanel.getItemList().forEach(item -> item.unhighlight());
                 controller.removePokemonFromTeam(recordToRemove);
-                PokemonListPanel.getInstance().refreshPanel(null);
+                IndivPokemonPanel.getInstance().setRecord(listPanel.getIsHighlited());
+                IndivPokemonPanel.getInstance().refreshPanel();
+                listPanel.refreshPanel(currRecords);
                 PokedexPanel.getInstance().refreshAddToggleButton();
                 try {
                     PokemonTeamPanel.getInstance().refreshPanel();
@@ -98,14 +105,14 @@ public class EventController implements ActionListener, ItemListener, KeyListene
             SwingUtilities.invokeLater(() -> {
                 // Get selected types from the view
                 List<String> checkedItems = pokedexView.getTypes();
-                
+
                 // Debug: Print checked items to verify the selection
                 System.out.println("Selected Types: " + checkedItems);
-                
+
                 try {
                     // Get all Pokémon as a fallback
                     List<PokeRecord> records = controller.getAllPokemon();
-                    
+
                     if (checkedItems.isEmpty()) {
                         // If no types are selected, display all Pokémon
                         System.out.println("No types selected, showing all Pokémon");
@@ -113,11 +120,12 @@ public class EventController implements ActionListener, ItemListener, KeyListene
                     } else {
                         // Filter records by selected types
                         List<PokeRecord> filteredRecords = controller.filterByTypes(checkedItems);
-                        
+
                         // Debug: Print filtered records count
                         System.out.println("Filtered Records Count: " + filteredRecords.size());
-                        
+
                         // Update the list panel with the filtered list of Pokémon
+                        currRecords = filteredRecords;
                         PokemonListPanel.getInstance().refreshPanel(filteredRecords);
                     }
                 } catch (IOException e1) {
