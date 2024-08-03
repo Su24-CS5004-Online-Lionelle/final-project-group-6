@@ -33,11 +33,6 @@ public class PokemonListPanel extends JPanel {
             return instance;
         }
 
-        // Method to update the list.
-        public void updatePanel(List<PokeRecord> pokeRecords) {
-            // code
-        }
-
         // Method to add mouse listener to list items
         public void addMouseListenerToListItems(MouseAdapter mouseAdapter) {
             for (ListItem listItem : customRectList) {

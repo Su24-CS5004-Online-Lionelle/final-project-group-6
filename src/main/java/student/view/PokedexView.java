@@ -69,7 +69,6 @@ public class PokedexView extends JFrame implements IPokedexView {
         this.setVisible(true);
 
         viewToggleButtonListener();
-        // addToggleButtonListener();
     }
 
     /**
@@ -97,22 +96,6 @@ public class PokedexView extends JFrame implements IPokedexView {
             }
         });
     }
-
-    // /**
-    //  * Method listens for click and makes sure addToggleButton changes text with its status.
-    //  */
-    // private void addToggleButtonListener() {
-    //     pokedexPanel.getAddToggleButton().addActionListener(new ActionListener() {
-    //         @Override
-    //         public void actionPerformed(ActionEvent e) {
-    //             if (pokedexPanel.getAddToggleButton().isSelected()) {
-    //                 pokedexPanel.getAddToggleButton().setText("Remove from Team");
-    //             } else {
-    //                 pokedexPanel.getAddToggleButton().setText("Add to Team");
-    //             }
-    //         }
-    //     });
-    // }
 
     /**
      * Method adds mouse listener to list items.
@@ -147,41 +130,6 @@ public class PokedexView extends JFrame implements IPokedexView {
      */
     public void setKeyListeners(KeyListener press) {
         this.pokedexPanel.getSearchbar().addKeyListener(press);
-    }
-
-    /**
-     * Method gets the status of addToggleButton.
-     * If it's False, the button says "Add to Team." If True, it says "Remove from Team."
-     * @return boolean
-     */
-    public boolean getAddToggleButtonStatus() {
-        return pokedexPanel.getAddToggleButton().isSelected();
-    }
-
-    /**
-     * Method sets the status of AddToggleButton.
-     * Setting to False sets the button to "Add to Team" status.
-     * Setting to True sets the burron to "Remove from Team" status.
-     * @param status
-     */
-    public void setAddToggleButtonStatus(boolean status) {
-        // method not necessary, free to remove from interface
-    }
-
-    /**
-     * Method updates the pokemon list by passing in new list of pokerecords.
-     * @param pokeRecords
-     */
-    public void updatePokemonListPanel(List<PokeRecord> pokeRecords) {
-        pokemonListPanel.updatePanel(pokeRecords);
-    }
-
-    /**
-     * Method updates the pokemon team by passing in new list of pokerecords.
-     * @param pokeRecords
-     */
-    public void updatePokemonTeamPanel(List<PokeRecord> pokeRecords) {
-        pokemonListPanel.updatePanel(pokeRecords);
     }
 
     /**
