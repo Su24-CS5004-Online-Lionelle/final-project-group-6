@@ -5,11 +5,77 @@
 The PokedexApp allows users to view a list of pokemon from 1st generation with the ability for filter by name, id, and type. It features an individual screen displaying each pokemon, and a team screen, allowing the user to add and remove pokemon from the team.
 
 <div style="display: flex; justify-content: center;">
-<img src="../data/designs/Screenshots/UISearch.png" alt="Description of the image" width="500" height="500">
+<img src="./Images/AppStart.png" alt="Description of the image">
 </div>
 
+## Features
 
-# Individual Pokemon page
+- Scroll through the list of pokemon
+- Display individual pokemon information
+- Add/remove pokemon to/from team
+- Save the pokemon team as a json file
+- Filter the list by name, id, and type
+- Play the cry of each pokemon
+- See a detailed list of moves for each pokemon
+
+## Installation
+
+### Prerequisites
+
+- Java Development Kit (JDK) installed
+
+### Steps
+
+#### 1. Clone the repository:
+
+```bash
+git clone https://github.com/Su24-CS5004-Online-Lionelle/final-project-group-6.git
+```
+
+#### 2. Navigate to the project directory
+
+```bash
+cd final-project-group-6
+```
+
+#### 3. Refresh dependencies
+
+- Unix-based system (MacOs, Linux)
+
+```bash
+./gradlew build
+```
+
+- Windows
+
+```bash
+gradlew.bat build
+```
+
+## Usage
+
+#### Run the program
+
+```bash
+java -jar build/libs/PokemonApp.jar
+```
+
+### Pokemon List View
+
+* Shows the list of `Pokemon` from 1st generation.
+<br><br>
+![alt text](Images/ListView.png)
+<br><br>
+
+### Pokemon Team View
+
+* Shows the list of `Pokemon` added to the team.
+<br><br>
+![alt text](Images/TeamView.png)
+<br><br>
+
+
+### Individual Pokemon page
 
 * When the user click on a `specific Pokemon` in `List View` or `Team View` from the `right` side, `an introduction page` for `that Pokemon` will display on the `left` side.
 <br><br>
@@ -35,3 +101,16 @@ The PokedexApp allows users to view a list of pokemon from 1st generation with t
 ![](IndiviPokePage/move_detail.png)
 <br><br>
 * When table closed, return to the general introduction page.
+
+## License
+
+This project is open source.
+
+You are free to:
+
+- **Use**: Copy, modify, and distribute the software, including for commercial purposes.
+- **Adapt**: Remix, transform, and build upon the material.
+
+Under the following terms:
+
+- **No Warranty**: The software is provided "as is", without warranty of any kind.
