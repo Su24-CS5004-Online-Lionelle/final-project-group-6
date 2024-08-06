@@ -132,9 +132,11 @@ public class EventController implements ActionListener, ItemListener, KeyListene
         });
     }
 
-    // Here I was seeing if the combobox was working properly, but it doesn't
-    // seem to want to print out the list WITH the item that was just selected,
-    // so we'll have to figure that out.
+    /*
+     * Listens for the changes in the selected types in the PokedexView.
+     * 
+     * @param e The ItemEvent object that contains the event details.
+     */
     @Override
     public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -142,23 +144,16 @@ public class EventController implements ActionListener, ItemListener, KeyListene
                 // Get selected types from the view
                 List<String> checkedItems = pokedexView.getTypes();
 
-                // Debug: Print checked items to verify the selection
-                System.out.println("Selected Types: " + checkedItems);
-
                 try {
                     // Get all Pokémon as a fallback
                     List<PokeRecord> records = controller.getAllPokemon();
 
                     if (checkedItems.isEmpty()) {
-                        // If no types are selected, display all Pokémon
-                        System.out.println("No types selected, showing all Pokémon");
+                        // Update the list panel with all Pokémon
                         PokemonListPanel.getInstance().refreshPanel(records);
                     } else {
                         // Filter records by selected types
                         List<PokeRecord> filteredRecords = controller.filterByTypes(checkedItems);
-
-                        // Debug: Print filtered records count
-                        System.out.println("Filtered Records Count: " + filteredRecords.size());
 
                         // Update the list panel with the filtered list of Pokémon
                         currRecords = filteredRecords;
