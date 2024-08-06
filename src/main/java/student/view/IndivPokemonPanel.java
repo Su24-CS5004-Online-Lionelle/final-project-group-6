@@ -122,8 +122,12 @@ public class IndivPokemonPanel extends JPanel {
         /** Stack info vertically. */
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         JPanel idPanel = createPanel("ID: " + String.valueOf(this.record.id()) + "\n", 35);
-        JPanel weightPanel = createPanel("Weight: " + String.valueOf(this.record.weight()) + "\n", 35);
-        JPanel heightPanel = createPanel("Height: " + String.valueOf(this.record.height()) + "\n", 35);
+        JPanel weightPanel = createPanel(
+            "Weight: " + String.valueOf(this.record.weight()) + "\n", 35
+        );
+        JPanel heightPanel = createPanel(
+            "Height: " + String.valueOf(this.record.height()) + "\n", 35
+        );
         JPanel typesPanel = createPanel("Types: " + getTypeFromList(), 30);
         /** Create moves panel with listener. */
         JPanel movesPanel = createPanel("Moves: Click to see.", 30);
@@ -159,7 +163,9 @@ public class IndivPokemonPanel extends JPanel {
     private String getTypeFromList() {
         List<PokemonType> typeList = this.record.types();
         /** Get name of each type. */
-        String[] typeString = typeList.toString().substring(1, typeList.toString().length() - 1).split(",");
+        String[] typeString = (
+            typeList.toString().substring(1, typeList.toString().length() - 1).split(",")
+        );
         String newTypeString = "";
         /** If there are more than 2 types, display the first two. */
         for (int i = 0; i < Math.min(2, typeString.length); i++) {

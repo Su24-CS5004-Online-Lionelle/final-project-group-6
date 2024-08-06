@@ -89,12 +89,9 @@ java -jar build/libs/PokemonApp.jar
 <br><br>
 * `Clicking` on the `image` will `play` that `Pokemon's cry`.
 <br><br>
-![](IndiviPokePage/sound.jpg)
+Example sound file: (Instructions/IndiviPokePage/cries_pokemon_latest_1.ogg)
 <br><br>
-<audio controls>
-<source src="cries_pokemon_latest_1.ogg">
-</audio>
-
+![](IndiviPokePage/sound.jpg)
 <br><br>
 * The user can click on `moves panel` to view detail information. A `table` with the `name of the moves`, `accuracy`, `power`, `PP`, and `damage type` will be displayed on the screen.
 <br><br>

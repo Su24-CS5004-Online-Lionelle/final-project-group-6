@@ -467,17 +467,4 @@ public class PokemonModel {
             GUIUtil.showMessage("Exception: " + e.getMessage(), "Error");
         }
     }
-
-    /**
-     * Save team file to other directory.
-     * 
-     * @param newPath the place that the file will be saved to
-     */
-    public void saveFile(Path newPath) {
-        try {
-            Files.copy(Paths.get(DATABASE_TEAM_FILE), newPath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            GUIUtil.showMessage("IOException: " + e.getMessage(), "Error");
-        }
-    }
 }
