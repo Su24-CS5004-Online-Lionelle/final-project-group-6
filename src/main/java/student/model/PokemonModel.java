@@ -1,25 +1,18 @@
 package student.model;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Collection;
 import student.GUIUtil;
-
-import org.apache.commons.lang3.ObjectUtils.Null;
-import org.json.simple.JSONObject;
-
-// import student.model.IModel;
-// import student.model.formatters.DataFormatter;
-// import student.model.formatters.Formats;
-// import student.model.net.NetUtils;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.ArrayList;
 import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -74,6 +67,24 @@ public class PokemonModel {
         return getRecordHelper(ipDetailStream);
     }
 
+    public String getCryFromAPI(String name) throws Exception, UnknownHostException {
+        InputStream ipDetailStream = NetUtils.getIpDetails(name);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(ipDetailStream));
+        StringBuilder jsonString = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            jsonString.append(line);
+        }
+        reader.close();
+        // Initialize Jackson ObjectMapper
+        ObjectMapper objectMapper = new ObjectMapper();
+        // Parse JSON into JsonNode
+        JsonNode rootNode = objectMapper.readTree(jsonString.toString());
+        JsonNode criesNode = rootNode.path("cries");
+        String latestCry = criesNode.path("latest").asText();
+        return latestCry;
+    }
+
     /**
      * Gets a single record by id.
      *
@@ -101,7 +112,7 @@ public class PokemonModel {
     private PokeRecord getRecordHelper(InputStream ipDetailStream) throws Exception, UnknownHostException {
             PokeRecord fetchedRecord;
             String ipDetailStr = new String(ipDetailStream.readAllBytes()).replace("\n", "");
-            // Change the IP details from input stream to a PokeRecord object using ObjectMapper。
+            // Change the IP details from input stream to a PokeRecord object using ObjectMapper.
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             TypeReference<PokeRecord> typeRef = new TypeReference<PokeRecord>() { };
@@ -450,24 +461,10 @@ public class PokemonModel {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
             objectMapper.writeValue(out, records);
-            GUIUtil.showMessage("Your team is sucessfully saved out.", "Info");
         } catch (IOException e) {
             GUIUtil.showMessage("IOException: " + e.getMessage(), "Error");
         } catch (Exception e) {
             GUIUtil.showMessage("Exception: " + e.getMessage(), "Error");
-        }
-    }
-
-    /**
-     * Save team file to other directory.
-     * 
-     * @param newPath the place that the file will be saved to
-     */
-    public void saveFile(Path newPath) {
-        try {
-            Files.copy(Paths.get(DATABASE_TEAM_FILE), newPath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            GUIUtil.showMessage("IOException: " + e.getMessage(), "Error");
         }
     }
 }

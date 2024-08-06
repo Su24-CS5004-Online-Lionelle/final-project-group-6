@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.net.UnknownHostException;
 
 /**
  * The PokedexController class provides methods to filter and sort Pokémon data.
@@ -73,7 +74,8 @@ public class PokedexController {
      */
     public List<PokeRecord> filterByContains(String input) throws IOException {
         return model.getAllPokemon().stream()
-            .filter(pokemon -> pokemon.name().toLowerCase().contains(input.toLowerCase()))
+            .filter(pokemon -> pokemon.name().toLowerCase().contains(input.toLowerCase())
+                                || String.valueOf(pokemon.id()).contains(input))
             .collect(Collectors.toList());
     }
 
@@ -85,7 +87,6 @@ public class PokedexController {
      * @throws IOException
      */
     public List<PokeRecord> filterByTypes(List<String> types) throws IOException {
-        // Convert types to lowercase for case-insensitive comparison
         List<String> lowerCaseTypes = types.stream()
         .map(String::toLowerCase)
         .collect(Collectors.toList());
@@ -113,7 +114,6 @@ public class PokedexController {
         return filteredPokemonList;
     }
         
-
     /**
      * Sorts Pokémon by name.
      *
@@ -138,45 +138,6 @@ public class PokedexController {
         return model.getAllPokemon().stream()
                 .sorted((p1, p2) -> ascending ? Integer.compare(p1.id(), p2.id()) : Integer.compare(p2.id(), p1.id()))
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Sorts Pokémon by Type.
-     *
-     * @param ascending Whether to sort in ascending order.
-     * @return A list of Pokémon sorted by height.
-     * @throws IOException
-     */
-    public List<PokeRecord> sortByType(boolean ascending) throws IOException {
-        return model.getAllPokemon().stream()
-                .sorted((p1, p2) -> {
-                    String type1 = p1.types().isEmpty() ? "" : p1.types().get(0).toString();
-                    String type2 = p2.types().isEmpty() ? "" : p2.types().get(0).toString();
-                    return ascending ? type1.compareToIgnoreCase(type2) : type2.compareToIgnoreCase(type1);
-                })
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Retrieves a Pokemon by name.
-     *
-     * @param name The name of the Pokemon to retrieve.
-     * @return The Pokemon object with the given name.
-     * @throws IOException
-     */
-    public PokeRecord getPokemonByName(String name) throws IOException {
-        return model.getPokemonByName(name);
-    }
-
-    /**
-     * Retrieves a Pokemon by ID.
-     *
-     * @param id The ID of the Pokemon to retrieve.
-     * @return The Pokemon object with the given ID.
-     * @throws IOException
-     */
-    public PokeRecord getPokemonByID(int id) throws IOException {
-        return model.getPokemonByID(id);
     }
 
     /**
@@ -215,5 +176,29 @@ public class PokedexController {
      */
     public void removePokemonFromTeam(PokeRecord pokemon) {
         model.removePokemonFromTeam(pokemon);
+    }
+
+    /**
+     * Get the cry of the Pokemon.
+     *
+     * @param name The name of the Pokemon.
+     * 
+     * @return The string that contains the link of cry.
+     * 
+     * @throws Exception,UnknownHostException
+     */
+    public String getCryByName(String name) throws Exception, UnknownHostException {
+        return model.getCryFromAPI(name);
+    }
+
+    /**
+     * Exports the Pokémon team data to a specified JSON file.
+     * 
+     * @param filePath The path of the file where the Pokémon team data will be saved.
+     * @throws IOException If an I/O error occurs during the file writing process.
+     */
+    public void ExportTeamToFile(String filePath) throws IOException {
+        List<PokeRecord> team = model.getAllPokemonInTeam();
+        model.writeJsonData(team, filePath);
     }
 }

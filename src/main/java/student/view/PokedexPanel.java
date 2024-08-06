@@ -5,6 +5,8 @@ import student.controller.PokedexController;
 import student.model.PokeRecord;
 
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.geom.GeneralPath;
 import java.io.IOException;
 import java.awt.geom.AffineTransform;
@@ -15,15 +17,46 @@ public class PokedexPanel extends JPanel {
     private static PokedexPanel instance;
 
     private JTextField searchbar;
+    private JLabel placeholderLabel;
     private CheckableComboBox typeSelect;
     private JButton saveButton;
     private JToggleButton addToggleButton;
     private JToggleButton viewToggleButton;
-    private PokedexController controller = new PokedexController();
+    private PokedexController controller;
 
-    // Private constructor to prevent instantiation
     private PokedexPanel() {
-        // Initialization code here
+    // private constructor to prevent instantiation
+        controller = new PokedexController();
+
+        // initializes search bar
+        searchbar = new JTextField();
+        searchbar.setBounds(565, 53, 200, 30);
+        searchbar.setOpaque(true);
+        searchbar.setBackground(Color.WHITE);
+        searchbar.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        searchbar.setForeground(Color.BLACK);
+
+        // initializes placeholder label
+        placeholderLabel = new JLabel("Search by name or ID");
+        placeholderLabel.setForeground(Color.GRAY);
+        placeholderLabel.setBounds(570, 53, 200, 30);
+        placeholderLabel.setVisible(true);
+
+        // manages placeholder visibility based on focus
+        searchbar.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                placeholderLabel.setVisible(false); // hides placeholder when focused
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (searchbar.getText().isEmpty()) {
+                    placeholderLabel.setVisible(true); // hides placeholder if search bar is empty
+                }
+            }
+        });
+
         // create add team toggle button
         addToggleButton = new JToggleButton("Add to Team");
         addToggleButton.setBounds(68, 560, 220, 30); // x, y, width, height
@@ -49,12 +82,9 @@ public class PokedexPanel extends JPanel {
         this.setBackground(new Color(20, 20, 60));
         this.setLayout(null); // Use null layout for absolute positioning
 
-        // Create the search field
-        searchbar = new JTextField();
-        searchbar.setBounds(565, 53, 200, 30); // x, y, width, height
-        searchbar.setForeground(Color.BLACK);
-        searchbar.setBackground(Color.WHITE);
+        this.add(placeholderLabel);
         this.add(searchbar);
+        this.add(addToggleButton);
 
         // create drop down menu for selecting types to filter by
         String[] pokemonTypes = {"Bug", "Dragon", "Electric", "Fighting", "Fire", "Flying",
@@ -67,7 +97,7 @@ public class PokedexPanel extends JPanel {
         this.add(typeSelect);
 
         // create save button
-        saveButton = new JButton("Save Team");
+        saveButton = new JButton("Export Team");
         saveButton.setBounds(780, 570, 150, 30); // x, y, width, height
         saveButton.setForeground(Color.BLACK);
         saveButton.setBackground(new Color (135, 206, 250));
@@ -86,6 +116,7 @@ public class PokedexPanel extends JPanel {
     // Method to set the font for all text components
     public void setFonts(Font font) {
         searchbar.setFont(font);
+        placeholderLabel.setFont(font);
         typeSelect.setFont(font);
         saveButton.setFont(font);
         addToggleButton.setFont(font);
@@ -106,21 +137,26 @@ public class PokedexPanel extends JPanel {
         PokeRecord currSelectedPokemon = PokemonListPanel.getInstance().getIsHighlited();
         JToggleButton addRemoveButton = getAddToggleButton();
         try {
-            if (controller.isPokemonInTeam(currSelectedPokemon)) {
-                addRemoveButton.setText("Remove from team");
-                addRemoveButton.setEnabled(true);
-                addRemoveButton.setActionCommand("Remove from Team");
-                addRemoveButton.revalidate();
-                addRemoveButton.repaint();
-            } else if (!controller.isPokemonInTeam(currSelectedPokemon)) {
-                addRemoveButton.setText("Add to team");
-                addRemoveButton.setEnabled(true);
-                addRemoveButton.setActionCommand("Add to Team");
-                addRemoveButton.revalidate();
-                addRemoveButton.repaint();
+            if (currSelectedPokemon != null) {
+                if (controller.isPokemonInTeam(currSelectedPokemon)) {
+                    addRemoveButton.setText("Remove from team");
+                    addRemoveButton.setEnabled(true);
+                    addRemoveButton.setSelected(true);
+                    addRemoveButton.setActionCommand("Remove from Team");
+                    addRemoveButton.revalidate();
+                    addRemoveButton.repaint();
+                } else if (!controller.isPokemonInTeam(currSelectedPokemon)) {
+                    addRemoveButton.setText("Add to team");
+                    addRemoveButton.setEnabled(true);
+                    addRemoveButton.setSelected(false);
+                    addRemoveButton.setActionCommand("Add to Team");
+                    addRemoveButton.revalidate();
+                    addRemoveButton.repaint();
+                }
             } else {
                 addRemoveButton.setText("Add to team");
                 addRemoveButton.setEnabled(false);
+                addRemoveButton.setSelected(false);
                 addRemoveButton.revalidate();
                 addRemoveButton.repaint();
             }

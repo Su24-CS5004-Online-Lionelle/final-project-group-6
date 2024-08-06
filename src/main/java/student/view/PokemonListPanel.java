@@ -18,6 +18,7 @@ public class PokemonListPanel extends JPanel {
         List<ListItem> customRectList = new ArrayList<>();
         JPanel listPanel = new JPanel();
         PokeRecord highlightedPokemon;
+        List<PokeRecord> currRecords = new ArrayList<>();
 
         // Private constructor to prevent instantiation
         private PokemonListPanel() {
@@ -30,11 +31,6 @@ public class PokemonListPanel extends JPanel {
                 instance = new PokemonListPanel();
             }
             return instance;
-        }
-
-        // Method to update the list.
-        public void updatePanel(List<PokeRecord> pokeRecords) {
-            // code
         }
 
         // Method to add mouse listener to list items
@@ -85,6 +81,11 @@ public class PokemonListPanel extends JPanel {
         System.out.println(records.size());
         for (PokeRecord pokemon : records) {
             ListItem listItem = new ListItem(pokemon);
+            if (highlightedPokemon != null && pokemon.name().equals(highlightedPokemon.name())) {
+                listItem.highlightPanel();
+            }
+            listItem.setPreferredSize(new Dimension(400, 100)); // Set fixed size for each ListItem
+            listItem.setMaximumSize(new Dimension(400, 100)); // Ensure max height is 100
             customRectList.add(listItem);
         }
 
@@ -92,13 +93,6 @@ public class PokemonListPanel extends JPanel {
             item.setPreferredSize(new Dimension(getWidth(), 100));
             listPanel.add(item);
         }
-
-        // // Calculate the total height needed for the listPanel
-        // int totalHeight = 0;
-        // for (ListItem item : customRectList) {
-        //     totalHeight += item.getPreferredSize().height;
-        // }
-        // listPanel.setPreferredSize(new Dimension(200, totalHeight));
 
         if (records.size() == 0) {
             // Set GridBackground as the background
@@ -133,26 +127,30 @@ public class PokemonListPanel extends JPanel {
                 this.repaint();
 
         } else {
-             // Validate and repaint to ensure layout is updated
-        listPanel.revalidate();
-        listPanel.repaint();
+            // Validate and repaint to ensure layout is updated
+            listPanel.revalidate();
+            listPanel.repaint();
 
-        JScrollPane scrollPane = new JScrollPane(listPanel);
-        // Set custom scrolling increments
-        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
-        verticalScrollBar.setUnitIncrement(16); // Adjust this value as needed
-        verticalScrollBar.setBlockIncrement(50); // Adjust this value as needed
-        verticalScrollBar.setPreferredSize(new Dimension(0, 0));
+            JScrollPane scrollPane = new JScrollPane(listPanel);
+            // Set custom scrolling increments
+            JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+            verticalScrollBar.setUnitIncrement(16); // Adjust this value as needed
+            verticalScrollBar.setBlockIncrement(50); // Adjust this value as needed
+            verticalScrollBar.setPreferredSize(new Dimension(0, 0));
+            if (records.size() < 4) {
+                scrollPane.setPreferredSize(new Dimension(400, records.size() * 100));
+            } else {
+                scrollPane.setPreferredSize(new Dimension(400, 400)); // Fixed size for more than 4 items
+            }
 
-        this.add(scrollPane, BorderLayout.CENTER);
+            this.add(scrollPane, BorderLayout.CENTER);
 
-        // Revalidate and repaint the main panel to update the UI
-        scrollPane.revalidate();
-        scrollPane.repaint();
-        this.revalidate();
-        this.repaint();
+            // Revalidate and repaint the main panel to update the UI
+            scrollPane.revalidate();
+            scrollPane.repaint();
+            this.revalidate();
+            this.repaint();
         }
-
     }
 
     /**
@@ -169,5 +167,21 @@ public class PokemonListPanel extends JPanel {
      */
     public PokeRecord getIsHighlited() {
         return highlightedPokemon;
+    }
+
+    /** Gets the custom rect list.
+     *
+     * @return returns a List<ListItem>
+     */
+    public List<ListItem> getItemList() {
+        return customRectList;
+    }
+
+    /** Gets current records of pokemon displayed.
+     *
+     * @return a list of PokeRecords
+     */
+    public List<PokeRecord> getCurrRecords() {
+        return currRecords;
     }
 }

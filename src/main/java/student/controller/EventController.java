@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import student.model.PokeRecord;
+import student.view.IndivPokemonPanel;
 import student.view.PokedexPanel;
 import student.view.PokedexView;
 import student.view.PokemonListPanel;
@@ -20,6 +21,8 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.swing.SwingUtilities;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  * The EventController class provides methods to handle user interactions.
@@ -28,6 +31,8 @@ public class EventController implements ActionListener, ItemListener, KeyListene
 
     private PokedexView pokedexView;
     private PokedexController controller = new PokedexController();
+    private PokemonListPanel listPanel = PokemonListPanel.getInstance();
+    private List<PokeRecord> currRecords;
 
     /**
      * Constructs an EventController with the given PokedexView.
@@ -65,14 +70,14 @@ public class EventController implements ActionListener, ItemListener, KeyListene
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "Save Team":
-                System.out.println("Save Team Button Pressed!");
+            case "Export Team":
+                handleExportTeam();
                 break;
             case "Add to Team":
-                System.out.println("Add to team clicked!");
-                PokeRecord recordToAdd = PokemonListPanel.getInstance().getIsHighlited();
+                PokeRecord recordToAdd = listPanel.getIsHighlited();
                 controller.addPokemonToTeam(recordToAdd);
-                PokemonListPanel.getInstance().refreshPanel(null);
+
+                listPanel.refreshPanel(currRecords);
                 PokedexPanel.getInstance().refreshAddToggleButton();
                 try {
                     PokemonTeamPanel.getInstance().refreshPanel();
@@ -82,10 +87,14 @@ public class EventController implements ActionListener, ItemListener, KeyListene
                 }
                 break;
             case "Remove from Team":
-                System.out.println("Removed from team clicked!");
                 PokeRecord recordToRemove = PokemonListPanel.getInstance().getIsHighlited();
+
+                // unhighlight all pokemon
+                listPanel.getItemList().forEach(item -> item.unhighlight());
                 controller.removePokemonFromTeam(recordToRemove);
-                PokemonListPanel.getInstance().refreshPanel(null);
+                IndivPokemonPanel.getInstance().setRecord(listPanel.getIsHighlited());
+                IndivPokemonPanel.getInstance().refreshPanel();
+                listPanel.refreshPanel(currRecords);
                 PokedexPanel.getInstance().refreshAddToggleButton();
                 try {
                     PokemonTeamPanel.getInstance().refreshPanel();
@@ -97,10 +106,44 @@ public class EventController implements ActionListener, ItemListener, KeyListene
         }
     }
 
+    /**
+     * Handles exporting the Pokémon team to a JSON file.
+     * Can select the name and location of the file to be saved.
+     */
+    private void handleExportTeam() {
+        SwingUtilities.invokeLater(() -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Export Pokémon Team");
+
+            // Set the default file filter to JSON files
+            fileChooser.setFileFilter(new javax.swing.filechooser
+                        .FileNameExtensionFilter("JSON files (*.json)", "json"));
+            fileChooser.setAcceptAllFileFilterUsed(false);
+
+            int userSelection = fileChooser.showSaveDialog(pokedexView);
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                try {
+                    String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                    controller.ExportTeamToFile(filePath);
+                    JOptionPane.showMessageDialog(pokedexView,
+                                                    "Team exported successfully!",
+                                                    "Success",
+                                                    JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(pokedexView,
+                                                    "Failed to export team: " + ex.getMessage(),
+                                                    "Error",
+                                                    JOptionPane.ERROR_MESSAGE);
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+
     /*
-     * This method is called when the user selects or deselects a type from the list.
+     * Listens for the changes in the selected types in the PokedexView.
      * 
-     * @param e The ItemEvent object that contains the selected item.
+     * @param e The ItemEvent object that contains the event details.
      */
     @Override
     public void itemStateChanged(ItemEvent e) {
@@ -108,21 +151,20 @@ public class EventController implements ActionListener, ItemListener, KeyListene
             SwingUtilities.invokeLater(() -> {
                 // Get selected types from the view
                 List<String> checkedItems = pokedexView.getTypes();
-                
-                // Debug: Print checked items to verify the selection
-                System.out.println("Selected Types: " + checkedItems);
-                
+
                 try {
                     // Get all Pokémon as a fallback
                     List<PokeRecord> records = controller.getAllPokemon();
-                    
+
                     if (checkedItems.isEmpty()) {
-                        // If no types are selected, display all Pokémon
+                        // Update the list panel with all Pokémon
                         PokemonListPanel.getInstance().refreshPanel(records);
                     } else {
                         // Filter records by selected types
-                        List<PokeRecord> filteredRecords = controller.filterByTypes(checkedItems);                        
+                        List<PokeRecord> filteredRecords = controller.filterByTypes(checkedItems);
+
                         // Update the list panel with the filtered list of Pokémon
+                        currRecords = filteredRecords;
                         PokemonListPanel.getInstance().refreshPanel(filteredRecords);
                     }
                 } catch (IOException e1) {
@@ -148,7 +190,7 @@ public class EventController implements ActionListener, ItemListener, KeyListene
         String input = pokedexView.getSearchbarText();
         PokemonListPanel listPanel = PokemonListPanel.getInstance();
         try {
-            List<PokeRecord> records = controller.filterByContains(input);
+            List<PokeRecord> records = controller.filterByContains(input); // searchs both name & ID
             listPanel.refreshPanel(records);
         } catch (Exception ex) {
             ex.printStackTrace();

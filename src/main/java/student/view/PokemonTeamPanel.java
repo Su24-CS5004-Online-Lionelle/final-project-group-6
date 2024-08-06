@@ -42,6 +42,8 @@ public class PokemonTeamPanel extends JPanel {
             pokemonTeam = controller.getAllPokemonInTeam();
             for (PokeRecord pokemon : pokemonTeam) {
                 ListItem listItem = new ListItem(pokemon);
+                listItem.setPreferredSize(new Dimension(400, 100)); // Set fixed size for each ListItem
+                listItem.setMaximumSize(new Dimension(400, 100)); // Ensure max height is 100
                 customRectTeam.add(listItem);
             }
 
@@ -112,11 +114,6 @@ public class PokemonTeamPanel extends JPanel {
             this.revalidate();
             this.repaint();
 
-        }
-
-        // Method to update the team.
-        public void updatePanel(List<PokeRecord> pokeRecords) {
-            // code
         }
 
         // Method to add mouse listener to list items
