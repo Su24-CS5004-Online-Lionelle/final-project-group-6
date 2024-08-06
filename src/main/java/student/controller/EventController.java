@@ -21,11 +21,19 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+/**
+ * The EventController class provides methods to handle user interactions.
+ */
 public class EventController implements ActionListener, ItemListener, KeyListener {
 
     private PokedexView pokedexView;
     private PokedexController controller = new PokedexController();
 
+    /**
+     * Constructs an EventController with the given PokedexView.
+     *
+     * @param view The view to handle user interactions.
+     */
     public EventController(PokedexView view) {
         this.pokedexView = view;
         view.setListeners(this);
@@ -34,7 +42,7 @@ public class EventController implements ActionListener, ItemListener, KeyListene
         addMouseListeners();
     }
 
-    // Listening for list/team item clicks
+    // Method that listens for mouse clicks on the list items.
     public void addMouseListeners() {
         this.pokedexView.addMouseListenerToListItems(new MouseAdapter() {
             @Override
@@ -89,9 +97,11 @@ public class EventController implements ActionListener, ItemListener, KeyListene
         }
     }
 
-    // Here I was seeing if the combobox was working properly, but it doesn't
-    // seem to want to print out the list WITH the item that was just selected,
-    // so we'll have to figure that out.
+    /*
+     * This method is called when the user selects or deselects a type from the list.
+     * 
+     * @param e The ItemEvent object that contains the selected item.
+     */
     @Override
     public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -108,15 +118,10 @@ public class EventController implements ActionListener, ItemListener, KeyListene
                     
                     if (checkedItems.isEmpty()) {
                         // If no types are selected, display all Pokémon
-                        System.out.println("No types selected, showing all Pokémon");
                         PokemonListPanel.getInstance().refreshPanel(records);
                     } else {
                         // Filter records by selected types
-                        List<PokeRecord> filteredRecords = controller.filterByTypes(checkedItems);
-                        
-                        // Debug: Print filtered records count
-                        System.out.println("Filtered Records Count: " + filteredRecords.size());
-                        
+                        List<PokeRecord> filteredRecords = controller.filterByTypes(checkedItems);                        
                         // Update the list panel with the filtered list of Pokémon
                         PokemonListPanel.getInstance().refreshPanel(filteredRecords);
                     }
@@ -126,7 +131,6 @@ public class EventController implements ActionListener, ItemListener, KeyListene
             });
         }
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {

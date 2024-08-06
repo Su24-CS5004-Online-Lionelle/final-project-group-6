@@ -78,34 +78,6 @@ public class PokedexController {
     }
 
     /**
-     * Filters Pokémon by weight.
-     *
-     * @param minWeight The minimum weight to filter by.
-     * @param maxWeight The maximum weight to filter by.
-     * @return A list of Pokémon with weights between minWeight and maxWeight.
-     * @throws IOException
-     */
-    public List<PokeRecord> filterByWeight(double minWeight, double maxWeight) throws IOException {
-        return model.getAllPokemon().stream()
-                .filter(pokemon -> pokemon.weight() >= minWeight && pokemon.weight() <= maxWeight)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Filters Pokémon by height.
-     *
-     * @param minHeight The minimum height to filter by.
-     * @param maxHeight The maximum height to filter by.
-     * @return A list of Pokémon with heights between minHeight and maxHeight.
-     * @throws IOException
-     */
-    public List<PokeRecord> filterByHeight(double minHeight, double maxHeight) throws IOException {
-        return model.getAllPokemon().stream()
-                .filter(pokemon -> pokemon.height() >= minHeight && pokemon.height() <= maxHeight)
-                .collect(Collectors.toList());
-    }
-
-    /**
      * Filters Pokémon by type.
      *
      * @param type The type to filter by.
@@ -113,14 +85,14 @@ public class PokedexController {
      * @throws IOException
      */
     public List<PokeRecord> filterByTypes(List<String> types) throws IOException {
-        // this method doesn't work yet
-        // convert types to lowercase
+        // Convert types to lowercase for case-insensitive comparison
         List<String> lowerCaseTypes = types.stream()
         .map(String::toLowerCase)
         .collect(Collectors.toList());
 
         // Get all Pokémon in the list
         List<PokeRecord> pokemonList = model.getAllPokemon();
+
         // Make a list to store the Pokémon that pass the filter
         List<PokeRecord> filteredPokemonList = new ArrayList<>();
 
@@ -169,20 +141,7 @@ public class PokedexController {
     }
 
     /**
-     * Sorts Pokémon by height.
-     *
-     * @param ascending Whether to sort in ascending order.
-     * @return A list of Pokémon sorted by height.
-     * @throws IOException
-     */
-    public List<PokeRecord> sortByWeight(boolean ascending) throws IOException {
-        return model.getAllPokemon().stream()
-                .sorted((p1, p2) -> ascending ? Double.compare(p1.weight(), p2.weight()) : Double.compare(p2.weight(), p1.weight()))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Sorts Pokémon by height.
+     * Sorts Pokémon by Type.
      *
      * @param ascending Whether to sort in ascending order.
      * @return A list of Pokémon sorted by height.
