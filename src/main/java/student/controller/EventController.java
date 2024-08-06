@@ -99,7 +99,7 @@ public class EventController implements ActionListener, ItemListener, KeyListene
     }
 
     /**
-     * Handles exporting the Pokémon team to a JSON file. 
+     * Handles exporting the Pokémon team to a JSON file.
      * Can select the name and location of the file to be saved.
      */
     private void handleExportTeam() {
@@ -111,26 +111,26 @@ public class EventController implements ActionListener, ItemListener, KeyListene
             fileChooser.setFileFilter(new javax.swing.filechooser
                         .FileNameExtensionFilter("JSON files (*.json)", "json"));
             fileChooser.setAcceptAllFileFilterUsed(false);
-            
+
             int userSelection = fileChooser.showSaveDialog(pokedexView);
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 try {
                     String filePath = fileChooser.getSelectedFile().getAbsolutePath();
                     controller.ExportTeamToFile(filePath);
-                    JOptionPane.showMessageDialog(pokedexView, 
-                                                    "Team exported successfully!", 
-                                                    "Success", 
+                    JOptionPane.showMessageDialog(pokedexView,
+                                                    "Team exported successfully!",
+                                                    "Success",
                                                     JOptionPane.INFORMATION_MESSAGE);
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(pokedexView, 
-                                                    "Failed to export team: " + ex.getMessage(), 
+                    JOptionPane.showMessageDialog(pokedexView,
+                                                    "Failed to export team: " + ex.getMessage(),
                                                     "Error",
                                                     JOptionPane.ERROR_MESSAGE);
                     ex.printStackTrace();
                 }
             }
         });
-    }    
+    }
 
     // Here I was seeing if the combobox was working properly, but it doesn't
     // seem to want to print out the list WITH the item that was just selected,

@@ -32,7 +32,7 @@ public class PokedexView extends JFrame implements IPokedexView {
             e.printStackTrace();
             pokemonFont = new Font("Courier New", Font.BOLD, 20);
         }
-        
+
         // initialize panels
         pokedexPanel = PokedexPanel.getInstance();
         pokedexPanel.initializePanel();

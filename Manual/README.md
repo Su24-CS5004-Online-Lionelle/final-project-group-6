@@ -1,6 +1,12 @@
-# Manual 
+# PokedexApp
 
-You will update this manual and add any files here that you need for an 'application' manual for your program. Make sure to include screenshots of various features. 
+## Introduction
+
+The PokedexApp allows users to view a list of pokemon from 1st generation with the ability for filter by name, id, and type. It features an individual screen displaying each pokemon, and a team screen, allowing the user to add and remove pokemon from the team.
+
+<div style="display: flex; justify-content: center;">
+<img src="../data/designs/Screenshots/UISearch.png" alt="Description of the image" width="500" height="500">
+</div>
 
 
 # Individual Pokemon page
@@ -15,7 +21,7 @@ You will update this manual and add any files here that you need for an 'applica
 <br><br>
 ![](IndiviPokePage/page2.png)
 <br><br>
-* `Clicking` on the `image` will `play` that `Pokemon's cry`. 
+* `Clicking` on the `image` will `play` that `Pokemon's cry`.
 <br><br>
 ![](IndiviPokePage/sound.jpg)
 <br><br>
