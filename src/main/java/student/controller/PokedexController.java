@@ -163,8 +163,13 @@ public class PokedexController {
      * Adds a Pokemon to the team database.
      *
      * @param pokemon the PokeRecord of the Pokemon to be added to the team
+     * @throws Exception if the team already has 6 Pokemon.
      */
-    public void addPokemonToTeam(PokeRecord pokemon) {
+    public void addPokemonToTeam(PokeRecord pokemon) throws Exception {
+        List<PokeRecord> team = model.getAllPokemonInTeam();
+        if (team.size() >= 6) {
+            throw new Exception("Team is full. You cannot have more than 6 Pokemon in a team.");
+        }
         model.addPokemonToTeam(pokemon);
     }
 

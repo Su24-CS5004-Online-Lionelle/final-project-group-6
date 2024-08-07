@@ -65,19 +65,19 @@ public class EventController implements ActionListener, ItemListener, KeyListene
             case "Export Team":
                 handleExportTeam();
                 break;
+            
             case "Add to Team":
                 PokeRecord recordToAdd = listPanel.getIsHighlited();
-                controller.addPokemonToTeam(recordToAdd);
-
-                listPanel.refreshPanel(currRecords);
-                PokedexPanel.getInstance().refreshAddToggleButton();
                 try {
+                    controller.addPokemonToTeam(recordToAdd);
+                    listPanel.refreshPanel(currRecords);
+                    PokedexPanel.getInstance().refreshAddToggleButton();
                     PokemonTeamPanel.getInstance().refreshPanel();
-
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(pokedexView, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
+            
             case "Remove from Team":
                 PokeRecord recordToRemove = PokemonListPanel.getInstance().getIsHighlited();
 
