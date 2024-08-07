@@ -24,6 +24,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+/**
+ * The EventController class provides methods to handle user interactions.
+ */
 public class EventController implements ActionListener, ItemListener, KeyListener {
 
     private PokedexView pokedexView;
@@ -31,6 +34,11 @@ public class EventController implements ActionListener, ItemListener, KeyListene
     private PokemonListPanel listPanel = PokemonListPanel.getInstance();
     private List<PokeRecord> currRecords;
 
+    /**
+     * Constructs an EventController with the given PokedexView.
+     *
+     * @param view The view to handle user interactions.
+     */
     public EventController(PokedexView view) {
         this.pokedexView = view;
         view.setListeners(this);
@@ -39,7 +47,7 @@ public class EventController implements ActionListener, ItemListener, KeyListene
         addMouseListeners();
     }
 
-    // Listening for list/team item clicks
+    // Method that listens for mouse clicks on the list items.
     public void addMouseListeners() {
         this.pokedexView.addMouseListenerToListItems(new MouseAdapter() {
             @Override
@@ -165,7 +173,6 @@ public class EventController implements ActionListener, ItemListener, KeyListene
             });
         }
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {

@@ -93,6 +93,7 @@ public class PokedexController {
 
         // Get all Pokémon in the list
         List<PokeRecord> pokemonList = model.getAllPokemon();
+
         // Make a list to store the Pokémon that pass the filter
         List<PokeRecord> filteredPokemonList = new ArrayList<>();
 
