@@ -395,10 +395,5 @@ public class PokedexPanel extends JPanel {
         // create right screen
         g2D.setColor(new Color(40, 40, 40));
         g2D.fillRect(565, 95, 400, 450);
-
-        // create bottom two rectangle on right pokedex
-        g2D.setColor(new Color(40, 40, 40));
-        g2D.fillRect(600, 622, 150, 22);
-        g2D.fillRect(780, 622, 150, 22);
     }
 }
