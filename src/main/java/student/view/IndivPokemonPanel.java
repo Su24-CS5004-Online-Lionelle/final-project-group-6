@@ -207,6 +207,10 @@ public class IndivPokemonPanel extends JPanel {
         moveTable.setRowHeight(70); // Set the row height of the table.
         moveTable.setShowGrid(false); // Set to not show the grid.
 
+        /** Create TableRowSorter and apply it to JTable. */
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(tableModel);
+        moveTable.setRowSorter(sorter);
+
         /** Create custom cell renderer to set font and size. */
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
             @Override

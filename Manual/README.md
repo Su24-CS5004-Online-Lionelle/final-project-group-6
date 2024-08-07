@@ -97,6 +97,11 @@ Example sound file: (Instructions/IndiviPokePage/cries_pokemon_latest_1.ogg)
 <br><br>
 ![](IndiviPokePage/move_detail.png)
 <br><br>
+* Columns can be sorted by descending or ascending through clicking each header.
+
+![](IndiviPokePage/sortByA.jpg)
+![](IndiviPokePage/sortByN.png)
+![](IndiviPokePage/sortByPower.png)
 * When table closed, return to the general introduction page.
 
 ## License
