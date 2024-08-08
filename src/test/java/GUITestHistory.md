@@ -29,18 +29,18 @@ Filtering by one type - fire:
 Filtering by multiple types - fire and flying:
 ![FilterByType_3](GUITestImages/TypeFilter_3.png)
 
-- **Clicking `Export Team`:** After clicking `Export List`, an export popup shows options to enter file name, choose a folder, select file format, and buttons to create a new folder, cancel, or save. Make sure each button works as intended and file is properly saved and can be found.
-![ClickingListAll](GUITestImages/ExportTeam_1.png)
+- **Clicking `Export Team`:** After clicking `Export Team`, an export popup shows options to enter file name, choose a folder, select file format, and buttons to create a new folder, cancel, or save. Make sure each button works as intended and file is properly saved and can be found.
+![ClickingExportTeam](GUITestImages/ExportTeam_1.png)
 Creating a new folder:
-![ClickingListAll](GUITestImages/ExportTeam_2.png)
+![ClickingExportTeam](GUITestImages/ExportTeam_2.png)
 Creating a file in the folder and saving it:
-![ClickingListAll](GUITestImages/ExportTeam_3.png)
+![ClickingExportTeam](GUITestImages/ExportTeam_3.png)
 Popup alerts user that file has been saved:
-![ClickingListAll](GUITestImages/ExportTeam_4.png)
+![ClickingExportTeam](GUITestImages/ExportTeam_4.png)
 Find the saved file in user computer:
-![ClickingListAll](GUITestImages/ExportTeam_5.png)
+![ClickingExportTeam](GUITestImages/ExportTeam_5.png)
 Pokemon team information is saved as JSON:
-![ClickingListAll](GUITestImages/ExportTeam_6.png)
+![ClickingExportTeam](GUITestImages/ExportTeam_6.png)
 
 
 ## Below are the edge cases
