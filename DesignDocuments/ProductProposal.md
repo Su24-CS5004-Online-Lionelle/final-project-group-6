@@ -1,10 +1,16 @@
 # Product Proposal
+* The project proposal file is located at `DesignDocuments/proposal.pdf`.
+<br>
+[Project Proposal PDF](proposal.pdf)
+<br><br>
+* The project demonstration file is located at `DesignDocuments/demonstration.pdf`.
+<br>
+[Project Demonstration PDF](demonstration.pdf)
+<br><br>
+* The initial UML diagram is provided below.
+* The final UML diagram is located at `README.md`
 
 ## Initial Design
-
-Update UML here
-
-### Generic UML
 
 ```mermaid
 ---
