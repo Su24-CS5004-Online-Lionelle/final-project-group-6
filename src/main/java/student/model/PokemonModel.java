@@ -67,6 +67,16 @@ public class PokemonModel {
         return getRecordHelper(ipDetailStream);
     }
 
+    /**
+     * Get the cry link from directly calling the API.
+     * 
+     * @param name the name of the pokemon
+     * 
+     * @return cry link string
+     * 
+     * @throws Exception
+     * @throws UnknownHostException
+     */
     public String getCryFromAPI(String name) throws Exception, UnknownHostException {
         InputStream ipDetailStream = NetUtils.getIpDetails(name);
         BufferedReader reader = new BufferedReader(new InputStreamReader(ipDetailStream));
@@ -110,14 +120,14 @@ public class PokemonModel {
      * @throws UnknownHostException
      */
     private PokeRecord getRecordHelper(InputStream ipDetailStream) throws Exception, UnknownHostException {
-            PokeRecord fetchedRecord;
-            String ipDetailStr = new String(ipDetailStream.readAllBytes()).replace("\n", "");
-            // Change the IP details from input stream to a PokeRecord object using ObjectMapper.
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            TypeReference<PokeRecord> typeRef = new TypeReference<PokeRecord>() { };
-            fetchedRecord = mapper.readValue(ipDetailStr, typeRef);
-            return fetchedRecord;
+        PokeRecord fetchedRecord;
+        String ipDetailStr = new String(ipDetailStream.readAllBytes()).replace("\n", "");
+        // Change the IP details from input stream to a PokeRecord object using ObjectMapper.
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        TypeReference<PokeRecord> typeRef = new TypeReference<PokeRecord>() { };
+        fetchedRecord = mapper.readValue(ipDetailStr, typeRef);
+        return fetchedRecord;
     }
 
 

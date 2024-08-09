@@ -7,7 +7,8 @@ This readme should contain the following information:
 ---
   * Name : Yiming Luo
   * Github name: Romine24
-  * Link: https://github.com/Su24-CS5004-Online-Lionelle/final-project-group-6
+  * Personal Link: https://github.com/Romine24
+  * Project Link: https://github.com/Su24-CS5004-Online-Lionelle/final-project-group-6
 ---
   * Name : Feng Hua Tan
   * Github name: karyn-tan
