@@ -46,3 +46,16 @@ Pokemon team information is saved as JSON:
 ## Below are the edge cases
 
 @lin you can screenshot the edge cases here
+![Pokemon Search with an empty space](GUITestImages/EdgeCase_SpaceSearch.png)
+
+![Pokemon Search using symbols](GUITestImages/EdgeCase2_SymbolsSearch.png)
+
+![Pokemon Search using high out of range value number](GUITestImages/EdgeCase3_highvaluenumberID.png)
+
+![Pokemon Search using decimal number](GUITestImages/EdgeCase4_decimalnumberID.png)
+
+![Pokemon Types Filter - Selecting all](GUITestImages/EdgeCase5_SelectAllTypes.png)
+
+![Pokemon Types Filter - Selecting none](GUITestImages/EdgeCase6_SelectNoTypes.png)
+
+![Pokemon Search with non-existent pokemon name](GUITestImages/EdgeCase7_NonExistentPokemon.png)
