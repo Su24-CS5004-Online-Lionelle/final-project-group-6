@@ -1,11 +1,14 @@
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import student.model.PokemonModel;
+import student.model.NetUtils;
 import student.model.PokeRecord;
 import java.util.List;
 import java.io.PrintStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import org.junit.jupiter.api.io.TempDir;
 import java.io.File;
@@ -80,6 +83,34 @@ public class TestPokemonModel {
     }
 
     /**
+    * Use unvalid Pokemon name to get no record directly from API but get exception.
+    *
+    */
+    @Test
+    public void testGetRecordFromAPIWithInvalidName() {
+        // Act & Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            pokemonModel.getRecordFromAPI("abc");
+        });
+        // Verify the exception message
+        assertTrue(exception.getMessage().contains("No content to map due to end-of-input"));
+    }
+
+    /**
+    * Use unvalid Pokemon id to get no record directly from API but get exception.
+    *
+    */
+    @Test
+    public void testGetRecordFromAPIWithInvalidID() {
+        // Act & Assert
+        Exception exception = assertThrows(Exception.class, () -> {
+            pokemonModel.getRecordFromAPI(-2);
+        });
+        // Verify the exception message
+        assertTrue(exception.getMessage().contains("No content to map due to end-of-input"));
+    }
+
+    /**
     * Use valid Pokemon name to get the record directly from the database.
     *
     * @throws Exception
@@ -136,7 +167,7 @@ public class TestPokemonModel {
     }
 
     /**
-    * Use unvalid Pokemon name to get the Pokemon directly from the database.
+    * Use unvalid Pokemon name to get no Pokemon record directly from the database.
     *
     * @throws Exception
     */
@@ -150,7 +181,7 @@ public class TestPokemonModel {
     }
 
     /**
-    * Use unvalid Pokemon id to get the Pokemon directly from the database.
+    * Use unvalid Pokemon id to get no Pokemon record directly from the database.
     *
     * @throws Exception
     */
@@ -221,7 +252,7 @@ public class TestPokemonModel {
     }
 
     /**
-    * Use unvalid Pokemon name to get the record directly from the team file.
+    * Use unvalid Pokemon name to get the record directly from the team file but get exception.
     *
     * @throws Exception
     */
@@ -235,7 +266,7 @@ public class TestPokemonModel {
     }
 
     /**
-    * Use unvalid Pokemon name to get the record directly from the team file.
+    * Use unvalid Pokemon name to get the record directly from the team file but get exception.
     *
     * @throws Exception
     */
@@ -261,6 +292,20 @@ public class TestPokemonModel {
     }
 
     /**
+    * Use unvalid Pokemon name to get no cry link directly from API.
+    *
+    */
+    @Test
+    public void testGetCryFromAPIWithInvalidName() throws Exception {
+        PrintStream std = System.out;
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        pokemonModel.getCryFromAPI("abc");
+        System.setOut(std);
+        assertEquals("", outContent.toString());
+    }
+
+    /**
     * Get all Pokemon record from database.
     *
     * @throws Exception
@@ -279,7 +324,7 @@ public class TestPokemonModel {
     */
     @Test
     public void testGetAllPokemonInTeam() throws Exception {
-        Integer expectedRecord = 6;
+        Integer expectedRecord = 5;
         List<PokeRecord> resultRecord = pokemonModel.getAllPokemonInTeam();
         assertEquals(expectedRecord, resultRecord.size());
     }
