@@ -43,9 +43,9 @@ Pokemon team information is saved as JSON:
 ![ClickingExportTeam](GUITestImages/ExportTeam_6.png)
 
 
-## Below are the edge cases
+## Below are the edge cases 
+These tests make sure that the Pokemon searches and filtering handles the edge cases. These tests alphabet, numerical, and symbol names during search. To test filtering, it tests for selecting all the available types and selecting none of the available types.
 
-@lin you can screenshot the edge cases here
 ![Pokemon Search with an empty space](GUITestImages/EdgeCase_SpaceSearch.png)
 
 ![Pokemon Search using symbols](GUITestImages/EdgeCase2_SymbolsSearch.png)
