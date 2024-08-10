@@ -14,6 +14,10 @@ This readme should contain the following information:
   * Github name: karyn-tan
   * Link: https://github.com/karyn-tan
 ---
+  * Name: Matej Zecic
+  * Github name: mzecic
+  * Link: https://github.com/mzecic
+---
 
 * The application name and a brief description of the application
 * Links to design documents and manuals
