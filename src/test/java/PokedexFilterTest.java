@@ -4,8 +4,10 @@ import org.junit.Test;
 import java.util.Comparator;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import student.controller.PokedexController;
 import student.model.PokeRecord;
@@ -29,6 +31,127 @@ public class PokedexFilterTest {
     public void setUp() {
         // Initialize the controller
         pokedexController = new PokedexController();
+    }
+
+    /**
+     * Tests retrieving of all pokemon.
+     * 
+     * @throws IOException if there is an issue retrieving pokemon data.
+     */
+    @Test
+    public void testGetAllPokemon() throws IOException {
+        List<PokeRecord> allPokemon = pokedexController.getAllPokemon();
+        assertNotNull("Expects list of all pokemon", allPokemon);
+    }
+
+    /**
+     * Tests filtering pokemon by their ID.
+     * 
+     * @throws IOException if there is an issue retrieving pokemon data.
+     */
+    @Test
+    public void testFilterByID() throws IOException {
+        List<PokeRecord> result = pokedexController.filterByID(25);
+        assertTrue("Found pokemon with ID 25", result.size() > 0);
+    }
+
+    /**
+     * Tests filtering pokemon by their name.
+     * 
+     * @throws IOException if there is an issue retrieving pokemon data.
+     */
+    @Test
+    public void testFilterByName() throws IOException {
+        List<PokeRecord> result = pokedexController.filterByName("pikachu");
+        assertTrue("Found pokemon with the name pikachu", result.size() > 0);
+    }
+
+    /**
+     * Tests filtering pokemon by a substring of their name.
+     * 
+     * @throws IOException if there is an issue retrieving pokemon data.
+     */
+    @Test
+    public void testFilterByContains() throws IOException {
+        List<PokeRecord> result = pokedexController.filterByContains("pika");
+        assertTrue("Found pokemon with 'pika' in their name", result.size() > 0);
+    }
+
+    /**
+     * Tests sorting pokemon by name in ascending order.
+     * 
+     * @throws IOException if there is an issue retrieving pokemon data.
+     */
+    @Test
+    public void testSortByNameAscending() throws IOException {
+        List<PokeRecord> sortedList = pokedexController.sortByName(true);
+        assertTrue("Expects sorted list by name in ascending order", 
+                    sortedList.get(0).name().compareToIgnoreCase(sortedList.get(1).name()) <= 0);
+    }
+
+    /**
+     * Tests sorting pokemon by name in descending order.
+     * 
+     * @throws IOException if there is an issue retrieving pokemon data.
+     */
+    @Test
+    public void testSortByNameDescending() throws IOException {
+        List<PokeRecord> sortedList = pokedexController.sortByName(false);
+        assertTrue("Expects sorted list by name in descending order", 
+                    sortedList.get(0).name().compareToIgnoreCase(sortedList.get(1).name()) >= 0);
+    }
+
+    /**
+     * Tests sorting pokemon by ID in ascending order.
+     * 
+     * @throws IOException if there is an issue retrieving pokemon data.
+     */
+    @Test
+    public void testSortByIDAscending() throws IOException {
+        List<PokeRecord> sortedList = pokedexController.sortByID(true);
+        assertTrue("Expects sorted list by ID in ascending order", 
+                    sortedList.get(0).id() <= sortedList.get(1).id());
+    }
+
+    /**
+     * Tests sorting pokemon by ID in descending order.
+     * 
+     * @throws IOException if there is an issue retrieving pokemon data.
+     */
+    @Test
+    public void testSortByIDDescending() throws IOException {
+        List<PokeRecord> sortedList = pokedexController.sortByID(false);
+        assertTrue("Expects sorted list by ID in descending order", 
+                    sortedList.get(0).id() >= sortedList.get(1).id());
+    }
+
+    /**
+     * Tests adding a pokemon to the team.
+     * 
+     * @throws Exception if there is an issue adding the pokemon to the team.
+     */
+    @Test
+    public void testAddPokemonToTeam() throws Exception {
+        PokeRecord mockRecord = new PokeRecord("Pikachu", 25, 1, 4, 60, 
+                                                new ArrayList<>(), new ArrayList<>(), null);
+        pokedexController.addPokemonToTeam(mockRecord);
+        assertTrue("Pokemon added to the team", 
+                    pokedexController.getAllPokemonInTeam().contains(mockRecord));
+    }
+
+    /**
+     * Tests removing a pokemon from the team.
+     * 
+     * @throws Exception if there is an issue removing the pokemon from the team.
+     */
+    @Test
+    public void testRemovePokemonFromTeam() throws Exception {
+        PokeRecord mockRecord = new PokeRecord("Pikachu", 25, 1, 4, 60,
+                                                new ArrayList<>(), new ArrayList<>(), null);
+        pokedexController.addPokemonToTeam(mockRecord);
+        pokedexController.removePokemonFromTeam(mockRecord);
+        assertFalse("Pokemon removed from the team", 
+                    pokedexController.getAllPokemonInTeam().contains(mockRecord));
     }
 
     /**
