@@ -3,13 +3,23 @@ package student.view.Components;
 import javax.swing.*;
 import java.awt.*;
 
-// Custom Grid Panel
+/**
+ * GridBackground is a custom JPanel that paints a pokeball design with a grid overlay.
+ */
 public class GridBackground extends JPanel {
+    /**
+     * Constructor for GridBackground.
+     */
     public GridBackground() {
         super();
         this.setBackground(Color.WHITE);
     }
 
+    /**
+     * This method paints a pokeball centered in the panel with a grid pattern.
+     *
+     * @param g The Graphics object used for drawing.
+     */
     @Override
     protected void paintComponent(Graphics g) {
 

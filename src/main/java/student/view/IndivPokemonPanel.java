@@ -34,7 +34,9 @@ public class IndivPokemonPanel extends JPanel {
         refreshPanel();
     }
 
-    /** Public method to provide access to the instance. */
+    /** Public method to provide access to the instance.
+     * @return IndivPokemonPanel
+    */
     public static synchronized IndivPokemonPanel getInstance() {
     if (instance == null) {
         instance = new IndivPokemonPanel();

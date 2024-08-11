@@ -13,19 +13,33 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.util.List;
 
+/**
+ * Class creates the pokedex background and inputs.
+ */
 public class PokedexPanel extends JPanel {
+    /** Instance of PokedexPanel. */
     private static PokedexPanel instance;
-
+    /** Text input field. */
     private JTextField searchbar;
+    /** Placeholder text for searchbar. */
     private JLabel placeholderLabel;
+    /** Custom component to select types with dropdown menu. */
     private CheckableComboBox typeSelect;
+    /** Save button. */
     private JButton saveButton;
+    /** Toggle button for adding/removing pokemon from team. */
     private JToggleButton addToggleButton;
+    /** Toggle button for switching between team and list panels. */
     private JToggleButton viewToggleButton;
+    /** Controller to get pokemon. */
     private PokedexController controller;
 
+    /**
+     * Constructor for PokedexPanel.
+     * Creates buttons, labels, searchbar, dropdown menu.
+     */
     private PokedexPanel() {
-    // private constructor to prevent instantiation
+        // private constructor to prevent instantiation
         controller = new PokedexController();
 
         // initializes search bar
@@ -66,7 +80,10 @@ public class PokedexPanel extends JPanel {
         addToggleButton.setEnabled(false);
     }
 
-    // Public method to provide access to the instance
+    /**
+     * Method gets instance.
+     * @return instance of PokedexPanel
+     */
     public static PokedexPanel getInstance() {
         if (instance == null) {
             instance = new PokedexPanel();
@@ -113,7 +130,10 @@ public class PokedexPanel extends JPanel {
         this.add(viewToggleButton);
     }
 
-    // Method to set the font for all text components
+    /**
+     * Method to set fonts for all components.
+     * @param font
+     */
     public void setFonts(Font font) {
         searchbar.setFont(font);
         placeholderLabel.setFont(font);
@@ -123,16 +143,25 @@ public class PokedexPanel extends JPanel {
         viewToggleButton.setFont(font);
     }
 
-    // get saveButton
+    /**
+     * Method gets save button.
+     * @return the save button
+     */
     public JButton getSaveButton() {
         return saveButton;
     }
 
-    // get addToggleButton
+    /**
+     * Method gets addToggleButton.
+     * @return the addToggleButton
+     */
     public JToggleButton getAddToggleButton() {
         return addToggleButton;
     }
 
+    /**
+     * Method refreshes addToggleButton.
+     */
     public void refreshAddToggleButton() {
         PokeRecord currSelectedPokemon = PokemonListPanel.getInstance().getIsHighlited();
         JToggleButton addRemoveButton = getAddToggleButton();
@@ -166,31 +195,49 @@ public class PokedexPanel extends JPanel {
 
     }
 
-    // get viewToggleButton
+    /**
+     * Method gets viewToggleButton.
+     * @return the viewToggleButton
+     */
     public JToggleButton getViewToggleButton() {
         return viewToggleButton;
     }
 
-    // get checkablecombobox
+    /**
+     * Method gets checkableComboBox.
+     * @return the checkableComboBox
+     */
     public CheckableComboBox getCheckableComboBox() {
         return typeSelect;
     }
 
-    // get searchbar
+    /**
+     * Method gets searchbar.
+     * @return the searchbar
+     */
     public JTextField getSearchbar() {
         return searchbar;
     }
 
-    // Method to get the selected types
+    /**
+     * Method gets selected types.
+     * @return the list of types from combobox
+     */
     public List<String> getTypes() {
         return typeSelect.getCheckedItems();
     }
 
-    // Method to get the searchbar text
+    /**
+     * Method gets searchbar input text.
+     * @return text input string
+     */
     public String getSearchbarText() {
         return searchbar.getText();
     }
 
+    /**
+     * Method draws the background.
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
