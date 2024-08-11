@@ -3,7 +3,6 @@ package student.view;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
 import java.util.List;
 
 public interface IPokedexView {
