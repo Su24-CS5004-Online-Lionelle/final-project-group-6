@@ -19,14 +19,30 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class is a list item for displaying Pokémon records in a list.
+ * Each ListItem displays the Pokémon's name, ID, and a pokeball icon.
+ * The ListItem can be highlighted when selected, and it checks if the Pokémon
+ * is part of the team to display the pokeball in color.
+ */
 public class ListItem extends JPanel {
+    /** list of ListIteams */
     private static List<ListItem> panels = new ArrayList<>();
+    /** Boolean to keep track of if highlighted */
     private boolean isHighlighted = false;
+    /** Variable to keep track of current pokemon */
     private PokeRecord currPokemon;
+    /** Controller to check if pokemon is in team. */
     private PokedexController controller = new PokedexController();
+    /** Background image. */
     private Image backgroundImage;
+    /** Boolean to keep track of if pokemon is in team. */
     private boolean isInTeam;
 
+    /**
+     * Constructor for ListItem.
+     * @param pokemon
+     */
     public ListItem(PokeRecord pokemon) {
         this.currPokemon = pokemon;
         try {
@@ -51,6 +67,11 @@ public class ListItem extends JPanel {
         });
     }
 
+    /**
+     * Returns the preferred size of this component.
+     *
+     * @return the preferred size of this component
+     */
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(200, 100); // Set the preferred width and height
@@ -134,6 +155,9 @@ public class ListItem extends JPanel {
         }
     }
 
+    /**
+     * Method highlights panel and unhighlights all the others.
+     */
     public void highlightPanel() {
         // Unhighlight all panels
         for (ListItem panel : panels) {
@@ -148,6 +172,9 @@ public class ListItem extends JPanel {
         repaint();
     }
 
+    /**
+     * Method unhighlights panel.
+     */
     public void unhighlight() {
         PokemonListPanel.getInstance().setIsHighlited(null);
         PokedexPanel.getInstance().refreshAddToggleButton();

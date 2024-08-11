@@ -2,7 +2,6 @@ package student.view;
 import javax.swing.*;
 
 import student.controller.PokedexController;
-import student.model.PokeRecord;
 
 import java.io.File;
 import java.awt.event.ActionListener;
@@ -10,18 +9,31 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.*;
 import java.io.IOException;
 
+/**
+ * Class creates all the panels and adds them together, passes input info to controller.
+ */
 public class PokedexView extends JFrame implements IPokedexView {
+    /** pokedexPanel to get background and buttons. */
     private PokedexPanel pokedexPanel;
+    /** indivPokemonPanel to show individual pokemon info. */
     private IndivPokemonPanel indivPokemonPanel;
+    /** pokemonListPanel to display list of pokemon. */
     private PokemonListPanel pokemonListPanel;
+    /** pokemonTeamPanel to display team list. */
     private PokemonTeamPanel pokemonTeamPanel;
+    /** variable to store pokemon font. */
     private static Font pokemonFont;
+    /** pokedexController to get pokemon. */
     private PokedexController controller = new PokedexController();
 
+    /**
+     * Constructor for PokedexView.
+     * Create instances of panels and add them to layered pane, sets fonts.
+     * @throws IOException
+     */
     public PokedexView() throws IOException {
         // try to get pokemon font from resources, and set fonts in pokedexPanel
         try {
@@ -98,15 +110,6 @@ public class PokedexView extends JFrame implements IPokedexView {
     }
 
     /**
-     * Method adds mouse listener to list items.
-     * @param mouseAdapter
-     */
-    public void addMouseListenerToListItems(MouseAdapter mouseAdapter) {
-        pokemonListPanel.addMouseListenerToListItems(mouseAdapter);
-        pokemonTeamPanel.addMouseListenerToListItems(mouseAdapter);
-    }
-
-    /**
      * Method sets the listener for buttons.
      * @param clicks
      */
@@ -134,7 +137,7 @@ public class PokedexView extends JFrame implements IPokedexView {
 
     /**
      * Method gets the selected types from pokedexPanel.
-     * @return
+     * @return list of types
      */
     public List<String> getTypes() {
         return pokedexPanel.getTypes();
@@ -142,7 +145,7 @@ public class PokedexView extends JFrame implements IPokedexView {
 
     /**
      * Method gets the inputted string in the searchbar in pokedexPanel.
-     * @return
+     * @return searchbar input string
      */
     public String getSearchbarText() {
         return pokedexPanel.getSearchbarText();

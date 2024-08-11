@@ -13,10 +13,7 @@ import student.view.PokedexPanel;
 import student.view.PokedexView;
 import student.view.PokemonListPanel;
 import student.view.PokemonTeamPanel;
-import student.view.Components.ListItem;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -28,10 +25,13 @@ import javax.swing.JOptionPane;
  * The EventController class provides methods to handle user interactions.
  */
 public class EventController implements ActionListener, ItemListener, KeyListener {
-
+    /** PokedexView to receive information from buttons/input. */
     private PokedexView pokedexView;
+    /** Controller for getting pokemon or making changes to team. */
     private PokedexController controller = new PokedexController();
+    /** listPanel to make changes to list. */
     private PokemonListPanel listPanel = PokemonListPanel.getInstance();
+    /** Variable to keep track of current records. */
     private List<PokeRecord> currRecords;
 
     /**
@@ -44,29 +44,9 @@ public class EventController implements ActionListener, ItemListener, KeyListene
         view.setListeners(this);
         view.setItemListeners(this);
         view.setKeyListeners(this);
-        addMouseListeners();
     }
 
-    // Method that listens for mouse clicks on the list items.
-    public void addMouseListeners() {
-        this.pokedexView.addMouseListenerToListItems(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                ListItem listItem = (ListItem) e.getSource();
-                try {
-                    handlePokemonClick(listItem.getCurrPokemon()); // Here you see how you can get the clicked pokemon name
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
-    }
-    // Method that runs when pokemon in list is clicked. Says which pokemon was clicked.
-    public void handlePokemonClick(PokeRecord pokemonName) throws IOException {
-        System.out.println("Clicked on: " + pokemonName.name());
-    }
-
-    // Listening for button clicks.
+    /** Method listens for button clicks and executes correct code. */
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
@@ -174,17 +154,22 @@ public class EventController implements ActionListener, ItemListener, KeyListene
         }
     }
 
+    // not used.
     @Override
     public void keyTyped(KeyEvent e) {
         return;
     }
-
+    // not used.
     @Override
     public void keyPressed(KeyEvent e) {
         return;
     }
-    // this is the one that seems to work for the search bar.
-    // The other two aren't getting the last letter typed for some reason.
+
+    /**
+     * Method listens for key releases and gets the input from the search bar
+     * and filters pokemon.
+     * @param e KeyEvent
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         String input = pokedexView.getSearchbarText();

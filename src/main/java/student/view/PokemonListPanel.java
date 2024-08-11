@@ -2,8 +2,7 @@ package student.view;
 import javax.swing.*;
 
 import java.util.ArrayList;
-import java.util.List; // Add this import statement
-import java.awt.event.MouseAdapter;
+import java.util.List;
 
 import student.controller.PokedexController;
 import student.model.PokeRecord;
@@ -12,46 +11,43 @@ import student.view.Components.ListItem;
 
 import java.awt.*;
 
+/**
+ * Class handles the pokemon list panel, initializes and refreshes panel.
+ */
 public class PokemonListPanel extends JPanel {
-        private static PokemonListPanel instance;
-        PokedexController controller = new PokedexController();
-        List<ListItem> customRectList = new ArrayList<>();
-        JPanel listPanel = new JPanel();
-        PokeRecord highlightedPokemon;
-        List<PokeRecord> currRecords = new ArrayList<>();
+    /** Instance of pokemonListPanel. */
+    private static PokemonListPanel instance;
+    /** pokedexController for getting pokemon. */
+    PokedexController controller = new PokedexController();
+    /** customRectList: list of items in panel. */
+    List<ListItem> customRectList = new ArrayList<>();
+    /** ListPanel: panel to hold list items. */
+    JPanel listPanel = new JPanel();
+    /** Variable to keep track of highlighted pokemon. */
+    PokeRecord highlightedPokemon;
+    /** List of current records. */
+    List<PokeRecord> currRecords = new ArrayList<>();
 
-        // Private constructor to prevent instantiation
-        private PokemonListPanel() {
-            // Initialization code here
+    /**
+     * Constructor for pokemon list panel.
+     */
+    private PokemonListPanel() {
+        // Initialization code here
+    }
+
+    /**
+     * Method provides access to instance.
+     * @return PokemonListPanel instance
+     */
+    public static synchronized PokemonListPanel getInstance() {
+        if (instance == null) {
+            instance = new PokemonListPanel();
         }
+        return instance;
+    }
 
-          // Public method to provide access to the instance
-        public static synchronized PokemonListPanel getInstance() {
-            if (instance == null) {
-                instance = new PokemonListPanel();
-            }
-            return instance;
-        }
-
-        // Method to add mouse listener to list items
-        public void addMouseListenerToListItems(MouseAdapter mouseAdapter) {
-            for (ListItem listItem : customRectList) {
-                listItem.addMouseListener(mouseAdapter);
-            }
-        }
-
-        // placeholder to make visualizing panel easier
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.setColor(Color.blue);
-            g.fillRect(0, 0, 390, 440);
-            // visibility true when team view if off
-            this.setVisible(true);
-        }
-
-        /**
-     * Refreshed the panel, removes current content and calls initialize again.
+    /**
+     * Refreshes the panel, removes current content and calls initialize again.
      */
     public void refreshPanel(List<PokeRecord> records) {
         // Remove all existing components
@@ -96,35 +92,35 @@ public class PokemonListPanel extends JPanel {
 
         if (records.size() == 0) {
             // Set GridBackground as the background
-                GridBackground gridBackground = new GridBackground();
-                gridBackground.setLayout(new BorderLayout());
-                gridBackground.add(listPanel, BorderLayout.CENTER);
+            GridBackground gridBackground = new GridBackground();
+            gridBackground.setLayout(new BorderLayout());
+            gridBackground.add(listPanel, BorderLayout.CENTER);
 
-                listPanel.setOpaque(false);
+            listPanel.setOpaque(false);
 
-                // Create a JPanel to show the message
-                JPanel messagePanel = new JPanel();
-                messagePanel.setLayout(new BorderLayout());
-                JLabel messageLabel = new JLabel("No pokemon found", JLabel.CENTER);
-                messagePanel.setOpaque(false);
-                messageLabel.setFont(PokedexView.getPokemonFont().deriveFont(30f));
-                messagePanel.add(messageLabel, BorderLayout.CENTER);
-
-
-                // Add the messagePanel to the center of gridBackground
-                gridBackground.add(messagePanel, BorderLayout.CENTER);
+            // Create a JPanel to show the message
+            JPanel messagePanel = new JPanel();
+            messagePanel.setLayout(new BorderLayout());
+            JLabel messageLabel = new JLabel("No pokemon found", JLabel.CENTER);
+            messagePanel.setOpaque(false);
+            messageLabel.setFont(PokedexView.getPokemonFont().deriveFont(30f));
+            messagePanel.add(messageLabel, BorderLayout.CENTER);
 
 
-                JScrollPane scrollPane = new JScrollPane(gridBackground);
-                scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-                scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            // Add the messagePanel to the center of gridBackground
+            gridBackground.add(messagePanel, BorderLayout.CENTER);
 
-                // Remove all components from the main panel and add the scrollPane
-                this.removeAll();
-                this.add(scrollPane, BorderLayout.CENTER);
-                this.revalidate();
-                this.repaint();
+
+            JScrollPane scrollPane = new JScrollPane(gridBackground);
+            scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+            // Remove all components from the main panel and add the scrollPane
+            this.removeAll();
+            this.add(scrollPane, BorderLayout.CENTER);
+            this.revalidate();
+            this.repaint();
 
         } else {
             // Validate and repaint to ensure layout is updated

@@ -6,14 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.util.List;
 
-import student.model.PokeRecord;
-
 public interface IPokedexView {
-    /**
-     * Adds listener to items/pokemon in list.
-     * @param mouseAdapter
-     */
-    void addMouseListenerToListItems(MouseAdapter mouseAdapter);
 
     /**
      * Method sets action listener to buttons.
