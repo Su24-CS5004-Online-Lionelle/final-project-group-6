@@ -57,7 +57,7 @@ gradlew.bat build
 #### Run the program
 
 ```bash
-java -jar build/libs/PokemonApp.jar
+java -jar build/libs/PokemonApp-all.jar
 ```
 
 ### Pokemon List View

@@ -1,14 +1,18 @@
 # Final Project for CS 5004 - (APPLICATION NAME/Update)
 
-(remove this and add your sections/elements)
-This readme should contain the following information: 
+# PokedexApp
 
-* The group member's names and link to their personal githubs
+## Introduction
+
+The PokedexApp allows users to view a list of pokemon from 1st generation with the ability for filter by name, id, and type. It features an individual screen displaying each pokemon, and a team screen, allowing the user to add and remove pokemon from the team.
+
+* Project Link: https://github.com/Su24-CS5004-Online-Lionelle/final-project-group-6
+
+## Developers:
 ---
   * Name : Yiming Luo
   * Github name: Romine24
   * Personal Link: https://github.com/Romine24
-  * Project Link: https://github.com/Su24-CS5004-Online-Lionelle/final-project-group-6
 ---
   * Name : Feng Hua Tan
   * Github name: karyn-tan
@@ -21,12 +25,14 @@ This readme should contain the following information:
   * Name: Samuel Brannstrom
   * Github name: sbranns
   * Link: https://github.com/sbranns
+---
+  * Name: Lin Pyae Toe
+  * Github name: linpyaetoe
+  * Link: https://github.com/linpyaetoe
+---
 
-* The application name and a brief description of the application
-* Links to design documents and manuals
+### UML
+* [UML](DesignDocuments/UML.md)
 
-[UML](DesignDocuments/UML.md)
-
-* Instructions on how to run the application
-
-Ask yourself, if you started here in the readme, would you have what you need to work on this project and/or use the application?
+### Instructions on how to run the application
+* [Manual](Manual/README.md)

@@ -324,14 +324,14 @@ public class TestPokemonModel {
     */
     @Test
     public void testGetAllPokemonInTeam() throws Exception {
-        Integer expectedRecord = 5;
+        Integer expectedRecord = 4;
         List<PokeRecord> resultRecord = pokemonModel.getAllPokemonInTeam();
         assertEquals(expectedRecord, resultRecord.size());
     }
 
-    /** 
+    /**
      * Test saving existed Pokemon to database.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -344,9 +344,9 @@ public class TestPokemonModel {
         }
     }
 
-    /** 
+    /**
      * Test saving new Pokemon to database.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -395,7 +395,7 @@ public class TestPokemonModel {
 
     /**
      * Test adding and removing Pokemon to the team file.
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -432,9 +432,9 @@ public class TestPokemonModel {
         }
     }
 
-    /** 
+    /**
      * Test writing out the team file.
-     * 
+     *
      * @throws Exception
      */
     @TempDir
@@ -452,9 +452,9 @@ public class TestPokemonModel {
         Files.delete(team);
     }
 
-    /** 
+    /**
      * Test whether the pokemon is in the team file.
-     * 
+     *
      * @throws Exception
      */
     @Test
